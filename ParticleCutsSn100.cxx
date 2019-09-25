@@ -90,49 +90,49 @@ void SetImplantDSSD(){
 	isotopeDSSDEnd[0].push_back(2);
 
 	//Rh isotopes 94-99
-	isotopeDSSDStart[0].push_back(2);
-	isotopeDSSDEnd[0].push_back(2);
+	isotopeDSSDStart[1].push_back(2);
+	isotopeDSSDEnd[1].push_back(2);
 
-	isotopeDSSDStart[0].push_back(2);
-	isotopeDSSDEnd[0].push_back(2);
+	isotopeDSSDStart[1].push_back(2);
+	isotopeDSSDEnd[1].push_back(2);
 
-	isotopeDSSDStart[0].push_back(1);
-	isotopeDSSDEnd[0].push_back(2);
+	isotopeDSSDStart[1].push_back(1);
+	isotopeDSSDEnd[1].push_back(2);
 
-	isotopeDSSDStart[0].push_back(1);
-	isotopeDSSDEnd[0].push_back(2);
+	isotopeDSSDStart[1].push_back(1);
+	isotopeDSSDEnd[1].push_back(2);
 
-	isotopeDSSDStart[0].push_back(1);
-	isotopeDSSDEnd[0].push_back(2);
+	isotopeDSSDStart[1].push_back(1);
+	isotopeDSSDEnd[1].push_back(2);
 
-	isotopeDSSDStart[0].push_back(1);
-	isotopeDSSDEnd[0].push_back(2);
+	isotopeDSSDStart[1].push_back(1);
+	isotopeDSSDEnd[1].push_back(2);
 
 	//In isotopes 94-99
-	isotopeDSSDStart[0].push_back(2);
-	isotopeDSSDEnd[0].push_back(2);
+	isotopeDSSDStart[2].push_back(2);
+	isotopeDSSDEnd[2].push_back(2);
 
-	isotopeDSSDStart[0].push_back(1);
-	isotopeDSSDEnd[0].push_back(2);
+	isotopeDSSDStart[2].push_back(1);
+	isotopeDSSDEnd[2].push_back(2);
 
-	isotopeDSSDStart[0].push_back(1);
-	isotopeDSSDEnd[0].push_back(2);
+	isotopeDSSDStart[2].push_back(1);
+	isotopeDSSDEnd[2].push_back(2);
 
-	isotopeDSSDStart[0].push_back(1);
-	isotopeDSSDEnd[0].push_back(2);
+	isotopeDSSDStart[2].push_back(1);
+	isotopeDSSDEnd[2].push_back(2);
 
-	isotopeDSSDStart[0].push_back(1);
-	isotopeDSSDEnd[0].push_back(2);
+	isotopeDSSDStart[2].push_back(1);
+	isotopeDSSDEnd[2].push_back(2);
 
-	//Rh isotopes 94-99
-	isotopeDSSDStart[0].push_back(1);
-	isotopeDSSDEnd[0].push_back(2);
+	//Sn isotopes 99-101
+	isotopeDSSDStart[3].push_back(1);
+	isotopeDSSDEnd[3].push_back(2);
 
-	isotopeDSSDStart[0].push_back(1);
-	isotopeDSSDEnd[0].push_back(2);
+	isotopeDSSDStart[3].push_back(1);
+	isotopeDSSDEnd[3].push_back(2);
 
-	isotopeDSSDStart[0].push_back(1);
-	isotopeDSSDEnd[0].push_back(2);
+	isotopeDSSDStart[3].push_back(1);
+	isotopeDSSDEnd[3].push_back(2);
 
 }
 
@@ -148,7 +148,7 @@ void ReadParticleCuts(std::string cutFile){
 			particleCuts[i][j] = (TCutG*) particleCutFile->Get(particleCut.c_str());
 			//TCutG* test = (TCutG *)particleCutFile->Get(particleCut.c_str()); //seg faults here, to do with particleCut.c_str() string!
 			//std::cout << "error drawing" << endl;
-			std::cout << particleCut << endl;
+			std::cout << particleCut << std::endl;
 			//test->Draw();
 
 		}
