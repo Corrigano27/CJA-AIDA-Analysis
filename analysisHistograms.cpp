@@ -15,6 +15,7 @@
 #include <map>
 #include <fstream>
 
+//#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
 #include "/home/corrigan/AidaSoftware/MergerSoftware/data2Tree.cxx"
 #include "ParticleCutsSn100.cxx"
 
@@ -78,7 +79,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 				for ( auto imp:(*beta).vectorOfImp ){
 					for (int i = 0; i < numElements; i++){
 						for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
-							if(particleCuts[i][j]->IsInside((imp).AOQ),(imp).ZET){
+							if(particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
 								if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){
 									decayEnergy[i].at(j)->Fill((*beta).E);
 									if ((*beta).E>1500 && (*beta).nx < 3 && (*beta).ny < 3){
