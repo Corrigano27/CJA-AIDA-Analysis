@@ -15,8 +15,8 @@
 #include <map>
 #include <fstream>
 
-//#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
-#include "/home/corrigan/AidaSoftware/MergerSoftware/data2Tree.cxx"
+#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
+//#include "/home/corrigan/AidaSoftware/MergerSoftware/data2Tree.cxx"
 #include "ParticleCutsSn100.cxx"
 
 int analysisHistograms(std::string iName, std::string cutFile){
@@ -69,7 +69,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	std::cout << "Tree reader set up" << std::endl;
 
-	ofile->cd();
 	
 	//Files read, histograms filled
 	while (aReader.Next()){
@@ -104,14 +103,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			PID->Fill((*bigrips).aoq, (*bigrips).zet);
 		}
 
-
-
-
-
-
-
-
-
 		if ((*implant).T){
 			for (int i =0; i<numElements; i++){
 				for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){	
@@ -131,6 +122,18 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	std::cout << "Writing to file" << std::endl;
 
 	for(int i = 0; i < numElements; i++){
+		for(unsigned int k = 0; k < decayEnergy[i].size(); k++){
+				decayEnergy[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < delayed1pEnergy[i].size(); k++){
+				delayed1pEnergy[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < implantBeta[i].size(); k++){
+				implantBeta[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < implantBeta1p[i].size(); k++){
+				implantBeta1p[i].at(k)->Write();
+		}
 		for(unsigned int k = 0; k < implantZ[i].size(); k++){
 				implantZ[i].at(k)->Write();
 		}
