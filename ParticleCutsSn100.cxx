@@ -52,7 +52,7 @@ void SetParticles(){
 	isotopeStart[0] = 93;
 	isotopeEnd[0] = 98;
 
-	elements[1] = "Rh";
+	elements[1] = "Cd";
 	isotopeStart[1] = 94;
 	isotopeEnd[1] = 99;
 
@@ -89,7 +89,7 @@ void SetImplantDSSD(){
 	isotopeDSSDStart[0].push_back(1);
 	isotopeDSSDEnd[0].push_back(2);
 
-	//Rh isotopes 94-99
+	//Cd isotopes 94-99
 	isotopeDSSDStart[1].push_back(2);
 	isotopeDSSDEnd[1].push_back(2);
 
@@ -165,15 +165,15 @@ void DefineHistograms(){
 		for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 
 			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "ImplantBeta";
-			implantBetaHis = new TH1D(hisName.c_str(), "", 2e4, -10, 10);
+			implantBetaHis = new TH1D(hisName.c_str(), "", 2e2, -10, 10);
 			implantBeta[i].push_back(implantBetaHis);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "ImplantBeta1p";
-			implantBetaHis = new TH1D(hisName.c_str(), "", 2e4, -10, 10);
+			implantBetaHis = new TH1D(hisName.c_str(), "", 2e2, -10, 10);
 			implantBeta1p[i].push_back(implantBetaHis);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "Implant1p";
-			implantBetaHis = new TH1D(hisName.c_str(), "", 2e4, -10, 10);
+			implantBetaHis = new TH1D(hisName.c_str(), "", 2e2, -10, 10);
 			implant1p[i].push_back(implantBetaHis);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "DecayEnergy";
