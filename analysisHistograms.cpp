@@ -121,6 +121,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	std::cout << "Writing to file" << std::endl;
 
+	PID->Write();
+
 	for(int i = 0; i < numElements; i++){
 		for(unsigned int k = 0; k < decayEnergy[i].size(); k++){
 				decayEnergy[i].at(k)->Write();
