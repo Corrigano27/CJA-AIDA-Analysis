@@ -81,9 +81,13 @@ int analysisHistograms(std::string iName, std::string cutFile){
 							if(particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
 								if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){
 									decayEnergy[i].at(j)->Fill((*beta).E);
-									if ((*beta).E>1500 && (*beta).nx < 3 && (*beta).ny < 3){
-										delayed1pEnergy[i].at(j)->Fill((*beta).E);
-										implantBeta1p[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+									if ((*beta).nx < 3 && (*beta).ny < 3){
+										edT[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
+										if ((*beta).E>1500){
+											delayed1pEnergy[i].at(j)->Fill((*beta).E);
+											implantBeta1p[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+										}
+										
 									}
 									else if ((*beta).E<1500){
 										implantBeta[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
