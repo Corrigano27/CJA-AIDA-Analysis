@@ -143,6 +143,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 		for(unsigned int k = 0; k < implantZ[i].size(); k++){
 				implantZ[i].at(k)->Write();
 		}
+		for(unsigned int k = 0; k < edT[i].size(); k++){
+				edT[i].at(k)->Write();
+		}
 
 	}
 
