@@ -39,6 +39,7 @@ std::vector <TH1D*> decayEnergy[4];
 std::vector <TH1D*> delayed1pEnergy[4];
 std::vector <TH1D*> implantZ[4];
 std::vector <TH2D*> edT[4];
+std::vector <TH2D*> EDiff[4];
 //template histograms
 
 TH1D * implantBetaHis;
@@ -191,8 +192,12 @@ void DefineHistograms(){
 			implantZ[i].push_back(implantBetaHis);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "EdT";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 400, 0, 200, 200, 0, 7000);
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 200, 0, 100, 200, 0, 3000);
 			edT[i].push_back(implantBetaHis2D);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "EDiff";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 200,0,200,500,-2000,2000);
+			EDiff[i].push_back(implantBetaHis2D);
 
 
 
