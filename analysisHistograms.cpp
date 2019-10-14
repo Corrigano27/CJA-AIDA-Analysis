@@ -82,7 +82,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 								if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){
 									edT[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 									decayEnergy[i].at(j)->Fill((*beta).E);
-									EDiff[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).EX-(*beta).EY);
+									EDiff[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex-(*beta).Ey);
 									if ((*beta).nx < 3 && (*beta).ny < 3){
 										if ((*beta).E>1500){
 											delayed1pEnergy[i].at(j)->Fill((*beta).E);
