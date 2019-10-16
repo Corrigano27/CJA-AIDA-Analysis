@@ -81,8 +81,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 							if(particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
 								if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){
 									edT[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+									edTLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
 									decayEnergy[i].at(j)->Fill((*beta).E);
 									EDiff[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex-(*beta).Ey);
+									EDiffLong[i].at(j)->Fill((((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex-(*beta).Ey));
 									if ((*beta).nx < 3 && (*beta).ny < 3){
 										if ((*beta).E>1500){
 											delayed1pEnergy[i].at(j)->Fill((*beta).E);
@@ -149,6 +151,12 @@ int analysisHistograms(std::string iName, std::string cutFile){
 		}
 		for(unsigned int k = 0; k < EDiff[i].size(); k++){
 				EDiff[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < edT[i].size(); k++){
+				edTLong[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < EDiff[i].size(); k++){
+				EDiffLong[i].at(k)->Write();
 		}
 
 	}
