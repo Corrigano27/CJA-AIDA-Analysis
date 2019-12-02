@@ -15,8 +15,8 @@
 #include <map>
 #include <fstream>
 
-#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
-//#include "/home/corrigan/AidaSoftware/MergerSoftware/data2Tree.cxx"
+//#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
+#include "/home/corrigan/AidaSoftware/MergerSoftware/data2Tree.cxx"
 #include "ParticleCutsSn100.cxx"
 
 int analysisHistograms(std::string iName, std::string cutFile){
@@ -69,6 +69,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	std::cout << "Tree reader set up" << std::endl;
 
+	//boolean variable for beta vetoes
+
+	bool betaVeto;
+
 	
 	//Files read, histograms filled
 	while (aReader.Next()){
@@ -80,31 +84,54 @@ int analysisHistograms(std::string iName, std::string cutFile){
 						for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 							if(particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
 								if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){
-									edT[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
-									edTLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
-									decayEnergy[i].at(j)->Fill((*beta).E);
-									EDiff[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex-(*beta).Ey);
-									EDiffLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex-(*beta).Ey);
-									if ((*beta).nx < 3 && (*beta).ny < 3){
-										if ((*beta).E>1500){
-											delayed1pEnergy[i].at(j)->Fill((*beta).E);
-											implantBeta1p[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
-										}
+									//start applying vetoes here f11 and aida-plastic
+									betaVeto = false;
+										//initialise veto as false, then set true when conditions are met. Fill histograms when false
 										
-									}
-									else if ((*beta).E<1500){
-										implantBeta[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
-									}
+										for(auto anc:(*beta).vectorOfAnc){
+											//F11 beta veto - placeholder numbers, to be revised
+											if((*beta).T - anc.TIME < 100e3 && (anc.ID == 102 || anc.ID == 103)){
+												if((*beta).T - anc.TIME > 0 && (anc.ID == 102 || anc.ID == 103)){
+													betaVeto = true;
+												}
+											}
+											//AIDA plastic beta veto - placeholder numbers, to be revised
+											if((*beta).T - anc.TIME < 20e3 && (anc.ID == 106)){
+												if((*beta).T - anc.TIME > 10e3 && (anc.ID == 106)){
+													betaVeto = true;
+												}
+											}
+										}
+									
+									if (betaVeto == false){
+										decayEnergy[i].at(j)->Fill((*beta).E);
+										EDiff[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex-(*beta).Ey);
+										EDiffLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex-(*beta).Ey);
+										if ((*beta).nx < 3 && (*beta).ny < 3){
+											edT[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+											edTLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
+											edTMid[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+											if ((*beta).E>1500){
+												delayed1pEnergy[i].at(j)->Fill((*beta).E);
+												implantBeta1p[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+											}//end of lower beta-p energy cut
+										
+										}
+										else if ((*beta).E<1500){
+											implantBeta[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+										}//end of upper beta energy cut
+									}//end of beta veto application
+									
 
-								}
-							}
+								}//end of stopping layer if statement
+							}//end of particle cut if statement
 
-						}
-					}
-				}
-			}
+						}//end of isotope for loop
+					}//end of elements for loop
+				}//end of loop over correlated events
+			} //don't understand this one yet!
 
-		}
+		}//end of loop through beta events
 
 		if ((*bigrips).T>0){
 			PID->Fill((*bigrips).aoq, (*bigrips).zet);
@@ -157,6 +184,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 		}
 		for(unsigned int k = 0; k < EDiffLong[i].size(); k++){
 				EDiffLong[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < EDiffLong[i].size(); k++){
+				edTMid[i].at(k)->Write();
 		}
 
 	}
