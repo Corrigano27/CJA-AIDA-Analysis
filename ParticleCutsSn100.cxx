@@ -42,6 +42,7 @@ std::vector <TH2D*> edT[4];
 std::vector <TH2D*> EDiff[4];
 std::vector <TH2D*> edTLong[4];
 std::vector <TH2D*> EDiffLong[4];
+std::vector <TH2D*> edTMid[4];
 
 //template histograms
 
@@ -209,6 +210,10 @@ void DefineHistograms(){
 			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "EDiffLong";
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 100,0,10,500,-2000,2000);
 			EDiffLong[i].push_back(implantBetaHis2D);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "EdTMid";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 200, 0, 1000, 200, 0, 3000);
+			edTMid[i].push_back(implantBetaHis2D);
 
 
 
