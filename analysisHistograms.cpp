@@ -90,7 +90,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 										
 										for(auto anc:(*beta).vectorOfAnc){
 											//F11 beta veto - placeholder numbers, to be revised
-											if((*beta).T - anc.TIME < 40e3 && (anc.ID == 102 || anc.ID == 103)){
+											if((*beta).T - anc.TIME < 100e3 && (anc.ID == 102 || anc.ID == 103)){
 												if((*beta).T - anc.TIME > 0 && (anc.ID == 102 || anc.ID == 103)){
 													betaVeto = true;
 												}
