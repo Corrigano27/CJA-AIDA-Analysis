@@ -15,8 +15,8 @@
 #include <map>
 #include <fstream>
 
-//#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
-#include "/home/corrigan/AidaSoftware/MergerSoftware/data2Tree.cxx"
+#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
+//#include "/home/corrigan/AidaSoftware/MergerSoftware/data2Tree.cxx"
 #include "ParticleCutsSn100.cxx"
 
 int analysisHistograms(std::string iName, std::string cutFile){
@@ -90,8 +90,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 										
 										for(auto anc:(*beta).vectorOfAnc){
 											//F11 beta veto - placeholder numbers, to be revised
-											if((*beta).T - anc.TIME < 40e3 && (anc.ID == 33 || anc.ID == 34 || anc.ID == 35)){
-												if((*beta).T - anc.TIME > 0 && (anc.ID == 33 || anc.ID == 34 || anc.ID == 35)){
+											if((*beta).T - anc.TIME < 40e3 && (anc.ID == 33 || anc.ID == 34)){
+												if((*beta).T - anc.TIME > 0 && (anc.ID == 33 || anc.ID == 34)){
 													betaVeto = true;
 												}
 											}
@@ -140,7 +140,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 		if ((*implant).T){
 			for (int i =0; i<numElements; i++){
 				for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){	
-					if (particleCuts[i][j]->IsInside((*implant).aoq, (*implant).zet)){	//seg fault this line
+					if (particleCuts[i][j]->IsInside((*implant).aoq, (*implant).zet)){
 						implantZ[i].at(j)->Fill((*implant).z);
 					}
 				}
