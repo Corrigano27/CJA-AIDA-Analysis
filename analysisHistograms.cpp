@@ -105,7 +105,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 									
 									if (betaVeto == false){
 										decayEnergy[i].at(j)->Fill((*beta).E);
-										PID->Fill((imp).aoq, (imp).zet)
 										EDiff[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex-(*beta).Ey);
 										EDiffLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex-(*beta).Ey);
 										if ((*beta).nx < 3 && (*beta).ny < 3){
@@ -135,7 +134,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 		}//end of loop through beta events
 
 		if ((*bigrips).T>0){
-			//PID->Fill((*bigrips).aoq, (*bigrips).zet);
+			PID->Fill((*bigrips).aoq, (*bigrips).zet);
 		}
 
 		if ((*implant).T){
