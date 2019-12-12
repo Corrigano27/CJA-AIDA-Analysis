@@ -90,15 +90,15 @@ int analysisHistograms(std::string iName, std::string cutFile){
 										
 										for(auto anc:(*beta).vectorOfAnc){
 											//F11 beta veto - placeholder numbers, to be revised
-											if((*beta).T - anc.TIME < 40e3 && (anc.ID == 33 || anc.ID == 34)){
-												if((*beta).T - anc.TIME > 0 && (anc.ID == 33 || anc.ID == 34)){
+											if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33 || anc.ID == 34)){
+												if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33 || anc.ID == 34)){
 													betaVeto = true;
 												}
 											}
 											//AIDA plastic beta veto - placeholder numbers, to be revised
-											if((*beta).T - anc.TIME < 20e3 && (anc.ID == 35 || anc.ID == 36)){
-												if((*beta).T - anc.TIME > 10e3 && (anc.ID == 35 || anc.ID ==36)){
-													betaVeto = true;
+											//if((*beta).T - anc.TIME < 20e3 && (anc.ID == 35 || anc.ID == 36)){
+												//if((*beta).T - anc.TIME > 10e3 && (anc.ID == 35 || anc.ID ==36)){
+													//betaVeto = true;
 												}
 											}
 										}
