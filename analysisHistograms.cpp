@@ -97,7 +97,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											}
 											AIDA plastic beta veto - placeholder numbers, to be revised
 											if((*beta).T - anc.TIME < 20e3 && (anc.ID == 35 || anc.ID == 36)){
-												if((*beta).T - anc.TIME > 10e3 && (anc.ID == 106)){
+												if((*beta).T - anc.TIME > 10e3 && (anc.ID == 35 || anc.ID ==36)){
 													betaVeto = true;
 												}
 											}
