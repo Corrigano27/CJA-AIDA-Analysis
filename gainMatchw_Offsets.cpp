@@ -255,7 +255,7 @@ int gainMatch(std::string iName){
 	chain.GetEntry(iEntry);
     //std::cout << inputEntry.x << std::endl;
 	//high energy event ID
-    if(inputEntry.nx == 1 && inputEntry.ny==1 && inputEntry.ID==4 && inputEntry.EX>2500){ //set selection checks
+    if(inputEntry.nx == 1 && inputEntry.ny==1 && inputEntry.ID==5 && inputEntry.EX>2500){ //set selection checks
     	ampPair.first = inputEntry.EX;
     	ampPair.second = inputEntry.EY;
     	amplitudes[(int)((inputEntry.z*128*128)+((inputEntry.y)*128)+inputEntry.x)].push_back(ampPair);
