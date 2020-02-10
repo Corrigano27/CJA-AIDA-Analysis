@@ -176,7 +176,7 @@ int gainMatch(std::string iName){
 
  	size_t lastindex = iName.find_last_of(".");
 	oName = iName.substr(0, lastindex);
-	oName+="_Offsets&Gains.dat";
+	oName+="_OffsetsAndGains.dat";
   	//Open the tree and create the branch to write to
   	TFile * ofile = TFile::Open( oName.c_str(), "recreate");
 
@@ -295,7 +295,7 @@ int gainMatch(std::string iName){
 
 				const int npar = 3;
 				TMinuit minuit(npar);
-				minuit.SetPrintLevel(-1);
+				//minuit.SetPrintLevel(-1);
 				minuit.SetFCN(minfcn);
 
 				Double_t par[npar]; //start value
@@ -391,7 +391,7 @@ int gainMatch(std::string iName){
 
 		const int npar2 = 2*pArraysize + 2*nArraysize;
 		TMinuit minuit2(npar2);
-		minuit2.SetPrintLevel(-1);
+		//minuit2.SetPrintLevel(-1);
 		minuit2.SetFCN(fcn);
 
 		Double_t par2[npar2]; //start value
