@@ -169,7 +169,7 @@ int gainMatch(std::string iName){
 
 	while ( std::getline ( rootFiles, rootFile )){
 
-		chain.AddFile( rootFile.c_str() );
+		chain.Add( rootFile.c_str() );
 		std::cout << "Added " << rootFile.c_str() << " to the chain." << std::endl;
 
 	}
