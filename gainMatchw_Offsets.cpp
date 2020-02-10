@@ -165,7 +165,7 @@ int gainMatch(std::string iName){
 		std::cout << "File ''" << iName << "'' is open" << std::endl;
 	}
 
-	TChain chain("AIDA_Hits");
+	TChain chain("AIDA_hits");
 
 	while ( std::getline ( rootFiles, rootFile )){
 
