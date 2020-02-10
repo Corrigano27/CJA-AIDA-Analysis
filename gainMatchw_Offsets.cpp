@@ -239,7 +239,7 @@ int gainMatch(std::string iName){
   };
 
   aidaData inputEntry;
-  inputTTree->SetBranchAddress("aida_hit", & (inputEntry.T) );
+  chain.SetBranchAddress("aida_hit", & (inputEntry.T) );
   Long64_t nEntries = inputTTree->GetEntries();
   std::cout << "Nentries" << nEntries << std::endl;
   double dx; 
@@ -248,7 +248,7 @@ int gainMatch(std::string iName){
 
   for( Long64_t iEntry = 0; iEntry < nEntries; ++iEntry )
   {
-    inputTTree->GetEntry(iEntry);
+	chain.GetEntry(iEntry);
     //std::cout << inputEntry.x << std::endl;
 	//high energy event ID
     if(inputEntry.nx == 1 && inputEntry.ny==1 && inputEntry.ID==4 && inputEntry.EX>2500){ //set selection checks
