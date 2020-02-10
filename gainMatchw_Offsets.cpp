@@ -191,11 +191,15 @@ int gainMatch(std::string iName){
 
 //old way
 
-	//TFile * inputFile = TFile::Open(fileName.c_str(),"read"); 
+	//TFile * inputFile = TFile::Open(fileName.c_str(),"read");
+
+	// *next 3 lines are new* 
+	/*
 	TTree *inputTTree = chain.GetTree();
 	  if( !inputTTree ) {
 	  	std::cout << "Problem opening tree" << std::endl;
 	  }
+	*/
 
 	 /*
 	TFile *fileOut = new TFile("140519_TEST.root","RECREATE");
@@ -240,7 +244,7 @@ int gainMatch(std::string iName){
 
   aidaData inputEntry;
   chain.SetBranchAddress("aida_hit", & (inputEntry.T) );
-  Long64_t nEntries = inputTTree->GetEntries();
+  Long64_t nEntries = chain.GetEntries();
   std::cout << "Nentries" << nEntries << std::endl;
   double dx; 
   double dy;
