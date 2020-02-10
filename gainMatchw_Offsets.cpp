@@ -165,11 +165,11 @@ int gainMatch(std::string iName){
 		std::cout << "File ''" << iName << "'' is open" << std::endl;
 	}
 
-	TChain chain("aida_hit");
+	TChain chain("AIDA_Hits");
 
 	while ( std::getline ( rootFiles, rootFile )){
 
-		chain.Add( rootFile.c_str() );
+		chain.AddFile( rootFile.c_str() );
 		std::cout << "Added " << rootFile.c_str() << " to the chain." << std::endl;
 
 	}
