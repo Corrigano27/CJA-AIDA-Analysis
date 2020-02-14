@@ -601,20 +601,25 @@ int gainMatch(std::string iName){
 	}
 
 	outf << "#adc offsets calculated from files..."<<endl;
+	cout << "#adc offsets calculated from files..."<<endl;
 
 	for (int i = 0; i<24; i++){
 		for (int j = 0; j<64; j++){
 			outf << "adcOffsetLowEnergy" << '\t' << i+1 << '\t' << j << '\t' << OffsetChannel[i][j] << std::endl;
+			cout << "adcOffsetLowEnergy" << '\t' << i+1 << '\t' << j << '\t' << OffsetChannel[i][j] << std::endl;
 		}
 	}
 
 	outf <<""<<endl;
+	cout <<""<<endl;
 
 	outf << "#adc gains calculated from files..."<<endl;
+	cout << "#adc gains calculated from files..."<<endl;
 
 	for (int i = 0; i<24; i++){
 		for (int j = 0; j<64; j++){
 			outf << "adcGainLowEnergy" << '\t' << i+1 << '\t' << j << '\t' << GainChannel[i][j] << std::endl;
+			cout << "adcGainLowEnergy" << '\t' << i+1 << '\t' << j << '\t' << GainChannel[i][j] << std::endl;
 		}
 	}
 
