@@ -214,7 +214,9 @@ int gainMatch(std::string iName){
 
 	*/
 	ofstream outf;
+	ofstream outf2;
 	outf.open(oName);
+	outf2.open(oName);
 	//TTree* tree = new TTree("ExEy", "Ex and Ey values for each strip");
 
 	//create histograms
@@ -613,12 +615,12 @@ int gainMatch(std::string iName){
 	outf <<""<<endl;
 	cout <<""<<endl;
 
-	outf << "#adc gains calculated from files..."<<endl;
+	outf2 << "#adc gains calculated from files..."<<endl;
 	cout << "#adc gains calculated from files..."<<endl;
 
 	for (int i = 0; i<24; i++){
 		for (int j = 0; j<64; j++){
-			outf << "adcGainLowEnergy" << '\t' << i+1 << '\t' << j << '\t' << GainChannel[i][j] << std::endl;
+			outf2 << "adcGainLowEnergy" << '\t' << i+1 << '\t' << j << '\t' << GainChannel[i][j] << std::endl;
 			cout << "adcGainLowEnergy" << '\t' << i+1 << '\t' << j << '\t' << GainChannel[i][j] << std::endl;
 		}
 	}
