@@ -602,16 +602,16 @@ int gainMatch(std::string iName){
 
 	for (int i = 0; i<24; i++){
 		for (int j = 0; j<64; j++){
-			outf << "adcOffsetLowEnergy" << '\t' << i+1 << '\t' << j << '\t' << OffsetChannel[i][j] << std::endl;
+			outf << "adcGainLowEnergy" << '\t' << i+1 << '\t' << j << '\t' << GainChannel[i][j] << std::endl;
 		}
 	}
 
 	for (int i = 0; i<24; i++){
 		for (int j = 0; j<64; j++){
-			outf << "adcGainLowEnergy" << '\t' << i+1 << '\t' << j << '\t' << GainChannel[i][j] << std::endl;
-			cout << "adcGainLowEnergy" << '\t' << i+1 << '\t' << j << '\t' << GainChannel[i][j] << std::endl;
+			outf << "adcOffsetLowEnergy" << '\t' << i+1 << '\t' << j << '\t' << OffsetChannel[i][j] << std::endl;
 		}
 	}
+
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------*/
   	
