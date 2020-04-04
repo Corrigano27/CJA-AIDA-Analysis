@@ -84,32 +84,27 @@ int analysisHistograms(std::string iName, std::string cutFile){
 						for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 							if(particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
 								if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){
-									//start applying vetoes here f11 and aida-plastic
+									//start applying vetoes here f11
 									betaVeto = false;
 										//initialise veto as false, then set true when conditions are met. Fill histograms when false
 										
 										for(auto anc:(*beta).vectorOfAnc){
-											//F11 beta veto - placeholder numbers, to be revised
-											if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33 || anc.ID == 34)){
-												if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33 || anc.ID == 34)){
+											//F11 beta veto
+											if((*beta).T - anc.TIME < 10e3 && (anc.ID == 34)){
+												if((*beta).T - anc.TIME > 0 && (anc.ID == 34)){
 													betaVeto = true;
 												}
 											}
-											//AIDA plastic beta veto - placeholder numbers, to be revised
-											//if((*beta).T - anc.TIME < 20e3 && (anc.ID == 35 || anc.ID == 36)){
-												//if((*beta).T - anc.TIME > 10e3 && (anc.ID == 35 || anc.ID ==36)){
-													//betaVeto = true;
-												//}
-											//}
+											
 										}
 									
 									if (betaVeto == false){
 										decayEnergy[i].at(j)->Fill((*beta).E);
-										EDiff[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex-(*beta).Ey);
-										EDiffLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex-(*beta).Ey);
+										//EDiff[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex-(*beta).Ey);
+										//EDiffLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex-(*beta).Ey);
 										if ((*beta).nx < 3 && (*beta).ny < 3){
 											edT[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
-											edTLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
+											//edTLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
 											edTMid[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 											if ((*beta).E>1500){
 												delayed1pEnergy[i].at(j)->Fill((*beta).E);
@@ -176,15 +171,15 @@ int analysisHistograms(std::string iName, std::string cutFile){
 		for(unsigned int k = 0; k < edT[i].size(); k++){
 				edT[i].at(k)->Write();
 		}
-		for(unsigned int k = 0; k < EDiff[i].size(); k++){
-				EDiff[i].at(k)->Write();
-		}
-		for(unsigned int k = 0; k < edTLong[i].size(); k++){
-				edTLong[i].at(k)->Write();
-		}
-		for(unsigned int k = 0; k < EDiffLong[i].size(); k++){
-				EDiffLong[i].at(k)->Write();
-		}
+		//for(unsigned int k = 0; k < EDiff[i].size(); k++){
+		//		EDiff[i].at(k)->Write();
+		//}
+		//for(unsigned int k = 0; k < edTLong[i].size(); k++){
+		//		edTLong[i].at(k)->Write();
+		//}
+		//for(unsigned int k = 0; k < EDiffLong[i].size(); k++){
+		//		EDiffLong[i].at(k)->Write();
+		//}
 		for(unsigned int k = 0; k < EDiffLong[i].size(); k++){
 				edTMid[i].at(k)->Write();
 		}
