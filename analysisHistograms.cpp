@@ -90,9 +90,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 										
 										for(auto anc:(*beta).vectorOfAnc){
 											//F11 beta veto
-											if((*beta).T - anc.TIME < 10e3 && (anc.ID == 34)){
-												if((*beta).T - anc.TIME > 0 && (anc.ID == 34)){
-													betaVeto = true;
+											//if((*beta).T - anc.TIME < 10e3 && (anc.ID == 34)){
+												//if((*beta).T - anc.TIME > 0 && (anc.ID == 34)){
+													//betaVeto = true;
 												}
 											}
 											
