@@ -88,15 +88,15 @@ int analysisHistograms(std::string iName, std::string cutFile){
 									betaVeto = false;
 										//initialise veto as false, then set true when conditions are met. Fill histograms when false
 										
-										for(auto anc:(*beta).vectorOfAnc){
+										//for(auto anc:(*beta).vectorOfAnc){
 											//F11 beta veto
 											//if((*beta).T - anc.TIME < 10e3 && (anc.ID == 34)){
 												//if((*beta).T - anc.TIME > 0 && (anc.ID == 34)){
 													//betaVeto = true;
-												}
-											}
+												//}
+											//}
 											
-										}
+										//}
 									
 									if (betaVeto == false){
 										decayEnergy[i].at(j)->Fill((*beta).E);
