@@ -547,9 +547,14 @@ int gainMatch(std::string iName){
 
 	//absolute gain coefficients determined from alpha background. Each element in array is dssd.
 
-	float absGainX[6]={0.7255, 0.7331, 0.721, 0.7254, 0.7429, 0.7388};
+	//float absGainX[6]={0.7255, 0.7331, 0.721, 0.7254, 0.7429, 0.7388};
 
-	float absGainY[6]={0.7275, 0.7388, 0.7258, 0.7254, 0.7429, 0.734};
+	//float absGainY[6]={0.7275, 0.7388, 0.7258, 0.7254, 0.7429, 0.734};
+
+	// uncomment these when performing alpha background absolute calibration
+	float absGainX[6]={1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+
+	float absGainY[6]={1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
 
 	float GainChannel[24][64];
 
