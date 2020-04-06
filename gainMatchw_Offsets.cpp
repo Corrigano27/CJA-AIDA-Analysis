@@ -176,9 +176,9 @@ int gainMatch(std::string iName){
 
  	size_t lastindex = iName.find_last_of(".");
 	oName = iName.substr(0, lastindex);
-	oName+="_OffsetsAndGains.dat";
+	oName+="_OffsetsAndGains.txt";
   	//Open the tree and create the branch to write to
-  	TFile * ofile = TFile::Open( oName.c_str(), "recreate");
+  	TFile * ofile = TFile::Open( oName.c_str());
 
 
 
@@ -607,6 +607,8 @@ int gainMatch(std::string iName){
 	
 	}
 
+	outf << " " << std::endl;
+
 	for (int i = 0; i<24; i++){
 		for (int j = 0; j<64; j++){
 			outf << "adcOffsetLowEnergy" << '\t' << i+1 << '\t' << j << '\t' << OffsetChannel[i][j] << std::endl;
@@ -685,7 +687,6 @@ int gainMatch(std::string iName){
 
 	//AidaHits -> Fill("Ey:Ex>>ExEyhist");
 	//outfile->Write();
-	//outfile->Close();
 
 
   	//tree2 -> Draw("AmpYG:AmpXG>>h2");
@@ -693,7 +694,7 @@ int gainMatch(std::string iName){
   	//cout << "Completed writing to file" <<endl;
 	cout<<"Fin"<<endl;
 	//inputFile->Close();
-	//outf.Close();
+	ofile->Close();
 	return 0;
 	
 }
