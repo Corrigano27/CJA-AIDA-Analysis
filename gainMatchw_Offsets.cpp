@@ -546,15 +546,20 @@ int gainMatch(std::string iName){
 	int feeStripMap[24]={1,1,1,1,2,2,2,2,1,1,1,1,2,2,2,2,1,1,1,1,2,2,2,2};
 
 	//absolute gain coefficients determined from alpha background. Each element in array is dssd.
-
+    //old calib using pulser
 	//float absGainX[6]={0.7255, 0.7331, 0.721, 0.7254, 0.7429, 0.7388};
 
 	//float absGainY[6]={0.7275, 0.7388, 0.7258, 0.7254, 0.7429, 0.734};
 
-	// uncomment these when performing alpha background absolute calibration
-	float absGainX[6]={1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+	//new calib
+	float absGainX[6] = {0.70698, 0.71615, 0.71250, 0.71188, 0.70516, 0.71617};
 
-	float absGainY[6]={1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+	float absGainY[6] = {0.71249, 0.7235, 0.7231, 0.73001, 0.71615, 0.7262}; 
+
+	// uncomment these when performing alpha background absolute calibration
+	//float absGainX[6]={1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+
+	//float absGainY[6]={1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
 
 	float GainChannel[24][64];
 
