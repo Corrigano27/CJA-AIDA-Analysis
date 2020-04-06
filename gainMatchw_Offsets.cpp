@@ -337,9 +337,9 @@ int gainMatch(std::string iName){
 					parName[1] = "Spn";
 
 					par[2] = 0.; //guess
-					stepSize[2] = 0.1; //ed take 0.1 of start value
-					minVal[2] = -400.0; //min and max = 0, parameter unbounded
-					maxVal[2] = 400.0;
+					stepSize[2] = 0.01; //ed take 0.1 of start value
+					minVal[2] = -500.0; //min and max = 0, parameter unbounded
+					maxVal[2] = 500.0;
 					parName[2] = "Opn";
 				}
 
@@ -607,7 +607,7 @@ int gainMatch(std::string iName){
 
 	for (int i = 0; i<24; i++){
 		for (int j = 0; j<64; j++){
-			outf << "adcGainLowEnergy" << '\t' << i+1 << '\t' << j << '\t' << GainChannel[i][j] << std::endl;
+			outf << "adcGain" << '\t' << i+1 << '\t' << j << '\t' << GainChannel[i][j] << std::endl;
 		}
 	
 	}
@@ -616,7 +616,7 @@ int gainMatch(std::string iName){
 
 	for (int i = 0; i<24; i++){
 		for (int j = 0; j<64; j++){
-			outf << "adcOffsetLowEnergy" << '\t' << i+1 << '\t' << j << '\t' << OffsetChannel[i][j] << std::endl;
+			outf << "adcOffset" << '\t' << i+1 << '\t' << j << '\t' << OffsetChannel[i][j] << std::endl;
 		}
 	}
 
@@ -699,7 +699,7 @@ int gainMatch(std::string iName){
   	//cout << "Completed writing to file" <<endl;
 	cout<<"Fin"<<endl;
 	//inputFile->Close();
-	ofile->Close();
+	//ofile->Close();
 	return 0;
 	
 }
