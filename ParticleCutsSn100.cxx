@@ -43,6 +43,7 @@ std::vector <TH2D*> EDiff[4];
 std::vector <TH2D*> edTLong[4];
 std::vector <TH2D*> EDiffLong[4];
 std::vector <TH2D*> edTMid[4];
+std::vector <TH2D*> edTMid2[4];
 
 //template histograms
 
