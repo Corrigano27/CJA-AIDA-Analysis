@@ -106,6 +106,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											edT[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 											//edTLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
 											edTMid[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+											edTMid2[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 											if ((*beta).E>1500){
 												delayed1pEnergy[i].at(j)->Fill((*beta).E);
 												implantBeta1p[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
@@ -180,9 +181,15 @@ int analysisHistograms(std::string iName, std::string cutFile){
 		//for(unsigned int k = 0; k < EDiffLong[i].size(); k++){
 		//		EDiffLong[i].at(k)->Write();
 		//}
-		for(unsigned int k = 0; k < EDiffLong[i].size(); k++){
+		for(unsigned int k = 0; k < edTMid[i].size(); k++){
 				edTMid[i].at(k)->Write();
 		}
+		for(unsigned int k = 0; k < edTMid2[i].size(); k++){
+				edTMid2[i].at(k)->Write();
+		}
+
+
+
 
 	}
 
