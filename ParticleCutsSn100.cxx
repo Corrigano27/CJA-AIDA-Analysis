@@ -44,6 +44,10 @@ std::vector <TH2D*> edTLong[4];
 std::vector <TH2D*> EDiffLong[4];
 std::vector <TH2D*> edTMid[4];
 std::vector <TH2D*> edTMid2[4];
+std::vector <TH1D*> dTMidUnder520[4];
+std::vector <TH1D*> dTMidOver520[4];
+std::vector <TH1D*> dTMid2Under520[4];
+std::vector <TH1D*> dTMid2Over520[4];
 
 //template histograms
 
@@ -219,6 +223,22 @@ void DefineHistograms(){
 			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "EdTMid2";
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 200, 1000, 2000, 200, 0, 3000);
 			edTMid2[i].push_back(implantBetaHis2D);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "dTMidUnder520";
+			implantBetaHis = new TH1D(hisName.c_str(),"",200,0,1000);
+			dTMidUnder520[i].push_back(implantBetaHis);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "dTMid2Under520";
+			implantBetaHis = new TH1D(hisName.c_str(),"",200,1000,2000);
+			dTMid2Under520[i].push_back(implantBetaHis);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "dTMidOver520";
+			implantBetaHis = new TH1D(hisName.c_str(),"",200,0,1000);
+			dTMidOver520[i].push_back(implantBetaHis);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "dTMid2Over520";
+			implantBetaHis = new TH1D(hisName.c_str(),"",200,1000,2000);
+			dTMid2Over520[i].push_back(implantBetaHis);
 
 
 
