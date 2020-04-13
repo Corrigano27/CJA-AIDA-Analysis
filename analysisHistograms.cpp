@@ -110,13 +110,13 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 											//time projections at different energies
 											if ((*beta).E<520){
-												dTMidUnder520[i].at(j)->Fill((*beta).T-(imp).TIME)/1.0e3);
-												dTMid2Under520[i].at(j)->Fill((*beta).T-(imp).TIME)/1.0e3);
+												dTMidUnder520[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3);
+												dTMid2Under520[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3);
 											}
 											
 											if ((*beta).E>520){
-												dTMidOver520[i].at(j)->Fill((*beta).T-(imp).TIME)/1.0e3);
-												dTMid2Over520[i].at(j)->Fill((*beta).T-(imp).TIME)/1.0e3);
+												dTMidOver520[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3);
+												dTMid2Over520[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3);
 											}
 
 											if ((*beta).E>1500){
