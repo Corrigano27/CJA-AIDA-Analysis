@@ -107,6 +107,18 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											//edTLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
 											edTMid[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 											edTMid2[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+
+											//time projections at different energies
+											if ((*beta).E<520){
+												dTMidUnder520[i].at(j)->Fill((*beta).T-(imp).TIME)/1.0e3);
+												dTMid2Under520[i].at(j)->Fill((*beta).T-(imp).TIME)/1.0e3);
+											}
+											
+											if ((*beta).E>520){
+												dTMidOver520[i].at(j)->Fill((*beta).T-(imp).TIME)/1.0e3);
+												dTMid2Over520[i].at(j)->Fill((*beta).T-(imp).TIME)/1.0e3);
+											}
+
 											if ((*beta).E>1500){
 												delayed1pEnergy[i].at(j)->Fill((*beta).E);
 												implantBeta1p[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
@@ -125,7 +137,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 						}//end of isotope for loop
 					}//end of elements for loop
 				}//end of loop over correlated events
-			} //don't understand this one yet!
+			} //end of if beta events with positive energy
 
 		}//end of loop through beta events
 
@@ -187,6 +199,19 @@ int analysisHistograms(std::string iName, std::string cutFile){
 		for(unsigned int k = 0; k < edTMid2[i].size(); k++){
 				edTMid2[i].at(k)->Write();
 		}
+		for(unsigned int k = 0; k < dTMidUnder520[i].size(); k++){
+				dTMidUnder520[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < dTMidOver520[i].size(); k++){
+				dTMidOver520[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < dT2MidUnder520[i].size(); k++){
+				dT2MidUnder520[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < dT2MidOver520[i].size(); k++){
+				dT2MidOver520[i].at(k)->Write();
+		}
+		
 
 
 
