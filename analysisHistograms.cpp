@@ -205,10 +205,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 		for(unsigned int k = 0; k < dTMidOver520[i].size(); k++){
 				dTMidOver520[i].at(k)->Write();
 		}
-		for(unsigned int k = 0; k < dT2MidUnder520[i].size(); k++){
+		for(unsigned int k = 0; k < dTMid2Under520[i].size(); k++){
 				dTMid2Under520[i].at(k)->Write();
 		}
-		for(unsigned int k = 0; k < dT2MidOver520[i].size(); k++){
+		for(unsigned int k = 0; k < dTMid2Over520[i].size(); k++){
 				dTMid2Over520[i].at(k)->Write();
 		}
 		
