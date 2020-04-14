@@ -295,7 +295,7 @@ int gainMatch(std::string iName){
 
 				const int npar = 3;
 				TMinuit minuit(npar);
-				//minuit.SetPrintLevel(-1);
+				minuit.SetPrintLevel(-1);
 				minuit.SetFCN(minfcn);
 
 				Double_t par[npar]; //start value
@@ -391,7 +391,7 @@ int gainMatch(std::string iName){
 
 		const int npar2 = 2*pArraysize + 2*nArraysize;
 		TMinuit minuit2(npar2);
-		//minuit2.SetPrintLevel(-1);
+		minuit2.SetPrintLevel(-1);
 		minuit2.SetFCN(fcn);
 
 		Double_t par2[npar2]; //start value
@@ -552,14 +552,14 @@ int gainMatch(std::string iName){
 	//float absGainY[6]={0.7275, 0.7388, 0.7258, 0.7254, 0.7429, 0.734};
 
 	//new calib
-	float absGainX[6] = {0.70698, 0.71615, 0.71250, 0.71188, 0.70516, 0.71617};
+	//float absGainX[6] = {0.70698, 0.71615, 0.71250, 0.71188, 0.70516, 0.71617};
 
-	float absGainY[6] = {0.71249, 0.7235, 0.7231, 0.73001, 0.71615, 0.7262}; 
+	//float absGainY[6] = {0.71249, 0.7235, 0.7231, 0.73001, 0.71615, 0.7262}; 
 
 	// uncomment these when performing alpha background absolute calibration
-	//float absGainX[6]={1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+	float absGainX[6]={1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
 
-	//float absGainY[6]={1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+	float absGainY[6]={1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
 
 	float GainChannel[24][64];
 
@@ -633,11 +633,11 @@ int gainMatch(std::string iName){
 
 
   	cout << "Writing to file" <<endl;
-/*
-  	float Ax2, Ay2;
+
+  	float Ax2, Ay2, PreCalibAx2, PreCalibAy2;
 	int pPixel2;
 	int nPixel2;
-	int detNo = 5;
+	const int detNo = 5;
 
 
 	TH2D * exEy;
@@ -652,21 +652,25 @@ int gainMatch(std::string iName){
 		TString numstr=ToString(p);
 		for (int n=firstNstrip; n<lastNstrip; n++){
 			TString numstr2=ToString(n);
-			float yGain = DetNGain[0][n-firstNstrip];
-			float xGain = DetPGain[0][p-firstPstrip];
+			float yGain = DetNGain[detNo][n-firstNstrip];
+			float xGain = DetPGain[detNo][p-firstPstrip];
+			float yOffset = DetNOffset[detNo][n-firstNstrip];
+			float xOffset = DetPOffset[detNo][p-firstPstrip];
 			pPixel2=(int)p;
 			nPixel2=(int)n;
 			int pixel = (detNo*128*128)+(n*128)+p;
 			if (amplitudes[pixel].size() ==0)continue;
 			for(unsigned int i = 0; i < amplitudes[(detNo*128*128)+(n*128)+p].size();i++){
-				Ax2 = amplitudes[(detNo*128*128)+(n*128)+p].at(i).first*xGain;
-				Ay2 = amplitudes[(detNo*128*128)+(n*128)+p].at(i).second*yGain;
+				Ax2 = amplitudes[(detNo*128*128)+(n*128)+p].at(i).first*xGain + xOffset;
+				Ay2 = amplitudes[(detNo*128*128)+(n*128)+p].at(i).second*yGain + yOffset;
+				PreCalibAx2 = amplitudes[(detNo*128*128)+(n*128)+p].at(i).first;
+				PreCalibAy2 = amplitudes[(detNo*128*128)+(n*128)+p].at(i).second;
 				diffStripX->Fill(p,Ax2-Ay2);
 				diffStripY->Fill(n,Ax2-Ay2);
 				exEy->Fill(Ax2,Ay2);
-				exEyPre->Fill(Ax2*xGain,Ay2*yGain);
+				exEyPre->Fill(PreCalibAx2, PreCalibAy2);
 				exEyDiff->Fill(Ax2-Ay2);
-				exEyDiffPre->Fill((Ax2/xGain)-(Ay2/yGain));
+				exEyDiffPre->Fill((PreCalibAx2)-(PreCalibAy2));
 			}
 			//cout<<"applying gainmatch pPixel: " << numstr << " nPixel: " << numstr2 << endl;
 			//cout<<"pPixel number: " << numstr << " nPixel number: " << numstr2 << endl;
@@ -686,7 +690,7 @@ int gainMatch(std::string iName){
 	exEyPre->Draw();
 	TCanvas * c6 = new TCanvas();
 	exEy->Draw();
-	*/
+	
 
 	//tree2->Write();
 	//TH2D* h5 = new TH2D("h5", "h5", 400, 0, 3e3, 400, 0, 5e3);
