@@ -209,7 +209,7 @@ void DefineHistograms(){
 			EDiff[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "EdTLong";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 100, 0, 10, 200, 0, 7000);
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 200, 0, 10000, 200, 0, 3000);
 			edTLong[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "EDiffLong";
