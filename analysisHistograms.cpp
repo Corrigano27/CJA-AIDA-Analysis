@@ -104,7 +104,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 										//EDiffLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex-(*beta).Ey);
 										if ((*beta).nx < 3 && (*beta).ny < 3){
 											edT[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
-											//edTLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
+											edTLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 											edTMid[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 											edTMid2[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 
@@ -187,9 +187,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 		//for(unsigned int k = 0; k < EDiff[i].size(); k++){
 		//		EDiff[i].at(k)->Write();
 		//}
-		//for(unsigned int k = 0; k < edTLong[i].size(); k++){
-		//		edTLong[i].at(k)->Write();
-		//}
+		for(unsigned int k = 0; k < edTLong[i].size(); k++){
+				edTLong[i].at(k)->Write();
+		}
 		//for(unsigned int k = 0; k < EDiffLong[i].size(); k++){
 		//		EDiffLong[i].at(k)->Write();
 		//}
