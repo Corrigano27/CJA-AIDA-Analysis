@@ -647,6 +647,8 @@ int gainMatch(std::string iName){
 	TH2D * diffStripY = new TH2D("StripDifY","",128,0,128,1200,-600,600);
 	TH1D * exEyDiff = new TH1D("Ex-Ey","",3000,-1500,1500);
 	TH1D * exEyDiffPre= new TH1D("Ex-EyPre","",3000,-1500,1500);
+	TH1D * gainDistroX = new TH1D("GainDistroX","",100,0.6,1.4);
+	TH1D * gainDistroY = new TH1D("GainDistroY","",100,0.6,1.4);
 
 	for (int p=firstPstrip; p<lastPstrip; p++){
 		TString numstr=ToString(p);
@@ -671,6 +673,8 @@ int gainMatch(std::string iName){
 				exEyPre->Fill(PreCalibAx2, PreCalibAy2);
 				exEyDiff->Fill(Ax2-Ay2);
 				exEyDiffPre->Fill((PreCalibAx2)-(PreCalibAy2));
+				gainDistroX->Fill(xGain);
+				gainDistroY->Fill(yGain);
 			}
 			//cout<<"applying gainmatch pPixel: " << numstr << " nPixel: " << numstr2 << endl;
 			//cout<<"pPixel number: " << numstr << " nPixel number: " << numstr2 << endl;
