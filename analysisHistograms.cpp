@@ -15,8 +15,8 @@
 #include <map>
 #include <fstream>
 
-#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
-//#include "/home/corrigan/AidaSoftware/MergerSoftware/data2Tree.cxx"
+//#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
+#include "/home/corrigan/AidaSoftware/MergerSoftware/data2Tree.cxx"
 #include "ParticleCutsSn100.cxx"
 
 int analysisHistograms(std::string iName, std::string cutFile){
@@ -79,7 +79,23 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 		if ((*beta).T){
 			if ((*beta).Ey >= 0.0 && (*beta).Ex>=0){
-				for ( auto imp:(*beta).vectorOfImp ){
+				for ( auto imp:(*beta).vectorOfImp ){ //if non-element gated histos needed, do here
+				betaVeto = false;
+					for(auto anc:(*beta).vectorOfAnc){
+					//AIDA plastic veto
+						if((*beta).T - anc.TIME < 20e3 && (anc.ID == 36)){
+							if((*beta).T - anc.TIME > 10e3 && (anc.ID == 36)){
+
+								betaVeto = true;
+							}
+						}
+											
+					}
+					if (betaVeto == false){
+						if ((*beta).nx < 3 && (*beta).ny < 3){
+							edT_All->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+						}
+					}
 					for (int i = 0; i < numElements; i++){
 						for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 							if(particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
@@ -90,7 +106,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 										
 										//for(auto anc:(*beta).vectorOfAnc){
 											//F11 beta veto
-											//if((*beta).T - anc.TIME < 10e3 && (anc.ID == 34)){
+											//if((*beta).T - anc.TIME < 10e3 && (anc.ID == 32 || anc.ID == 34)){
 												//if((*beta).T - anc.TIME > 0 && (anc.ID == 34)){
 													//betaVeto = true;
 												//}
@@ -164,6 +180,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	std::cout << "Writing to file" << std::endl;
 
 	PID->Write();
+
+	edT_All->Write();
 
 	for(int i = 0; i < numElements; i++){
 		for(unsigned int k = 0; k < decayEnergy[i].size(); k++){
