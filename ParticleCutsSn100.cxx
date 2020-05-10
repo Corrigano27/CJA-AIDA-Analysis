@@ -59,6 +59,8 @@ TH2D * PID;
 
 TH2D * edT_All;
 
+TH2D * edT_All_beforeVeto;
+
 //range of isotopes for each element
 void SetParticles(){
 
@@ -175,7 +177,9 @@ void DefineHistograms(){
 
 	PID = new TH2D("PID","",1e3,1.95,2.35,1e3,36,53);
 
-	edT_All = new TH2D("edT_All","",100,0,1000,100,0,10000);
+	edT_All = new TH2D("edT_All","",100,0,2000,100,0,10000);
+
+	edT_All_beforeVeto = new TH2D("edT_All_beforeVeto","",100,0,2000,100,0,10000);
 
 	for (int i = 0; i<numElements; i++){
 		for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
