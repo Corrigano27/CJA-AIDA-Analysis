@@ -83,8 +83,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 				betaVeto = false;
 					for(auto anc:(*beta).vectorOfAnc){
 					//AIDA plastic veto
-						if((*beta).T - anc.TIME < 20e3 && (anc.ID == 36)){
-							if((*beta).T - anc.TIME > 10e3 && (anc.ID == 36)){
+						if((*beta).T - anc.TIME < 20e3 && (anc.ID == 34)){
+							if((*beta).T - anc.TIME > 10e3 && (anc.ID == 34)){
 
 								betaVeto = true;
 							}
@@ -96,6 +96,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 							edT_All->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 						}
 					}
+					if ((*beta).nx < 3 && (*beta).ny < 3){
+						edT_All_beforeVeto->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+					}
+
 					for (int i = 0; i < numElements; i++){
 						for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 							if(particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
@@ -182,6 +186,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	PID->Write();
 
 	edT_All->Write();
+
+	edT_All_beforeVeto->Write();
 
 	for(int i = 0; i < numElements; i++){
 		for(unsigned int k = 0; k < decayEnergy[i].size(); k++){
