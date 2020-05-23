@@ -73,12 +73,16 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	bool betaVeto;
 
+	uint8_t multix = 0;
+	uint8_t multiy = 0;
 	
 	//Files read, histograms filled
 	while (aReader.Next()){
 
 		if ((*beta).T){
-			if ((*beta).Ey >= 0.0 && (*beta).Ex>=0){
+			if ((*beta).Ey >= 0.0 && (*beta).Ex>=0.0){
+				multix = (*beta).TFast & 0xFF;
+				multiy = ((*beta).TFast >> 8) & 0xFF;
 				for ( auto imp:(*beta).vectorOfImp ){ //if non-element gated histos needed, do here
 				betaVeto = false;
 					for(auto anc:(*beta).vectorOfAnc){
@@ -92,11 +96,11 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											
 					}
 					if (betaVeto == false){
-						if ((*beta).nx < 3 && (*beta).ny < 3){
+						if (multix < 3 && multiy < 3){
 							edT_All->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 						}
 					}
-					if ((*beta).nx < 3 && (*beta).ny < 3){
+					if (multix < 3 && multiy < 3){
 						edT_All_beforeVeto->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 					}
 
@@ -104,25 +108,32 @@ int analysisHistograms(std::string iName, std::string cutFile){
 						for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 							if(particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
 								if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){
-									//start applying vetoes here f11
+									//start applying vetoes here
 									betaVeto = false;
 										//initialise veto as false, then set true when conditions are met. Fill histograms when false
 										
-										//for(auto anc:(*beta).vectorOfAnc){
-											//F11 beta veto
-											//if((*beta).T - anc.TIME < 10e3 && (anc.ID == 32 || anc.ID == 34)){
-												//if((*beta).T - anc.TIME > 0 && (anc.ID == 34)){
-													//betaVeto = true;
-												//}
-											//}
+									for(auto anc:(*beta).vectorOfAnc){
+										//AIDA Plastic veto (beta)
+										if((*beta).T - anc.TIME < 20e3 && (anc.ID == 34)){
+											if((*beta).T - anc.TIME > 10e3 && (anc.ID == 34)){
+												betaVeto = true;
+											}
+										}
+
+										//F11 veto (beta)
+										if((*beta).T - anc.TIME < 20e3 && (anc.ID == 32 || anc.ID == 33)){
+											if((*beta).T - anc.TIME > 10e3 && (anc.ID == 32 || anc.ID == 33)){
+												betaVeto = true;
+											}
+										}
 											
-										//}
+									}
 									
 									if (betaVeto == false){
 										decayEnergy[i].at(j)->Fill((*beta).E);
 										//EDiff[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex-(*beta).Ey);
 										//EDiffLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex-(*beta).Ey);
-										if ((*beta).nx < 3 && (*beta).ny < 3){
+										if multix < 3 && multiy < 3){
 											edT[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 											edTLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 											edTMid[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
