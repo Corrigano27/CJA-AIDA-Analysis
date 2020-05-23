@@ -133,7 +133,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 										decayEnergy[i].at(j)->Fill((*beta).E);
 										//EDiff[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex-(*beta).Ey);
 										//EDiffLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex-(*beta).Ey);
-										if multix < 3 && multiy < 3){
+										if (multix < 3 && multiy < 3){
 											edT[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 											edTLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 											edTMid[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
