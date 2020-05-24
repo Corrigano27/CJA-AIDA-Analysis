@@ -99,7 +99,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 						if (multix < 3 && multiy < 3){
 							edT_All->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 							dT_All->Fill(((*beta).T-(imp).TIME)/1.0e3);
-							if ((*beta).E>1500 && (*beta).E<10000 && (*beta).T-(imp).TIME)/1e3 >0 && ((*beta).T-(imp).TIME)/1e3 <200){
+							if ((*beta).E>1500 && (*beta).E<10000 && ((*beta).T-(imp).TIME)/1e3 >0 && ((*beta).T-(imp).TIME)/1e3 <200){
 								PIDfast->Fill((imp).AOQ, (imp).ZET);
 							}
 						}
