@@ -59,7 +59,11 @@ TH2D * PID;
 
 TH2D * edT_All;
 
+TH1D * dT_All;
+
 TH2D * edT_All_beforeVeto;
+
+TH2D * PIDfast;
 
 //range of isotopes for each element
 void SetParticles(){
@@ -177,9 +181,13 @@ void DefineHistograms(){
 
 	PID = new TH2D("PID","",1e3,1.95,2.35,1e3,36,53);
 
-	edT_All = new TH2D("edT_All","",100,0,2000,100,0,10000);
+	PIDfast = new TH2D("PIDfast","",1e3,1.95,2.35,1e3,36,53);
 
-	edT_All_beforeVeto = new TH2D("edT_All_beforeVeto","",100,0,2000,100,0,10000);
+	edT_All = new TH2D("edT_All","",400,-2000,2000,100,0,10000);
+
+	dT_All = new TH1D("dT_All","",400,-2000,-2000);
+
+	edT_All_beforeVeto = new TH2D("edT_All_beforeVeto","",400,-2000,2000,100,0,10000);
 
 	for (int i = 0; i<numElements; i++){
 		for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
@@ -225,7 +233,7 @@ void DefineHistograms(){
 			EDiffLong[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "EdTMid";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 200, 0, 1000, 200, 0, 10000);
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 200, -1000, 1000, 200, 0, 10000);
 			edTMid[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "EdTMid2";
@@ -233,7 +241,7 @@ void DefineHistograms(){
 			edTMid2[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "dTMidUnder520";
-			implantBetaHis = new TH1D(hisName.c_str(),"",200,0,1000);
+			implantBetaHis = new TH1D(hisName.c_str(),"",200,-1000,1000);
 			dTMidUnder520[i].push_back(implantBetaHis);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "dTMid2Under520";
@@ -241,7 +249,7 @@ void DefineHistograms(){
 			dTMid2Under520[i].push_back(implantBetaHis);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "dTMidOver520";
-			implantBetaHis = new TH1D(hisName.c_str(),"",200,0,1000);
+			implantBetaHis = new TH1D(hisName.c_str(),"",200,-1000,1000);
 			dTMidOver520[i].push_back(implantBetaHis);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "dTMid2Over520";
