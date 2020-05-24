@@ -121,8 +121,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 										}
 
 										//F11 veto (beta)
-										if((*beta).T - anc.TIME < 20e3 && (anc.ID == 32 || anc.ID == 33)){
-											if((*beta).T - anc.TIME > 10e3 && (anc.ID == 32 || anc.ID == 33)){
+										if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33)){
+											if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33)){
 												betaVeto = true;
 											}
 										}
@@ -133,7 +133,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 										decayEnergy[i].at(j)->Fill((*beta).E);
 										//EDiff[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex-(*beta).Ey);
 										//EDiffLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex-(*beta).Ey);
-										if (multix < 3 && multiy < 3){
+										if (multix == 1 && multiy == 1){
 											edT[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 											edTLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 											edTMid[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
@@ -156,7 +156,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											}//end of lower beta-p energy cut
 										
 										}
-										else if ((*beta).E<1500){
+										else if (multix < 5 && multiy < 5 && (*beta).E<1500){
 											implantBeta[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
 										}//end of upper beta energy cut
 									}//end of beta veto application
