@@ -98,6 +98,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 					if (betaVeto == false){
 						if (multix < 3 && multiy < 3){
 							edT_All->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+							dT_All->Fill(((*beta).T-(imp).TIME)/1.0e3);
+							if ((*beta).E>1500 && ((*beta).T-(imp).TIME)/1e3 <200){
+								PIDfast->Fill((imp).AOQ, (imp).ZET);
+							}
 						}
 					}
 					if (multix < 3 && multiy < 3){
@@ -121,11 +125,11 @@ int analysisHistograms(std::string iName, std::string cutFile){
 										}
 
 										//F11 veto (beta)
-										if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33)){
-											if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33)){
-												betaVeto = true;
-											}
-										}
+										//if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33)){
+											//if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33)){
+												//betaVeto = true;
+											//}
+										//}
 											
 									}
 									
@@ -133,7 +137,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 										decayEnergy[i].at(j)->Fill((*beta).E);
 										//EDiff[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex-(*beta).Ey);
 										//EDiffLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex-(*beta).Ey);
-										if (multix == 1 && multiy == 1){
+										if (multix <3 && multiy <3){
 											edT[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 											edTLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 											edTMid[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
@@ -196,7 +200,11 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	PID->Write();
 
+	PIDfast->Write();
+
 	edT_All->Write();
+
+	dT_All->Write();
 
 	edT_All_beforeVeto->Write();
 
