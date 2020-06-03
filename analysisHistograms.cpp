@@ -101,7 +101,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 							dT_All->Fill(((*beta).T-(imp).TIME)/1.0e3);
 							if ((*beta).E>1500 && (*beta).E<10000){
 								if (((*beta).T-(imp).TIME)/1e3 >0){
-									if(((*beta).T-(imp).TIME)/1e3 <200)){
+									if(((*beta).T-(imp).TIME)/1e3 <200){
 										PIDfast->Fill((imp).AOQ, (imp).ZET);
 									}
 
