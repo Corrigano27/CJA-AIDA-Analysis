@@ -38,16 +38,8 @@ std::vector <TH1D*> implant1p[4];
 std::vector <TH1D*> decayEnergy[4];
 std::vector <TH1D*> delayed1pEnergy[4];
 std::vector <TH1D*> implantZ[4];
-std::vector <TH2D*> edT[4];
-std::vector <TH2D*> EDiff[4];
-std::vector <TH2D*> edTLong[4];
-std::vector <TH2D*> EDiffLong[4];
-std::vector <TH2D*> edTMid[4];
-std::vector <TH2D*> edTMid2[4];
-std::vector <TH1D*> dTMidUnder520[4];
-std::vector <TH1D*> dTMidOver520[4];
-std::vector <TH1D*> dTMid2Under520[4];
-std::vector <TH1D*> dTMid2Over520[4];
+std::vector <TH2D*> EdT[4];
+
 
 //template histograms
 
@@ -60,6 +52,12 @@ TH2D * PID;
 TH2D * edT_All;
 
 TH1D * dT_All;
+
+TH1D * NoiseEnergy;
+
+TH1D * NoiseDT;
+
+TH1D * Energy;
 
 TH2D * edT_All_beforeVeto;
 
@@ -181,13 +179,19 @@ void DefineHistograms(){
 
 	PID = new TH2D("PID","",1e3,1.95,2.35,1e3,36,53);
 
-	PIDfast = new TH2D("PIDfast","",1e3,1.95,2.35,1e3,36,53);
+	PIDfast = new TH2D("PIDfast","",1e3,1.95,2.35,1e3,39,56);
 
 	edT_All = new TH2D("edT_All","",400,-2000,2000,100,0,10000);
 
 	dT_All = new TH1D("dT_All","",400,-2000,-2000);
 
 	edT_All_beforeVeto = new TH2D("edT_All_beforeVeto","",400,-2000,2000,100,0,10000);
+
+	NoiseEnergy = new TH1D("NoiseEnergy","",500,0,2000);
+
+	NoiseDT = new TH1D("NoiseDT","",250,0,250);
+
+	Energy = new TH1D("Energy","",1250,0,5000);
 
 	for (int i = 0; i<numElements; i++){
 		for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
@@ -217,46 +221,8 @@ void DefineHistograms(){
 			implantZ[i].push_back(implantBetaHis);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "EdT";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 200, 0, 100, 200, 0, 3000);
-			edT[i].push_back(implantBetaHis2D);
-
-			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "EDiff";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 200,0,200,500,-2000,2000);
-			EDiff[i].push_back(implantBetaHis2D);
-
-			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "EdTLong";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 200, 0, 10000, 200, 0, 3000);
-			edTLong[i].push_back(implantBetaHis2D);
-
-			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "EDiffLong";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 100,0,10,500,-2000,2000);
-			EDiffLong[i].push_back(implantBetaHis2D);
-
-			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "EdTMid";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 200, -1000, 1000, 200, 0, 10000);
-			edTMid[i].push_back(implantBetaHis2D);
-
-			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "EdTMid2";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 200, 1000, 2000, 200, 0, 10000);
-			edTMid2[i].push_back(implantBetaHis2D);
-
-			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "dTMidUnder520";
-			implantBetaHis = new TH1D(hisName.c_str(),"",200,-1000,1000);
-			dTMidUnder520[i].push_back(implantBetaHis);
-
-			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "dTMid2Under520";
-			implantBetaHis = new TH1D(hisName.c_str(),"",200,1000,2000);
-			dTMid2Under520[i].push_back(implantBetaHis);
-
-			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "dTMidOver520";
-			implantBetaHis = new TH1D(hisName.c_str(),"",200,-1000,1000);
-			dTMidOver520[i].push_back(implantBetaHis);
-
-			hisName = elements[i] + std::to_string(isotopeStart[i]+j) + "dTMid2Over520";
-			implantBetaHis = new TH1D(hisName.c_str(),"",200,1000,2000);
-			dTMid2Over520[i].push_back(implantBetaHis);
-
-
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 200, -2000, 2000, 200, 0, 10000);
+			EdT[i].push_back(implantBetaHis2D);
 
 		}
 	}
