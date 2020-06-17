@@ -15,8 +15,8 @@
 #include <map>
 #include <fstream>
 
-#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
-//#include "/home/corrigan/AidaSoftware/MergerSoftware/data2Tree.cxx"
+//#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
+#include "/home/corrigan/AidaSoftware/MergerSoftware/data2Tree.cxx"
 #include "ParticleCutsSn100.cxx"
 
 int analysisHistograms(std::string iName, std::string cutFile){
@@ -99,15 +99,21 @@ int analysisHistograms(std::string iName, std::string cutFile){
 						if (multix < 2 && multiy < 2){
 							edT_All->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 							dT_All->Fill(((*beta).T-(imp).TIME)/1.0e3);
-							if ((*beta).E>1500 && (*beta).E<10000){
-								if (((*beta).T-(imp).TIME)/1e3 >0){
-									if(((*beta).T-(imp).TIME)/1e3 <200){
+							if (((*beta).T-(imp).TIME)/1e3 >0){
+								if(((*beta).T-(imp).TIME)/1e3 <250){
+									NoiseEnergy->Fill((*beta).E);
+									NoiseDT->Fill(((*beta).T-(imp).TIME)/1.0e3);
+									if ((*beta).E>1500){
 										PIDfast->Fill((imp).AOQ, (imp).ZET);
 									}
-
 								}
-								
+								else if(((*beta).T-(imp).TIME)/1e3 <2000){
+									Energy->Fill((*beta).E);
+								}
+
 							}
+								
+							
 						}
 					}
 					if (multix < 2 && multiy < 2){
@@ -144,21 +150,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 										//EDiff[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex-(*beta).Ey);
 										//EDiffLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex-(*beta).Ey);
 										if (multix <2 && multiy <2){
-											edT[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
-											edTLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
-											edTMid[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
-											edTMid2[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
-
-											//time projections at different energies
-											if ((*beta).E<520){
-												dTMidUnder520[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3);
-												dTMid2Under520[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3);
-											}
-											
-											if ((*beta).E>520){
-												dTMidOver520[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3);
-												dTMid2Over520[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3);
-											}
+											EdT[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 
 											if ((*beta).E>1500){
 												delayed1pEnergy[i].at(j)->Fill((*beta).E);
@@ -206,6 +198,12 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	PID->Write();
 
+	NoiseEnergy->Write();
+
+	NoiseDT->Write();
+
+	Energy->Write();
+
 	PIDfast->Write();
 
 	edT_All->Write();
@@ -230,40 +228,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 		for(unsigned int k = 0; k < implantZ[i].size(); k++){
 				implantZ[i].at(k)->Write();
 		}
-		for(unsigned int k = 0; k < edT[i].size(); k++){
-				edT[i].at(k)->Write();
+		for(unsigned int k = 0; k < EdT[i].size(); k++){
+				EdT[i].at(k)->Write();
 		}
-		//for(unsigned int k = 0; k < EDiff[i].size(); k++){
-		//		EDiff[i].at(k)->Write();
-		//}
-		for(unsigned int k = 0; k < edTLong[i].size(); k++){
-				edTLong[i].at(k)->Write();
-		}
-		//for(unsigned int k = 0; k < EDiffLong[i].size(); k++){
-		//		EDiffLong[i].at(k)->Write();
-		//}
-		for(unsigned int k = 0; k < edTMid[i].size(); k++){
-				edTMid[i].at(k)->Write();
-		}
-		for(unsigned int k = 0; k < edTMid2[i].size(); k++){
-				edTMid2[i].at(k)->Write();
-		}
-		for(unsigned int k = 0; k < dTMidUnder520[i].size(); k++){
-				dTMidUnder520[i].at(k)->Write();
-		}
-		for(unsigned int k = 0; k < dTMidOver520[i].size(); k++){
-				dTMidOver520[i].at(k)->Write();
-		}
-		for(unsigned int k = 0; k < dTMid2Under520[i].size(); k++){
-				dTMid2Under520[i].at(k)->Write();
-		}
-		for(unsigned int k = 0; k < dTMid2Over520[i].size(); k++){
-				dTMid2Over520[i].at(k)->Write();
-		}
-		
-
-
-
 
 	}
 
