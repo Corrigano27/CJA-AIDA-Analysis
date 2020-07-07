@@ -39,6 +39,9 @@ std::vector <TH1D*> decayEnergy[4];
 std::vector <TH1D*> delayed1pEnergy[4];
 std::vector <TH1D*> implantZ[4];
 std::vector <TH2D*> EdT[4];
+std::vector <TH2D*> ImplantEdT;
+std::vector <TH2D*> NoiseImplantEDecayE;
+std::vector <TH2D*> ImplantEDecayE;
 
 
 //template histograms
@@ -59,10 +62,23 @@ TH1D * NoiseDT;
 
 TH1D * Energy;
 
+TH1D * FirstPeakEnergy;
+
+TH1D * SecondPeakEnergy;
+
+TH1D * dT_thres_700;
+
+TH1D * dT_thres_750;
+
 TH2D * edT_All_beforeVeto;
 
-TH2D * PIDfast;
+TH2D * TePIDfast;
 
+TH2D * IPIDfast;
+
+TH2D * TeEdT;
+
+TH2D * IEdT;
 //range of isotopes for each element
 void SetParticles(){
 
@@ -177,9 +193,11 @@ void DefineHistograms(){
 
 	std::string hisName;
 
-	PID = new TH2D("PID","",1e3,1.95,2.35,1e3,36,53);
+	PID = new TH2D("PID","",1e3,1.95,2.35,1e3,39,56);
 
-	PIDfast = new TH2D("PIDfast","",1e3,1.95,2.35,1e3,39,56);
+	TePIDfast = new TH2D("TePIDfast","",1e3,1.95,2.35,1e3,39,56);
+
+	IPIDfast = new TH2D("IPIDfast","",1e3,1.95,2.35,1e3,39,56);
 
 	edT_All = new TH2D("edT_All","",400,-2000,2000,100,0,10000);
 
@@ -187,11 +205,38 @@ void DefineHistograms(){
 
 	edT_All_beforeVeto = new TH2D("edT_All_beforeVeto","",400,-2000,2000,100,0,10000);
 
+	TeEdT = new TH2D("TeEdT","",500,-10,10,100,0,10000);
+
+	IEdT = new TH2D("IEdT","",500,-10,10,100,0,10000);
+
 	NoiseEnergy = new TH1D("NoiseEnergy","",500,0,2000);
 
-	NoiseDT = new TH1D("NoiseDT","",250,0,250);
+	NoiseDT = new TH1D("NoiseDT","",200,0,200);
 
 	Energy = new TH1D("Energy","",1250,0,5000);
+
+	FirstPeakEnergy = new TH1D("FirstPeakEnergy","",500,0,2000);
+
+	SecondPeakEnergy = new TH1D("SecondPeakEnergy","",500,0,2000);
+
+	dT_thres_700 = new TH1D("dT_thres_700","",500,-5000, 5000);
+
+    dT_thres_750 = new TH1D("dT_thres_750","",500,-5000, 5000);
+
+	for (int z = 0; z<6; z++){
+		hisName = "ImplantEdT_DSSD" + std::to_string(z);
+		implantBetaHis2D = new TH2D(hisName.c_str(), "", 400, -2000, 2000, 100, 0, 7000);
+		ImplantEdT.push_back(implantBetaHis2D);
+
+		hisName = "NoiseImplantEDecayE_DSSD" + std::to_string(z);
+		implantBetaHis2D = new TH2D(hisName.c_str(), "", 100, 0, 7, 100, 0, 7000);
+		NoiseImplantEDecayE.push_back(implantBetaHis2D);
+
+		hisName = "ImplantEDecayE_DSSD" + std::to_string(z);
+		implantBetaHis2D = new TH2D(hisName.c_str(), "", 100, 0, 7, 100, 0, 7000);
+		ImplantEDecayE.push_back(implantBetaHis2D);
+
+	}
 
 	for (int i = 0; i<numElements; i++){
 		for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
