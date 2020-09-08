@@ -15,8 +15,8 @@
 #include <map>
 #include <fstream>
 
-#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
-//#include "/home/corrigan/AidaSoftware/MergerSoftware/data2Tree.cxx"
+//#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
+#include "/home/corrigan/AidaSoftware/MergerSoftware/data2Tree.cxx"
 #include "ParticleCutsSn100.cxx"
 
 int analysisHistograms(std::string iName, std::string cutFile){
@@ -84,107 +84,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 				multix = (*beta).TFast & 0xFF;
 				multiy = ((*beta).TFast >> 8) & 0xFF;
 				for ( auto imp:(*beta).vectorOfImp ){ //if non-element gated histos needed, do here
-				betaVeto = false;
-					for(auto anc:(*beta).vectorOfAnc){
-					//AIDA plastic veto
-						if((*beta).T - anc.TIME < 20e3 && (anc.ID == 34)){
-							if((*beta).T - anc.TIME > 10e3 && (anc.ID == 34)){
-
-								betaVeto = true;
-							}
-						}
-											
-					}
-					if (betaVeto == false){
-						if (multix < 2 && multiy < 2){
-							edT_All->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
-							dT_All->Fill(((*beta).T-(imp).TIME)/1.0e3);
-
-							for (int z = 0; z<6; z++){
-								const int DSSD = z;
-								if ((imp).Z == DSSD){
-									ImplantEdT.at(z)->Fill(((*beta).T-(imp).TIME)/1.0e3, (imp).EN);
-								}
-							}
-
-							if (((*beta).T-(imp).TIME)/1e3 >0){
-								if(((*beta).T-(imp).TIME)/1e3 <70){
-									FirstPeakEnergy->Fill((*beta).E);
-								}
-								if(((*beta).T-(imp).TIME)/1e3 <200){
-									NoiseEnergy->Fill((*beta).E);
-									NoiseDT->Fill(((*beta).T-(imp).TIME)/1.0e3);
-									for (int z = 0; z<6; z++){
-										const int DSSD = z;
-										if ((imp).Z == DSSD){
-											NoiseImplantEDecayE.at(z)->Fill((*beta).E/1e3, (imp).EN);
-										}
-									}
-									//if ((*beta).E>1500){
-										//PIDfast->Fill((imp).AOQ, (imp).ZET);
-									//}
-								}
-								if(((*beta).T-(imp).TIME)/1e3 <2000){
-									Energy->Fill((*beta).E);
-									for (int z = 0; z<6; z++){
-										const int DSSD = z;
-										if ((imp).Z == DSSD){
-											ImplantEDecayE.at(z)->Fill((*beta).E/1e3, (imp).EN);
-										}
-									}
-								}
-
-							}
-							if (((*beta).T-(imp).TIME)/1e3 >70){
-								if(((*beta).T-(imp).TIME)/1e3 <200){
-									SecondPeakEnergy->Fill((*beta).E);
-								}
-							}						
-							if ((*beta).E>700){
-								dT_thres_700->Fill(((*beta).T-(imp).TIME)/1.0e3);
-							}
-							if ((*beta).E>750){
-								dT_thres_750->Fill(((*beta).T-(imp).TIME)/1.0e3);
-							}
-							//TeEdT->Fill((*beta).E, ((*beta).T-(imp).TIME)/1.0e3);
-							if ((imp).ZET > 52.5){
-								if ((imp).ZET < 53.5){
-									if ((*beta).E > 600){
-										if ((*beta).E < 10000){
-											IEdT->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
-											if (((*beta).T-(imp).TIME)/1e3 >0){
-												if(((*beta).T-(imp).TIME)/1e3 <50000){
-													IPIDfast->Fill((imp).AOQ, (imp).ZET);
-														
-												}
-											}		
-										}
-									}
-								}
-							}
-							if ((imp).ZET > 51.5){
-								if ((imp).ZET < 52.5){
-									if ((*beta).E > 600){
-										if ((*beta).E < 10000){
-											TeEdT->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
-											if (((*beta).T-(imp).TIME)/1e3 >0){
-												if(((*beta).T-(imp).TIME)/1e3 <50000){
-													TePIDfast->Fill((imp).AOQ, (imp).ZET);
-														
-												}
-											}		
-										}
-									}
-								}
-							}		
-
-						}
-
-					}
-					if (multix < 2 && multiy < 2){
-						edT_All_beforeVeto->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
-					}
-
 					for (int i = 0; i < numElements; i++){
 						for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 							if(particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
@@ -202,23 +101,23 @@ int analysisHistograms(std::string iName, std::string cutFile){
 										}
 
 										//F11 veto (beta)
-										//if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33)){
-											//if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33)){
-												//betaVeto = true;
-											//}
-										//}
+										if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33)){
+											if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33)){
+												betaVeto = true;
+											}
+										}
 											
 									}
 									
 									if (betaVeto == false){
 										decayEnergy[i].at(j)->Fill((*beta).E);
-										//EDiff[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex-(*beta).Ey);
-										//EDiffLong[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex-(*beta).Ey);
 										if (multix <2 && multiy <2){
 											EdT[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 
-											if ((*beta).E>1500){
-												delayed1pEnergy[i].at(j)->Fill((*beta).E);
+											if ((*beta).Ex>1500 && (*beta).Ey>1500 && (*beta).E>1500){
+												if ((*beta).T - (imp).TIME > 0){
+													delayed1pEnergy[i].at(j)->Fill((*beta).E);
+												}
 												implantBeta1p[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
 											}//end of lower beta-p energy cut
 										
@@ -248,10 +147,12 @@ int analysisHistograms(std::string iName, std::string cutFile){
 				for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){	
 					if (particleCuts[i][j]->IsInside((*implant).aoq, (*implant).zet)){
 						implantZ[i].at(j)->Fill((*implant).z);
+						implantE[i].at(j)->Fill((*implant).E);
 					}
 				}
 
 			}
+			
 		}
 
 
@@ -262,40 +163,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	std::cout << "Writing to file" << std::endl;
 
 	PID->Write();
-
-	NoiseEnergy->Write();
-
-	NoiseDT->Write();
-
-	Energy->Write();
-
-	FirstPeakEnergy->Write();
-
-	SecondPeakEnergy->Write();
-
-	dT_thres_700->Write();
-
-	dT_thres_750->Write();
-
-	TePIDfast->Write();
-
-	IPIDfast->Write();
-
-	edT_All->Write();
-
-	TeEdT->Write();
-
-	IEdT->Write();
-
-	dT_All->Write();
-
-	edT_All_beforeVeto->Write();
-
-	for(int z = 0; z < 6; z++){
-		ImplantEdT.at(z)->Write();
-		NoiseImplantEDecayE.at(z)->Write();
-		ImplantEDecayE.at(z)->Write();
-	}
 
 	for(int i = 0; i < numElements; i++){
 		for(unsigned int k = 0; k < decayEnergy[i].size(); k++){
@@ -312,6 +179,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 		}
 		for(unsigned int k = 0; k < implantZ[i].size(); k++){
 				implantZ[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < implantE[i].size(); k++){
+				implantE[i].at(k)->Write();
 		}
 		for(unsigned int k = 0; k < EdT[i].size(); k++){
 				EdT[i].at(k)->Write();
