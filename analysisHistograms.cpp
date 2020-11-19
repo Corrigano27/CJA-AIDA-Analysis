@@ -84,10 +84,11 @@ int analysisHistograms(std::string iName, std::string cutFile){
 				multix = (*beta).TFast & 0xFF;
 				multiy = ((*beta).TFast >> 8) & 0xFF;
 				for ( auto imp:(*beta).vectorOfImp ){ //if non-element gated histos needed, do here
+				
 					for (int i = 0; i < numElements; i++){
 						for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 							if(particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
-								if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){
+								if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){// use these statements for the dssd loop later on
 									//start applying vetoes here
 									betaVeto = false;
 										//initialise veto as false, then set true when conditions are met. Fill histograms when false
@@ -107,24 +108,291 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											}
 										}
 											
-									}
+									} // start looping gammas here
 									
 									if (betaVeto == false){
-										decayEnergy[i].at(j)->Fill((*beta).E);
-										if (multix <2 && multiy <2){
-											EdT[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+										//use below to have variable dssd - will need to introduce further dssd vectors
+										//if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){
+										for(int z = 0; z < 4; z++){
+											const int DSSD = z;
+											if ((*beta).z == DSSD){
+												decayEnergy[i][z].at(j)->Fill((*beta).E);
+												if (multix == 0 && multiy == 0){
+													EdT[i][z].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
+													if ((*beta).Ex>0 && (*beta).Ey>0){
+														if (((*beta).T-(imp).TIME > 0)){
+															if ((((*beta).T-(imp).TIME)/1e6 < 1)){
+																delayed1pEnergyX_0_1_ms[i][z].at(j)->Fill((*beta).Ex);
+															}
+															if (((*beta).T-(imp).TIME)/1e9 < 0.1){
+																delayed1pEnergyX_0_100_ms[i][z].at(j)->Fill((*beta).Ex);
+															}
+															if ((((*beta).T-(imp).TIME)/1e9 < 1)){
+																delayed1pEnergyX_0_1_s[i][z].at(j)->Fill((*beta).Ex);
+															}
+														}
+													}
 
-											if ((*beta).Ex>1500 && (*beta).Ey>1500 && (*beta).E>1500){
-												if ((*beta).T - (imp).TIME > 0){
-													delayed1pEnergy[i].at(j)->Fill((*beta).E);
+													if ((*beta).Ex>1400 && (*beta).Ey>1400){
+														if (((*beta).T-(imp).TIME > 0)){
+															delayed1pEnergy[i][z].at(j)->Fill((*beta).E);
+															delayed1pEnergyX[i][z].at(j)->Fill((*beta).Ex);
+															delayed1pEnergyY[i][z].at(j)->Fill((*beta).Ey);
+															
+															//ExEy[i][z].at(j)->Fill((*beta).Ex, (*beta).Ey);
+															//ExEyDiff[i][z].at(j)->Fill((*beta).Ex - (*beta).Ey);
+															//EnergyXChannel[i][z].at(j)->Fill((*beta).x, (*beta).E);
+															//EnergyYChannel[i][z].at(j)->Fill((*beta).y, (*beta).E);
+
+														}
+
+														implantBeta1p[i][z].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+
+														if (elements[i] == "Ag" && isotopeStart[i]+j == 94 && (*beta).z==2){
+															if ((*beta).Ex>1700){
+																if ((*beta).Ex<2000){
+																	Ag94ImplantBeta1p_DSSD2_smallpeak->Fill(((*beta).T-(imp).TIME)/1.0e9);
+																	for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
+																		if (((*beta).T-(gamma).TIME) > 20000){
+																			if(((*beta).T-(gamma).TIME) < 30000){
+																				if ((gamma).ID==777){
+																					Ag94_peak_Gamma777_Bg->Fill((gamma.EN));
+																				}
+																				if ((gamma).ID<16){		
+																					Ag94_peak_GammaSingle_Bg->Fill((gamma.EN));
+																				}
+
+																			}
+																		}
+
+
+																		if (((*beta).T-(gamma).TIME) > 10000){
+																			if(((*beta).T-(gamma).TIME) < 20000){
+																				
+																
+																				if ((gamma).ID==777){
+																					Ag94_peak_Gamma777->Fill((gamma.EN));
+																				}
+																				else if ((gamma).ID<16){		
+																					Ag94_peak_GammaSingle->Fill((gamma.EN));
+																				}
+																				
+																			}
+																		}
+																	}//end gamma loop
+
+
+
+
+																}
+															}
+															if ((*beta).Ex>2000){
+																Ag94ImplantBeta1p_DSSD2_largepeak->Fill(((*beta).T-(imp).TIME)/1.0e9);
+															}
+														
+														}
+														if (elements[i] == "Sn" && isotopeStart[i]+j == 101 && (*beta).z==1){
+															if ((*beta).Ex>2150){
+																if ((*beta).Ex<2400){
+																	Sn101ImplantBeta1p_DSSD1_smallpeak->Fill(((*beta).T-(imp).TIME)/1.0e9);
+																	for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
+																		if (((*beta).T-(gamma).TIME) > 20000){
+																			if(((*beta).T-(gamma).TIME) < 30000){
+																				if ((gamma).ID==777){
+																					Sn101_peak_Gamma777_Bg->Fill((gamma.EN));
+																				}
+																				if ((gamma).ID<16){		
+																					Sn101_peak_GammaSingle_Bg->Fill((gamma.EN));
+																				}
+
+																			}
+																		}
+																		
+
+																		if (((*beta).T-(gamma).TIME) > 10000){
+																			if(((*beta).T-(gamma).TIME) < 20000){
+																				
+																
+																				if ((gamma).ID==777){
+																					Sn101_peak_Gamma777->Fill((gamma.EN));
+																				}
+																				if ((gamma).ID<16){		
+																					Sn101_peak_GammaSingle->Fill((gamma.EN));
+																				}
+																				
+																			}
+																		}
+																	}//end gamma loop
+
+
+
+
+																}
+															}
+															if ((*beta).Ex>2400){
+																Sn101ImplantBeta1p_DSSD1_largepeak->Fill(((*beta).T-(imp).TIME)/1.0e9);
+															}
+														
+														}
+														if ((*beta).T-(imp).TIME < 0){
+															delayed1pEnergyRandom[i][z].at(j)->Fill((*beta).E);
+														}
+
+														delayed1pEnergyAll[i][z].at(j)->Fill((*beta).E);
+													}//end of lower beta-p energy cut
+												
 												}
-												implantBeta1p[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+												else if (multix < 3 && multiy < 3 && (*beta).E<1500){
+													implantBeta[i][z].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+											
+												}//end of upper beta energy cut
+											}//end of dssd if
+										}//end of dssd for
+										decayEnergyAll[i].at(j)->Fill((*beta).E);
+										if (multix == 0 && multiy == 0){
+											EdTAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
+
+											if (elements[i] == "In" && isotopeStart[i]+j == 97){
+												if (((*beta).T-(imp).TIME)/1e6 > 0){
+													if (((*beta).T-(imp).TIME)/1e6 < 100){
+														In97_GroundStateE->Fill((*beta).Ex);
+														for ( auto gamma:(*beta).vectorOfGamma ){
+															if (((*beta).T-(gamma).TIME) > 20000){
+																if(((*beta).T-(gamma).TIME) < 30000){
+																	if ((*beta).Ex<5000 && (*beta).Ey<5000){
+
+																		if ((gamma).ID==777){
+																			In97m_Gamma777_Bg->Fill((gamma.EN));
+																		}
+																		if ((gamma).ID<16){		
+																			In97m_GammaSingle_Bg->Fill((gamma.EN));
+																	
+																		}
+																	}
+
+																}
+															}
+
+															if (((*beta).T-(gamma).TIME) > 10000){
+																if(((*beta).T-(gamma).TIME) < 20000){
+																	if ((*beta).Ex<5000 && (*beta).Ey<5000){
+																	
+																		if ((gamma).ID==777){
+																			In97m_Gamma777->Fill((gamma.EN));
+																		}
+																		if ((gamma).ID<16){		
+																			In97m_GammaSingle->Fill((gamma.EN));
+																		}
+																	}
+																}
+															}
+														}//end of gamma loop
+													}
+
+
+												}
+											}
+
+											if ((*beta).Ex>1400 && (*beta).Ey>1400){
+												if (((*beta).T-(imp).TIME > 0)){
+													delayed1pEnergy_AllDSSD[i].at(j)->Fill((*beta).E);
+													//ExEyAll[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
+													//ExEyDiffAll[i].at(j)->Fill((*beta).Ex - (*beta).Ey);
+													//EnergyXChannelAll[i].at(j)->Fill((*beta).x, (*beta).E);
+													//EnergyYChannelAll[i].at(j)->Fill((*beta).y, (*beta).E);
+													for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
+														if (((*beta).T-(gamma).TIME) > 20000){
+															if(((*beta).T-(gamma).TIME) < 30000){
+																if ((gamma).ID==777){
+																	bp_gammaTest777_Bg[i].at(j)->Fill((gamma.EN));
+																}
+																if ((gamma).ID<16){		
+																	bp_gammaTest_Bg[i].at(j)->Fill((gamma.EN));
+																}
+
+															}
+														}
+
+														if (((*beta).T-(gamma).TIME) > 10000){
+															if(((*beta).T-(gamma).TIME) < 20000){
+																if ((gamma).ID==777){
+																	bp_gammaTest777[i].at(j)->Fill((gamma.EN));
+																}
+																else if ((gamma).ID<16){		
+																	bp_gammaTest[i].at(j)->Fill((gamma.EN));
+																}
+															}
+														}
+
+
+													}//end gamma loop
+
+													
+
+														
+												}
+
+												implantBeta1pAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+
+												if ((*beta).T-(imp).TIME < 0){
+													delayed1pEnergyRandom_AllDSSD[i].at(j)->Fill((*beta).E);
+												}
+
+												delayed1pEnergyAll_AllDSSD[i].at(j)->Fill((*beta).E);
 											}//end of lower beta-p energy cut
+										}//end of beta-p multiplicity cut		
 										
+										else if (multix < 3 && multiy < 3 && (*beta).E<1400){
+											implantBetaAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+											for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
+												if (((*beta).T-(gamma).TIME) > 20000){
+													if(((*beta).T-(gamma).TIME) < 30000){
+														if ((gamma).ID==777){
+															gammaTest777_Bg[i].at(j)->Fill((gamma.EN));
+														}
+														if ((gamma).ID<16){		
+															gammaTest_Bg[i].at(j)->Fill((gamma.EN));
+														}
+														if (elements[i] == "Cd" && isotopeStart[i]+j == 96){
+															for (int NaI = 0; NaI<17; NaI++){
+																const int crystal = NaI;
+																if ((gamma.ID)==crystal){
+																	Cd96_DTAS_bg.at(NaI)->Fill((gamma.EN));
+																}
+															}
+
+														}
+
+													}
+												}
+
+
+												if (((*beta).T-(gamma).TIME) > 10000){
+													if(((*beta).T-(gamma).TIME) < 20000){
+														if ((gamma).ID==777){
+															gammaTest777[i].at(j)->Fill((gamma.EN));
+														}
+														if ((gamma).ID<16){		
+															gammaTest[i].at(j)->Fill((gamma.EN));
+														}
+														if (elements[i] == "Cd" && isotopeStart[i]+j == 96){
+															for (int NaI = 0; NaI<17; NaI++){
+																const int crystal = NaI;
+																if ((gamma.ID)==crystal){
+																	Cd96_DTAS.at(NaI)->Fill((gamma.EN));
+																}
+															}
+
+														}
+													}
+												}
+												
+											}//end of gamma loop		
+										
+
+											
 										}
-										else if (multix < 3 && multiy < 3 && (*beta).E<1500){
-											implantBeta[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
-										}//end of upper beta energy cut
+									
 									}//end of beta veto application
 									
 
@@ -133,6 +401,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 						}//end of isotope for loop
 					}//end of elements for loop
+				
 				}//end of loop over correlated events
 			} //end of if beta events with positive energy
 
@@ -143,14 +412,29 @@ int analysisHistograms(std::string iName, std::string cutFile){
 		}
 
 		if ((*implant).T){
-			for (int i =0; i<numElements; i++){
-				for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){	
-					if (particleCuts[i][j]->IsInside((*implant).aoq, (*implant).zet)){
-						implantZ[i].at(j)->Fill((*implant).z);
-						implantE[i].at(j)->Fill((*implant).E);
-					}
-				}
+			for ( auto pid:(*implant).vectorOfPid ){
 
+				for (int i =0; i<numElements; i++){
+					for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){	
+						if (particleCuts[i][j]->IsInside((*implant).aoq, (*implant).zet)){
+							implantZ[i].at(j)->Fill((*implant).z);
+							implantVelocityimplantZ[i].at(j)->Fill((pid).VELOCITY, (*implant).z);
+							implantEAll[i].at(j)->Fill((*implant).E);
+							implantVelocityAOQ_AllDSSD[i].at(j)->Fill((*implant).aoq,(pid).VELOCITY);
+							implantEnergyAOQ_AllDSSD[i].at(j)->Fill((*implant).aoq,(*implant).E);
+							for (int z=0; z < 4; z++){
+								const int DSSD = z;
+								if ((*implant).z == DSSD){
+									implantE[i][z].at(j)->Fill((*implant).E);
+									implantVelocityimplantE[i][z].at(j)->Fill((pid).VELOCITY, (*implant).E);
+									implantVelocityAOQ[i][z].at(j)->Fill((*implant).aoq,(pid).VELOCITY);
+									implantEnergyAOQ[i][z].at(j)->Fill((*implant).aoq,(*implant).E);
+								}
+							}
+						}
+					}
+
+				}
 			}
 			
 		}
@@ -164,29 +448,190 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	PID->Write();
 
+	Sn101ImplantBeta1p_DSSD1_smallpeak->Write();
+
+	Sn101ImplantBeta1p_DSSD1_largepeak->Write();
+
+	Sn101_peak_GammaSingle->Write();
+
+	Sn101_peak_Gamma777->Write();
+
+	Sn101_peak_GammaSingle_Bg->Write();
+
+	Sn101_peak_Gamma777_Bg->Write();
+
+	Ag94ImplantBeta1p_DSSD2_smallpeak->Write();
+
+	Ag94ImplantBeta1p_DSSD2_largepeak->Write();
+
+	Ag94_peak_GammaSingle->Write();
+
+	Ag94_peak_Gamma777->Write();
+
+	Ag94_peak_GammaSingle_Bg->Write();
+
+	Ag94_peak_Gamma777_Bg->Write();
+
+	In97_GroundStateE->Write();
+
+	In97m_GammaSingle->Write();
+
+	In97m_Gamma777->Write();
+
+	In97m_GammaSingle_Bg->Write();
+
+	In97m_Gamma777_Bg->Write();
+
+	
+	for (int NaI = 0; NaI<17; NaI++){
+		Cd96_DTAS.at(NaI)->Write();
+		Cd96_DTAS_bg.at(NaI)->Write();
+	}
+		
+																
+
 	for(int i = 0; i < numElements; i++){
-		for(unsigned int k = 0; k < decayEnergy[i].size(); k++){
-				decayEnergy[i].at(k)->Write();
+		for(int z = 0; z < 4; z++){
+			for(unsigned int k = 0; k < decayEnergy[i][z].size(); k++){
+				decayEnergy[i][z].at(k)->Write();
+			}
+			for(unsigned int k = 0; k < delayed1pEnergy[i][z].size(); k++){
+				delayed1pEnergy[i][z].at(k)->Write();
+			}
+			for(unsigned int k = 0; k < delayed1pEnergyX[i][z].size(); k++){
+				delayed1pEnergyX[i][z].at(k)->Write();
+			}
+			for(unsigned int k = 0; k < delayed1pEnergyX_0_1_ms[i][z].size(); k++){
+				delayed1pEnergyX_0_1_ms[i][z].at(k)->Write();
+			}
+			for(unsigned int k = 0; k < delayed1pEnergyX_0_100_ms[i][z].size(); k++){
+				delayed1pEnergyX_0_100_ms[i][z].at(k)->Write();
+			}
+			for(unsigned int k = 0; k < delayed1pEnergyX_0_1_s[i][z].size(); k++){
+				delayed1pEnergyX_0_1_s[i][z].at(k)->Write();
+			}
+			for(unsigned int k = 0; k < delayed1pEnergyY[i][z].size(); k++){
+				delayed1pEnergyY[i][z].at(k)->Write();
+			}
+			for(unsigned int k = 0; k < delayed1pEnergyRandom[i][z].size(); k++){
+				delayed1pEnergyRandom[i][z].at(k)->Write();
+			}
+			for(unsigned int k = 0; k < delayed1pEnergyAll[i][z].size(); k++){
+				delayed1pEnergyAll[i][z].at(k)->Write();
+			}
+			//for(unsigned int k = 0; k < ExEy[i][z].size(); k++){
+			//	ExEy[i][z].at(k)->Write();
+			//}
+			//for(unsigned int k = 0; k < ExEyDiff[i][z].size(); k++){
+			//	ExEyDiff[i][z].at(k)->Write();
+			//}
+			//for(unsigned int k = 0; k < EnergyXChannel[i][z].size(); k++){
+			//	EnergyXChannel[i][z].at(k)->Write();
+			//}
+			//for(unsigned int k = 0; k < EnergyYChannel[i][z].size(); k++){
+			//	EnergyYChannel[i][z].at(k)->Write();
+			//}
+			for(unsigned int k = 0; k < implantBeta[i][z].size(); k++){
+				implantBeta[i][z].at(k)->Write();
+			}
+			for(unsigned int k = 0; k < implantBeta1p[i][z].size(); k++){
+				implantBeta1p[i][z].at(k)->Write();
+			}
+			for(unsigned int k = 0; k < implantE[i][z].size(); k++){
+				implantE[i][z].at(k)->Write();
+			}
+			for(unsigned int k = 0; k < implantVelocityimplantE[i][z].size(); k++){
+				implantVelocityimplantE[i][z].at(k)->Write();
+			}
+			for(unsigned int k = 0; k < EdT[i][z].size(); k++){
+				EdT[i][z].at(k)->Write();
+			}
+			for(unsigned int k = 0; k < implantVelocityAOQ[i][z].size(); k++){
+				implantVelocityAOQ[i][z].at(k)->Write();
+			}
+			for(unsigned int k = 0; k < implantEnergyAOQ[i][z].size(); k++){
+				implantEnergyAOQ[i][z].at(k)->Write();
+			}
 		}
-		for(unsigned int k = 0; k < delayed1pEnergy[i].size(); k++){
-				delayed1pEnergy[i].at(k)->Write();
+		//combined dssds
+		for(unsigned int k = 0; k < decayEnergyAll[i].size(); k++){
+			decayEnergyAll[i].at(k)->Write();
 		}
-		for(unsigned int k = 0; k < implantBeta[i].size(); k++){
-				implantBeta[i].at(k)->Write();
+		for(unsigned int k = 0; k < delayed1pEnergy_AllDSSD[i].size(); k++){
+			delayed1pEnergy_AllDSSD[i].at(k)->Write();
 		}
-		for(unsigned int k = 0; k < implantBeta1p[i].size(); k++){
-				implantBeta1p[i].at(k)->Write();
+		for(unsigned int k = 0; k < delayed1pEnergyRandom_AllDSSD[i].size(); k++){
+			delayed1pEnergyRandom_AllDSSD[i].at(k)->Write();
 		}
-		for(unsigned int k = 0; k < implantZ[i].size(); k++){
-				implantZ[i].at(k)->Write();
+		for(unsigned int k = 0; k < delayed1pEnergyAll_AllDSSD[i].size(); k++){
+			delayed1pEnergyAll_AllDSSD[i].at(k)->Write();
 		}
-		for(unsigned int k = 0; k < implantE[i].size(); k++){
-				implantE[i].at(k)->Write();
+		//for(unsigned int k = 0; k < ExEyAll[i].size(); k++){
+			//ExEyAll[i].at(k)->Write();
+		//}
+		//for(unsigned int k = 0; k < ExEyDiffAll[i].size(); k++){
+			//ExEyDiffAll[i].at(k)->Write();
+		//}
+		//for(unsigned int k = 0; k < EnergyXChannelAll[i].size(); k++){
+		//	EnergyXChannelAll[i].at(k)->Write();
+		//}
+		//for(unsigned int k = 0; k < EnergyYChannelAll[i].size(); k++){
+		//	EnergyYChannelAll[i].at(k)->Write();
+		//}
+		for(unsigned int k = 0; k < implantBetaAll[i].size(); k++){
+			implantBetaAll[i].at(k)->Write();
 		}
-		for(unsigned int k = 0; k < EdT[i].size(); k++){
-				EdT[i].at(k)->Write();
+		for(unsigned int k = 0; k < implantBeta1pAll[i].size(); k++){
+			implantBeta1pAll[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < implantEAll[i].size(); k++){
+			implantEAll[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < implantVelocityimplantEAll[i].size(); k++){
+			implantVelocityimplantEAll[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < EdTAll[i].size(); k++){
+			EdTAll[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < implantVelocityAOQ_AllDSSD[i].size(); k++){
+			implantVelocityAOQ_AllDSSD[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < implantEnergyAOQ_AllDSSD[i].size(); k++){
+			implantEnergyAOQ_AllDSSD[i].at(k)->Write();
+		}
+		//gamma stuff
+		for(unsigned int k = 0; k < gammaTest[i].size(); k++){
+			gammaTest[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < gammaTest777[i].size(); k++){
+			gammaTest777[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < bp_gammaTest[i].size(); k++){
+			bp_gammaTest[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < bp_gammaTest777[i].size(); k++){
+			bp_gammaTest777[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < gammaTest_Bg[i].size(); k++){
+			gammaTest_Bg[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < gammaTest777_Bg[i].size(); k++){
+			gammaTest777_Bg[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < bp_gammaTest_Bg[i].size(); k++){
+			bp_gammaTest_Bg[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < bp_gammaTest777_Bg[i].size(); k++){
+			bp_gammaTest777_Bg[i].at(k)->Write();
 		}
 
+		// implant stuff
+		for(unsigned int k = 0; k < implantZ[i].size(); k++){
+			implantZ[i].at(k)->Write();
+		}
+		for(unsigned int k = 0; k < implantVelocityimplantZ[i].size(); k++){
+			implantVelocityimplantZ[i].at(k)->Write();
+		}
 	}
 
 
