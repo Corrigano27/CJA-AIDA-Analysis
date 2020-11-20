@@ -31,30 +31,40 @@ std::vector<int> isotopeDSSDEnd[4];
 //graphical cuts for isotopes
 TCutG *particleCuts[4][8]; //indices denote elements and isotopes
 
+//directories
+std::vector<TDirectory *> ElementDir;
+std::vector<TDirectory *> IsotopeDir;
+std::vector<TDirectory *> DSSD_Dir;
+
+TDirectory *ElDir;
+TDirectory *IsoDir;
+TDirectory *ZDir;
+
+
 //histogram vectors
 //decays
-std::vector<TH1D *> implantBeta[4][4];
-std::vector<TH1D *> implantBeta1p[4][4];
-std::vector<TH1D *> implant1p[4][4];
-std::vector<TH1D *> decayEnergy[4][4];
-std::vector<TH1D *> delayed1pEnergy[4][4];
-std::vector<TH1D *> delayed1pEnergyX[4][4];
+std::vector<TH1D *> implantBeta[4][6];
+std::vector<TH1D *> implantBeta1p[4][6];
+std::vector<TH1D *> implant1p[4][6];
+std::vector<TH1D *> decayEnergy[4][6];
+std::vector<TH1D *> delayed1pEnergy[4][6];
+std::vector<TH1D *> delayed1pEnergyX[4][6];
 
-std::vector<TH1D *> delayed1pEnergyX_0_1_ms[4][4];
-std::vector<TH1D *> delayed1pEnergyX_0_100_ms[4][4];
-std::vector<TH1D *> delayed1pEnergyX_0_1_s[4][4];
+std::vector<TH1D *> delayed1pEnergyX_0_1_ms[4][6];
+std::vector<TH1D *> delayed1pEnergyX_0_100_ms[4][6];
+std::vector<TH1D *> delayed1pEnergyX_0_1_s[4][6];
 
-std::vector<TH1D *> delayed1pEnergyY[4][4];
-std::vector<TH1D *> delayed1pEnergyRandom[4][4];
-std::vector<TH1D *> delayed1pEnergyAll[4][4];
-std::vector<TH2D *> EdT[4][4];
+std::vector<TH1D *> delayed1pEnergyY[4][6];
+std::vector<TH1D *> delayed1pEnergyRandom[4][6];
+std::vector<TH1D *> delayed1pEnergyAll[4][6];
+std::vector<TH2D *> EdT[4][6];
 std::vector<TH2D *> implantVelocityimplantZ[4];
-std::vector<TH2D *> implantVelocityimplantE[4][4];
+std::vector<TH2D *> implantVelocityimplantE[4][6];
 
-std::vector<TH2D *> EnergyXChannel[4][4];
-std::vector<TH2D *> EnergyYChannel[4][4];
-std::vector<TH2D *> ExEy[4][4];
-std::vector<TH1D *> ExEyDiff[4][4];
+std::vector<TH2D *> EnergyXChannel[4][6];
+std::vector<TH2D *> EnergyYChannel[4][6];
+std::vector<TH2D *> ExEy[4][6];
+std::vector<TH1D *> ExEyDiff[4][6];
 
 
 std::vector<TH1D *> implantBetaAll[4];
@@ -84,18 +94,16 @@ std::vector<TH2D *> EnergyYChannelAll[4];
 std::vector<TH2D *> ExEyAll[4];
 std::vector<TH1D *> ExEyDiffAll[4];
 
-std::vector<TH2D *> implantVelocityAOQ[4][4];
+std::vector<TH2D *> implantVelocityAOQ[4][6];
 std::vector<TH2D *> implantVelocityAOQ_AllDSSD[4];
 
-std::vector<TH2D *> implantEnergyAOQ[4][4];
+std::vector<TH2D *> implantEnergyAOQ[4][6];
 std::vector<TH2D *> implantEnergyAOQ_AllDSSD[4];
 
 //implants
 std::vector<TH1D *> implantZ[4];
-std::vector<TH1D *> implantE[4][4];
+std::vector<TH1D *> implantE[4][6];
 
-std::vector<TH1D* > Cd96_DTAS;
-std::vector<TH1D* > Cd96_DTAS_bg;
 
 //template histograms
 
@@ -297,19 +305,6 @@ void DefineHistograms()
 
 	Ag94_peak_Gamma777_Bg = new TH1D("Ag94_peak_Gamma777_Bg","",3500,0,7000);
 
-	//96Cd Gammas
-
-	for (int NaI = 0; NaI<17; NaI++){
-
-		hisName = "Cd96_DTAS" + std::to_string(NaI);
-		implantBetaHis = new TH1D(hisName.c_str(), "", 2e2, 0, 4000);
-		Cd96_DTAS.push_back(implantBetaHis);
-
-		hisName = "Cd96_DTAS_bg" + std::to_string(NaI);
-		implantBetaHis = new TH1D(hisName.c_str(), "", 2e2, 0, 4000);
-		Cd96_DTAS_bg.push_back(implantBetaHis);
-
-	}
 
 
 	for (int i = 0; i < numElements; i++)
@@ -317,7 +312,7 @@ void DefineHistograms()
 		for (int j = 0; j <= isotopeEnd[i] - isotopeStart[i]; j++)
 		{
 			//use dssd arrays here
-			for (int z = 0; z < 4; z++)
+			for (int z = 0; z < 6; z++)
 			{
 
 				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ImplantBeta_DSSD" + std::to_string(z);
