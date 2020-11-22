@@ -15,8 +15,8 @@
 #include <map>
 #include <fstream>
 
-//#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
-#include "/home/corrigan/AidaSoftware/MergerSoftware/data2Tree.cxx"
+#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
+//#include "/home/corrigan/AidaSoftware/MergerSoftware/data2Tree.cxx"
 #include "ParticleCutsSn100.cxx"
 
 int analysisHistograms(std::string iName, std::string cutFile){
