@@ -84,7 +84,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 				multix = (*beta).TFast & 0xFF;
 				multiy = ((*beta).TFast >> 8) & 0xFF;
 				for ( auto imp:(*beta).vectorOfImp ){ //if non-element gated histos needed, do here
-					if ((*beta).z = (imp).Z){
+					if ((*beta).z == (imp).Z){
 						for (int i = 0; i < numElements; i++){
 							for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 								if(particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
