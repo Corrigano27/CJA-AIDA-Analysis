@@ -355,7 +355,17 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 													delayed1pEnergyAll_AllDSSD[i].at(j)->Fill((*beta).E);
 												}//end of lower beta-p energy cut
-											}//end of beta-p multiplicity cut		
+											}//end of beta-p multiplicity cut
+
+											if (multix == 0 && multiy == 1){
+												EdTAll12[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
+											}
+											if (multix == 1 && multiy == 0){
+												EdTAll21[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
+											}
+											if (multix == 1 && multiy == 1){
+												EdTAll22[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
+											}		
 											
 											else if (multix < 3 && multiy < 3 && (*beta).E<1400){
 												implantBetaAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
@@ -553,7 +563,11 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsoDir->Append(implantEAll[i].at(k));
 			IsoDir->Append(implantVelocityimplantEAll[i].at(k));
 			IsoDir->Append(EdTAll[i].at(k));
+			IsoDir->Append(EdTAll12[i].at(k));
+			IsoDir->Append(EdTAll21[i].at(k));
+			IsoDir->Append(EdTAll22[i].at(k));
 			IsoDir->Append(implantVelocityAOQ_AllDSSD[i].at(k));
+			IsoDir->Append(implantZ[i].at(k));
 			IsoDir->Append(implantEnergyAOQ_AllDSSD[i].at(k));
 
 			//gamma spectra correction
