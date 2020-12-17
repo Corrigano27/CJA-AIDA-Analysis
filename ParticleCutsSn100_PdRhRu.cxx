@@ -19,7 +19,7 @@ int numElements = 3;
 //string declarations;
 std::string particleCut; //PID cuts from file
 
-std::string elements[4]; //isotope elements
+std::string elements[3]; //isotope elements
 
 //vectors of isotope mass numbers
 int isotopeStart[3];
@@ -29,32 +29,42 @@ std::vector<int> isotopeDSSDStart[3];
 std::vector<int> isotopeDSSDEnd[3];
 
 //graphical cuts for isotopes
-TCutG *particleCuts[3][8]; //indices denote elements and isotopes - first index element
+TCutG *particleCuts[3][8]; //indices denote elements and isotopes
+
+//directories
+std::vector<TDirectory *> ElementDir;
+std::vector<TDirectory *> IsotopeDir;
+std::vector<TDirectory *> DSSD_Dir;
+
+TDirectory *ElDir;
+TDirectory *IsoDir;
+TDirectory *ZDir;
+
 
 //histogram vectors
 //decays
-std::vector<TH1D *> implantBeta[3][4];
-std::vector<TH1D *> implantBeta1p[3][4];
-std::vector<TH1D *> implant1p[3][4];
-std::vector<TH1D *> decayEnergy[3][4];
-std::vector<TH1D *> delayed1pEnergy[3][4];
-std::vector<TH1D *> delayed1pEnergyX[3][4];
+std::vector<TH1D *> implantBeta[3][6];
+std::vector<TH1D *> implantBeta1p[3][6];
+std::vector<TH1D *> implant1p[3][6];
+std::vector<TH1D *> decayEnergy[3][6];
+std::vector<TH1D *> delayed1pEnergy[3][6];
+std::vector<TH1D *> delayed1pEnergyX[3][6];
 
-std::vector<TH1D *> delayed1pEnergyX_0_1_ms[3][4];
-std::vector<TH1D *> delayed1pEnergyX_0_100_ms[3][4];
-std::vector<TH1D *> delayed1pEnergyX_0_1_s[3][4];
+std::vector<TH1D *> delayed1pEnergyX_0_1_ms[3][6];
+std::vector<TH1D *> delayed1pEnergyX_0_100_ms[3][6];
+std::vector<TH1D *> delayed1pEnergyX_0_1_s[3][6];
 
-std::vector<TH1D *> delayed1pEnergyY[3][4];
-std::vector<TH1D *> delayed1pEnergyRandom[3][4];
-std::vector<TH1D *> delayed1pEnergyAll[3][4];
-std::vector<TH2D *> EdT[3][4];
+std::vector<TH1D *> delayed1pEnergyY[3][6];
+std::vector<TH1D *> delayed1pEnergyRandom[3][6];
+std::vector<TH1D *> delayed1pEnergyAll[3][6];
+std::vector<TH2D *> EdT[3][6];
 std::vector<TH2D *> implantVelocityimplantZ[3];
-std::vector<TH2D *> implantVelocityimplantE[3][4];
+std::vector<TH2D *> implantVelocityimplantE[3][6];
 
-std::vector<TH2D *> EnergyXChannel[3][4];
-std::vector<TH2D *> EnergyYChannel[3][4];
-std::vector<TH2D *> ExEy[3][4];
-std::vector<TH1D *> ExEyDiff[3][4];
+std::vector<TH2D *> EnergyXChannel[3][6];
+std::vector<TH2D *> EnergyYChannel[3][6];
+std::vector<TH2D *> ExEy[3][6];
+std::vector<TH1D *> ExEyDiff[3][6];
 
 
 std::vector<TH1D *> implantBetaAll[3];
@@ -66,33 +76,59 @@ std::vector<TH1D *> delayed1pEnergy_AllDSSD[3];
 std::vector<TH1D *> delayed1pEnergyRandom_AllDSSD[3];
 std::vector<TH1D *> delayed1pEnergyAll_AllDSSD[3];
 std::vector<TH2D *> EdTAll[3];
+std::vector<TH2D *> EdTAll12[3];
+std::vector<TH2D *> EdTAll21[3];
+std::vector<TH2D *> EdTAll22[3];
 std::vector<TH1D *> implantEAll[3];
 std::vector<TH2D *> implantVelocityimplantEAll[3];
 
-std::vector<TH1D *> gammaTest[3];
-std::vector<TH1D *> gammaTest777[3];
-std::vector<TH1D *> gammaTest_Bg[3];
-std::vector<TH1D *> gammaTest777_Bg[3];
+//correcting beta-gamma singles
+std::vector<TH1D *> beta_gamma_1[3];
+std::vector<TH1D *> beta_gamma_2[3];
+std::vector<TH1D *> beta_gamma_3[3];
+std::vector<TH1D *> beta_gamma_4[3];
 
-std::vector<TH1D *> bp_gammaTest[3];
-std::vector<TH1D *> bp_gammaTest777[3];
-std::vector<TH1D *> bp_gammaTest_Bg[3];
-std::vector<TH1D *> bp_gammaTest777_Bg[3];
+std::vector<TH1D *> beta_gamma_corr[3];
+
+//correcting beta-gamma summed
+std::vector<TH1D *> summed_beta_gamma_1[3];
+std::vector<TH1D *> summed_beta_gamma_2[3];
+std::vector<TH1D *> summed_beta_gamma_3[3];
+std::vector<TH1D *> summed_beta_gamma_4[3];
+
+std::vector<TH1D *> summed_beta_gamma_corr[3];
+
+//correcting bp-gamma singles
+std::vector<TH1D *> bp_gamma_1[3];
+std::vector<TH1D *> bp_gamma_2[3];
+std::vector<TH1D *> bp_gamma_3[3];
+std::vector<TH1D *> bp_gamma_4[3];
+
+std::vector<TH1D *> bp_gamma_corr[3];
+
+//correcting bp-gamma summed
+std::vector<TH1D *> summed_bp_gamma_1[3];
+std::vector<TH1D *> summed_bp_gamma_2[3];
+std::vector<TH1D *> summed_bp_gamma_3[3];
+std::vector<TH1D *> summed_bp_gamma_4[3];
+
+std::vector<TH1D *> summed_bp_gamma_corr[3];
 
 std::vector<TH2D *> EnergyXChannelAll[3];
 std::vector<TH2D *> EnergyYChannelAll[3];
 std::vector<TH2D *> ExEyAll[3];
 std::vector<TH1D *> ExEyDiffAll[3];
 
-std::vector<TH2D *> implantVelocityAOQ[3][4];
+std::vector<TH2D *> implantVelocityAOQ[3][6];
 std::vector<TH2D *> implantVelocityAOQ_AllDSSD[3];
 
-std::vector<TH2D *> implantEnergyAOQ[3][4];
+std::vector<TH2D *> implantEnergyAOQ[3][6];
 std::vector<TH2D *> implantEnergyAOQ_AllDSSD[3];
 
 //implants
 std::vector<TH1D *> implantZ[3];
-std::vector<TH1D *> implantE[3][4];
+std::vector<TH1D *> implantE[3][6];
+
 
 //template histograms
 
@@ -101,6 +137,8 @@ TH2D *implantBetaHis2D;
 
 //pid
 TH2D *PID;
+
+TH2D *PID_implant;
 
 //101SnSplitting
 
@@ -138,6 +176,8 @@ TH1D *In97m_GammaSingle;
 TH1D *In97m_Gamma777_Bg;
 
 TH1D *In97m_GammaSingle_Bg;
+
+TH1D *In97_GroundStateE;
 
 //range of isotopes for each element
 void SetParticles()
@@ -257,44 +297,50 @@ void DefineHistograms()
 
 	PID = new TH2D("PID", "", 1e3, 1.95, 2.35, 1e3, 39, 56);
 
+	PID_implant = new TH2D("PID_implant", "", 1e3, 1.95, 2.35, 1e3, 39, 56);
+
 	Sn101ImplantBeta1p_DSSD1_smallpeak = new TH1D("Sn101ImplantBeta1p_DSSD1_smallpeak", "", 2e2, -10, 10);
 
 	Sn101ImplantBeta1p_DSSD1_largepeak = new TH1D("Sn101ImplantBeta1p_DSSD1_largepeak", "", 2e2, -10, 10);
 
-	Sn101_peak_GammaSingle = new TH1D("Sn101_peak_GammaSingle","",400,0,4000);
+	Sn101_peak_GammaSingle = new TH1D("Sn101_peak_GammaSingle","",3500,0,7000);
 
-	Sn101_peak_Gamma777 = new TH1D("Sn101_peak_Gamma777","",400,0,4000);
+	Sn101_peak_Gamma777 = new TH1D("Sn101_peak_Gamma777","",3500,0,7000);
 
-	Sn101_peak_GammaSingle_Bg = new TH1D("Sn101_peak_GammaSingle_Bg","",400,0,4000);
+	Sn101_peak_GammaSingle_Bg = new TH1D("Sn101_peak_GammaSingle_Bg","",3500,0,7000);
 
-	Sn101_peak_Gamma777_Bg = new TH1D("Sn101_peak_Gamma777_Bg","",400,0,4000);
+	Sn101_peak_Gamma777_Bg = new TH1D("Sn101_peak_Gamma777_Bg","",3500,0,7000);
 
-	In97m_GammaSingle = new TH1D("In97m_GammaSingle","",400,0,4000);
+	In97m_GammaSingle = new TH1D("In97m_GammaSingle","",3500,0,7000);
 
-	In97m_Gamma777 = new TH1D("In97m_Gamma777","",400,0,4000);
+	In97m_Gamma777 = new TH1D("In97m_Gamma777","",3500,0,7000);
 
-	In97m_GammaSingle_Bg = new TH1D("In97m_GammaSingle_Bg","",400,0,4000);
+	In97m_GammaSingle_Bg = new TH1D("In97m_GammaSingle_Bg","",3500,0,7000);
 
-	In97m_Gamma777_Bg = new TH1D("In97m_Gamma777_Bg","",400,0,4000);	
+	In97m_Gamma777_Bg = new TH1D("In97m_Gamma777_Bg","",3500,0,7000);
+
+	In97_GroundStateE = new TH1D("In97_GroundStateE","",250,0,5000);	
 
 	Ag94ImplantBeta1p_DSSD2_smallpeak = new TH1D("Ag94ImplantBeta1p_DSSD2_smallpeak", "", 2e2, -10, 10);
 
 	Ag94ImplantBeta1p_DSSD2_largepeak = new TH1D("Ag94ImplantBeta1p_DSSD2_largepeak", "", 2e2, -10, 10);
 
-	Ag94_peak_GammaSingle = new TH1D("Ag94_peak_GammaSingle","",400,0,4000);
+	Ag94_peak_GammaSingle = new TH1D("Ag94_peak_GammaSingle","",3500,0,7000);
 
-	Ag94_peak_Gamma777 = new TH1D("Ag94_peak_Gamma777","",400,0,4000);
+	Ag94_peak_Gamma777 = new TH1D("Ag94_peak_Gamma777","",3500,0,7000);
 
-	Ag94_peak_GammaSingle_Bg = new TH1D("Ag94_peak_GammaSingle_Bg","",400,0,4000);
+	Ag94_peak_GammaSingle_Bg = new TH1D("Ag94_peak_GammaSingle_Bg","",3500,0,7000);
 
-	Ag94_peak_Gamma777_Bg = new TH1D("Ag94_peak_Gamma777_Bg","",400,0,4000);
+	Ag94_peak_Gamma777_Bg = new TH1D("Ag94_peak_Gamma777_Bg","",3500,0,7000);
+
+
 
 	for (int i = 0; i < numElements; i++)
 	{
 		for (int j = 0; j <= isotopeEnd[i] - isotopeStart[i]; j++)
 		{
-
-			for (int z = 0; z < 4; z++)
+			//use dssd arrays here
+			for (int z = 0; z < 6; z++)
 			{
 
 				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ImplantBeta_DSSD" + std::to_string(z);
@@ -413,9 +459,21 @@ void DefineHistograms()
 			implantBetaHis = new TH1D(hisName.c_str(), "", 350, 0, 7000);
 			implantEAll[i].push_back(implantBetaHis);
 
-			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 200, -2000, 2000, 280, 0, 7000);
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_11";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 4000, -2000, 2000, 700, 0, 7000);
 			EdTAll[i].push_back(implantBetaHis2D);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_12";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 4000, -2000, 2000, 700, 0, 7000);
+			EdTAll12[i].push_back(implantBetaHis2D);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_21";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 4000, -2000, 2000, 700, 0, 7000);
+			EdTAll21[i].push_back(implantBetaHis2D);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_22";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 4000, -2000, 2000, 700, 0, 7000);
+			EdTAll22[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ImplantVelocityimplantE_AllDSSD";
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 100, 0.6, 0.65, 280, 0, 7000);
@@ -424,40 +482,91 @@ void DefineHistograms()
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ImplantZ";
 			implantBetaHis = new TH1D(hisName.c_str(), "", 6, 0, 6);
 			implantZ[i].push_back(implantBetaHis);
+//////////////////////////////////////***beta-gammas***///////////////////////////////////////////////
+			//singles
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "beta_gamma_1";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			beta_gamma_1[i].push_back(implantBetaHis);
 
-			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "gammaTest";
-			implantBetaHis = new TH1D(hisName.c_str(), "", 400, 0, 4000);
-			gammaTest[i].push_back(implantBetaHis);
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "beta_gamma_2";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			beta_gamma_2[i].push_back(implantBetaHis);
 
-			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "gammaTest777";
-			implantBetaHis = new TH1D(hisName.c_str(), "", 400, 0, 4000);
-			gammaTest777[i].push_back(implantBetaHis);
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "beta_gamma_3";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			beta_gamma_3[i].push_back(implantBetaHis);
 
-			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "_bp_gammaTest";
-			implantBetaHis = new TH1D(hisName.c_str(), "", 400, 0, 4000);
-			bp_gammaTest[i].push_back(implantBetaHis);
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "beta_gamma_4";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			beta_gamma_4[i].push_back(implantBetaHis);
 
-			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "_bp_gammaTest777";
-			implantBetaHis = new TH1D(hisName.c_str(), "", 400, 0, 4000);
-			bp_gammaTest777[i].push_back(implantBetaHis);
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "beta_gamma_corr";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			beta_gamma_corr[i].push_back(implantBetaHis);
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			//summed
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_beta_gamma_1";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			summed_beta_gamma_1[i].push_back(implantBetaHis);
 
-			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "gammaTest_Bg";
-			implantBetaHis = new TH1D(hisName.c_str(), "", 400, 0, 4000);
-			gammaTest_Bg[i].push_back(implantBetaHis);
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_beta_gamma_2";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			summed_beta_gamma_2[i].push_back(implantBetaHis);
 
-			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "gammaTest777_Bg";
-			implantBetaHis = new TH1D(hisName.c_str(), "", 400, 0, 4000);
-			gammaTest777_Bg[i].push_back(implantBetaHis);
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_beta_gamma_3";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			summed_beta_gamma_3[i].push_back(implantBetaHis);
 
-			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "_bp_gammaTest_Bg";
-			implantBetaHis = new TH1D(hisName.c_str(), "", 400, 0, 4000);
-			bp_gammaTest_Bg[i].push_back(implantBetaHis);
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_beta_gamma_4";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			summed_beta_gamma_4[i].push_back(implantBetaHis);
 
-			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "_bp_gammaTest777_Bg";
-			implantBetaHis = new TH1D(hisName.c_str(), "", 400, 0, 4000);
-			bp_gammaTest777_Bg[i].push_back(implantBetaHis);
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_beta_gamma_corr";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			summed_beta_gamma_corr[i].push_back(implantBetaHis);
+
+///////////////////////////////////*****beta-delayed proton gammas******/////////////////////////////////////////////////////
+			//singles
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "bp_gamma_1";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			bp_gamma_1[i].push_back(implantBetaHis);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "bp_gamma_2";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			bp_gamma_2[i].push_back(implantBetaHis);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "bp_gamma_3";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			bp_gamma_3[i].push_back(implantBetaHis);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "bp_gamma_4";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			bp_gamma_4[i].push_back(implantBetaHis);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "bp_gamma_corr";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			bp_gamma_corr[i].push_back(implantBetaHis);
+
+			//summed
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_bp_gamma_1";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			summed_bp_gamma_1[i].push_back(implantBetaHis);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_bp_gamma_2";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			summed_bp_gamma_2[i].push_back(implantBetaHis);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_bp_gamma_3";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			summed_bp_gamma_3[i].push_back(implantBetaHis);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_bp_gamma_4";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			summed_bp_gamma_4[i].push_back(implantBetaHis);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_bp_gamma_corr";
+			implantBetaHis = new TH1D(hisName.c_str(), "", 3500,0,7000);
+			summed_bp_gamma_corr[i].push_back(implantBetaHis);
 
 			///////////////////////////////////////////////////////////////////////////////////
 
@@ -490,6 +599,7 @@ void DefineHistograms()
 			EnergyYChannelAll[i].push_back(implantBetaHis2D);
 		}
 	}
+	
 }
 
 #endif
