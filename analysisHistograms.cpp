@@ -47,7 +47,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
  	size_t lastindex = iName.find_last_of(".");
 	oName = iName.substr(0, lastindex);
-	oName+="_AnalysisHistograms.root";
+	oName+="_SnInCdAg_AnalysisHistograms.root";
   	//Open the tree and create the branch to write to
   	TFile * ofile = TFile::Open( oName.c_str(), "recreate");
 
