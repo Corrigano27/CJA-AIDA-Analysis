@@ -85,6 +85,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 				multiy = ((*beta).TFast >> 8) & 0xFF;
 				for ( auto imp:(*beta).vectorOfImp ){ //if non-element gated histos needed, do here
 					if ((*beta).z == (imp).Z){
+						if ((*beta).Ex>1200 && (*beta).Ey>1200){
+							EDiff_TDiff->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex - (*beta).Ey);
+						}
 						for (int i = 0; i < numElements; i++){
 							for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 								if(particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
@@ -472,6 +475,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	std::cout << "Writing to file" << std::endl;
 
+	EDiff_TDiff->Write();
+	
 	PID->Write();
 
 	PID_implant->Write();
