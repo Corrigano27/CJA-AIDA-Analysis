@@ -179,6 +179,8 @@ TH1D *In97m_GammaSingle_Bg;
 
 TH1D *In97_GroundStateE;
 
+TH2D *EDiff_TDiff;
+
 //range of isotopes for each element
 void SetParticles()
 {
@@ -296,6 +298,8 @@ void DefineHistograms()
 	std::string hisName;
 
 	PID = new TH2D("PID", "", 1e3, 1.95, 2.35, 1e3, 39, 56);
+
+	EDiff_TDiff = new TH2D("EDiff_TDiff", "", 1e3, -1000, 1000, 120,-200, 200);
 
 	PID_implant = new TH2D("PID_implant", "", 1e3, 1.95, 2.35, 1e3, 39, 56);
 
