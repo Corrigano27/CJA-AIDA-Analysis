@@ -115,6 +115,11 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											//if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){
 											int DSSD = ((*beta).z);
 											decayEnergy[i][DSSD].at(j)->Fill((*beta).E);
+
+											if ((*beta).Ex>1400 && (*beta).Ey>1400){
+												EdT_bp[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
+											}
+
 											if (multix == 0 && multiy == 0){
 												EdT[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 												if ((*beta).Ex>0 && (*beta).Ey>0){
@@ -247,6 +252,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											//end of dssd if
 											//end of dssd for
 											decayEnergyAll[i].at(j)->Fill((*beta).E);
+											EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 											if (multix == 0 && multiy == 0){
 												EdTAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 
@@ -545,6 +551,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 				IsoDir->Append(implantE[i][z].at(k));
 				IsoDir->Append(implantVelocityimplantE[i][z].at(k));
 				IsoDir->Append(EdT[i][z].at(k));
+				IsoDir->Append(EdT_bp[i][z].at(k));
 				IsoDir->Append(implantVelocityAOQ[i][z].at(k));
 				IsoDir->Append(implantEnergyAOQ[i][z].at(k));
 			
@@ -563,6 +570,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsoDir->Append(implantEAll[i].at(k));
 			IsoDir->Append(implantVelocityimplantEAll[i].at(k));
 			IsoDir->Append(EdTAll[i].at(k));
+			IsoDir->Append(EdTAll_NoMultiGate[i].at(k));
 			IsoDir->Append(EdTAll12[i].at(k));
 			IsoDir->Append(EdTAll21[i].at(k));
 			IsoDir->Append(EdTAll22[i].at(k));
