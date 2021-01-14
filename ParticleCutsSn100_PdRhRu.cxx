@@ -75,6 +75,7 @@ std::vector<TH1D *> delayed1pEnergy_AllDSSD[3];
 
 std::vector<TH1D *> delayed1pEnergyRandom_AllDSSD[3];
 std::vector<TH1D *> delayed1pEnergyAll_AllDSSD[3];
+std::vector<TH2D *> EdTAll_NoMultiGate[3];
 std::vector<TH2D *> EdTAll[3];
 std::vector<TH2D *> EdTAll12[3];
 std::vector<TH2D *> EdTAll21[3];
@@ -299,7 +300,7 @@ void DefineHistograms()
 
 	PID = new TH2D("PID", "", 1e3, 1.95, 2.35, 1e3, 39, 56);
 
-	EDiff_TDiff = new TH2D("EDiff_TDiff", "", 1e3, -1000, 1000, 120,-200, 200);
+	EDiff_TDiff = new TH2D("EDiff_TDiff", "", 1e3, -1000, 1000, 240,-400, 400);
 
 	PID_implant = new TH2D("PID_implant", "", 1e3, 1.95, 2.35, 1e3, 39, 56);
 
@@ -466,6 +467,10 @@ void DefineHistograms()
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_11";
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 4000, -2000, 2000, 700, 0, 7000);
 			EdTAll[i].push_back(implantBetaHis2D);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_NoMultiGate";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 4000, -2000, 2000, 700, 0, 7000);
+			EdTAll_NoMultiGate[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_12";
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 4000, -2000, 2000, 700, 0, 7000);
