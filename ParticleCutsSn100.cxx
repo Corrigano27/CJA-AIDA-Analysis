@@ -84,6 +84,13 @@ std::vector<TH2D *> EdTAll22[4];
 std::vector<TH1D *> implantEAll[4];
 std::vector<TH2D *> implantVelocityimplantEAll[4];
 
+//all DSSD, gated on 511 summed spectra
+std::vector<TH2D *> ExEyAll_gammaloop[4];
+std::vector<TH2D *> EdT_gammagate[4];
+std::vector<TH2D *> ExEy_gammagate[4];
+std::vector<TH2D *> NxNy_gammagate[4];
+std::vector<TH2D *> clustersize_gammagate[4];
+
 //correcting beta-gamma singles
 std::vector<TH1D *> beta_gamma_1[4];
 std::vector<TH1D *> beta_gamma_2[4];
@@ -493,6 +500,28 @@ void DefineHistograms()
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ImplantZ";
 			implantBetaHis = new TH1D(hisName.c_str(), "", 6, 0, 6);
 			implantZ[i].push_back(implantBetaHis);
+
+//////////////////////////////////////***gamma-gated histos****////////////////////////////////////////
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_gammagate";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, -1000, 1000, 700, 0, 7000);
+			EdT_gammagate[i].push_back(implantBetaHis2D);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ExEy_gammagate";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 700, 0, 7000, 700, 0, 7000);
+			ExEy_gammagate[i].push_back(implantBetaHis2D);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ExEy_gammaloop";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 700, 0, 7000, 700, 0, 7000);
+			ExEyAll_gammaloop[i].push_back(implantBetaHis2D);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "NxNy_gammagate";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 20, 0, 20, 20, 0, 20);
+			NxNy_gammagate[i].push_back(implantBetaHis2D);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "clustersizes_gammaGate";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "",  20, 0, 20, 20, 0, 20);
+			clustersize_gammagate[i].push_back(implantBetaHis2D);
+
 //////////////////////////////////////***beta-gammas***///////////////////////////////////////////////
 			//singles
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "beta_gamma_1";
@@ -598,7 +627,7 @@ void DefineHistograms()
 			ExEyDiffAll[i].push_back(implantBetaHis);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ExEy_All";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 350, 0, 7000, 350, 0, 7000);
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 700, 0, 7000, 700, 0, 7000);
 			ExEyAll[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EvsXStrip_All";
