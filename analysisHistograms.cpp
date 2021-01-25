@@ -16,7 +16,7 @@
 #include <fstream>
 
 #include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
-//#include "/home/corrigan/AidaSoftware/MergerSoftware/data2Tree.cxx"
+//#include "/home/corrigan/DTAS_Merger/merger/MergerSoft/data2Tree.cxx"
 #include "ParticleCutsSn100.cxx"
 
 int analysisHistograms(std::string iName, std::string cutFile){
@@ -372,8 +372,34 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											if (multix == 1 && multiy == 1){
 												EdTAll22[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 											}		
-											
-											else if (multix < 3 && multiy < 3 && (*beta).E<1400){
+
+											ExEyAll[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
+
+											//gamma gated spectra
+											for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
+												//forward implant-decay events
+												ExEyAll_gammaloop[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
+												if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
+													if(((*beta).T-(gamma).TIME) < 20000){
+														if ((gamma).ID==777){
+															if ((gamma).EN>1000){
+																if ((gamma).EN<1200){
+																	EdT_gammagate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+																	if (((*beta).T-(imp).TIME > 0)){
+																		ExEy_gammagate[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
+																		NxNy_gammagate[i].at(j)->Fill((*beta).nx, (*beta).ny);
+																		clustersize_gammagate[i].at(j)->Fill(multix, multiy);
+																	}
+																}
+															}
+														}
+													}
+												}
+												
+											}		
+
+
+											if (multix < 3 && multiy < 3 && (*beta).E<1400){
 												implantBetaAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
 												for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
 													if (((*beta).T-(imp).TIME > 0)){ //forward implant-decay events
@@ -577,6 +603,15 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsoDir->Append(implantVelocityAOQ_AllDSSD[i].at(k));
 			IsoDir->Append(implantZ[i].at(k));
 			IsoDir->Append(implantEnergyAOQ_AllDSSD[i].at(k));
+
+			IsoDir->Append(ExEyAll[i].at(k));
+			IsoDir->Append(ExEyAll_gammaloop[i].at(k));
+			IsoDir->Append(ExEy_gammagate[i].at(k));
+
+			IsoDir->Append(EdT_gammagate[i].at(k));
+			IsoDir->Append(ExEy_gammagate[i].at(k));
+			IsoDir->Append(NxNy_gammagate[i].at(k));
+			IsoDir->Append(clustersize_gammagate[i].at(k));
 
 			//gamma spectra correction
 
