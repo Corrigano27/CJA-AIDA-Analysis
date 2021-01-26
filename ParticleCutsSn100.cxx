@@ -87,6 +87,7 @@ std::vector<TH2D *> implantVelocityimplantEAll[4];
 //all DSSD, gated on 511 summed spectra
 std::vector<TH2D *> ExEyAll_gammaloop[4];
 std::vector<TH2D *> EdT_gammagate[4];
+std::vector<TH2D *> EdT_gammagate_longer[4];
 std::vector<TH2D *> ExEy_gammagate[4];
 std::vector<TH2D *> NxNy_gammagate[4];
 std::vector<TH2D *> clustersize_gammagate[4];
@@ -505,6 +506,10 @@ void DefineHistograms()
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_gammagate";
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, -1000, 1000, 700, 0, 7000);
 			EdT_gammagate[i].push_back(implantBetaHis2D);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_gammagate_longer";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 4000, -2000, 2000, 700, 0, 7000);
+			EdT_gammagate_longer[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ExEy_gammagate";
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 700, 0, 7000, 700, 0, 7000);
