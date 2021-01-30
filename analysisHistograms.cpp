@@ -87,6 +87,30 @@ int analysisHistograms(std::string iName, std::string cutFile){
 				multiy = ((*beta).TFast >> 8) & 0xFF;
 				for ( auto imp:(*beta).vectorOfImp ){ //if non-element gated histos needed, do here
 					if ((*beta).z == (imp).Z){
+						gammaVeto = true;
+						//gamma gated spectra
+						for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
+						//forward implant-decay events
+						//ExEyAll_gammaloop[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
+							if (((*beta).T-(gamma).TIME) > 10000 && (gamma).ID==777){ //forward gammas
+								if(((*beta).T-(gamma).TIME) < 20000 && (gamma).ID==777){
+									if ((gamma).EN>1000){
+										if ((gamma).EN<1200){
+											gammaVeto = false;
+										}
+									}
+								}
+							}
+						}	
+						if (gammaVeto == false){ 					
+							EdT_global_gammagate->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+							EdT_global_longer_gammagate->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
+							if (((*beta).T-(imp).TIME > 0)){
+								NxNy_global_gammagate->Fill((*beta).nx, (*beta).ny);
+								EDiff_global_gammagate->Fill((*beta).Ex - (*beta).Ey);
+								CxCy_global_gammagate->Fill(multix, multiy);
+							}
+						}
 						for (int i = 0; i < numElements; i++){
 							for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 								if(particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
@@ -397,6 +421,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												EdT_gammagate_longer[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 												if (((*beta).T-(imp).TIME > 0)){
 													ExEy_gammagate[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
+													EDiff_gammagate[i].at(j)->Fill((*beta).Ex - (*beta).Ey);
 													NxNy_gammagate[i].at(j)->Fill((*beta).nx, (*beta).ny);
 													clustersize_gammagate[i].at(j)->Fill(multix, multiy);
 												}
@@ -548,6 +573,16 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	In97m_Gamma777_Bg->Write();
 
+	EdT_global_longer_gammagate->Write();
+
+	EdT_global_gammagate->Write();
+
+	EDiff_global_gammagate->Write();
+
+	NxNy_global_gammagate->Write();
+
+	CxCy_global_gammagate->Write();
+
 	std::string isoDirName;
 
 	for(int i = 0; i < numElements; i++){
@@ -614,6 +649,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			//IsoDir->Append(ExEyAll_gammaloop[i].at(k));
 			IsoDir->Append(EdT_gammagate[i].at(k));
 			IsoDir->Append(EdT_gammagate_longer[i].at(k));
+			IsoDir->Append(EDiff_gammagate[i].at(k));
 			IsoDir->Append(ExEy_gammagate[i].at(k));
 			IsoDir->Append(NxNy_gammagate[i].at(k));
 			IsoDir->Append(clustersize_gammagate[i].at(k));
