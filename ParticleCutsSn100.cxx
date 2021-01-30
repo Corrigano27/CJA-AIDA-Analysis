@@ -67,7 +67,6 @@ std::vector<TH2D *> EnergyYChannel[4][6];
 std::vector<TH2D *> ExEy[4][6];
 std::vector<TH1D *> ExEyDiff[4][6];
 
-
 std::vector<TH1D *> implantBetaAll[4];
 std::vector<TH1D *> implantBeta1pAll[4];
 std::vector<TH1D *> implant1pAll[4];
@@ -91,6 +90,7 @@ std::vector<TH2D *> EdT_gammagate_longer[4];
 std::vector<TH2D *> ExEy_gammagate[4];
 std::vector<TH2D *> NxNy_gammagate[4];
 std::vector<TH2D *> clustersize_gammagate[4];
+std::vector<TH1D *> EDiff_gammagate[4];
 
 //correcting beta-gamma singles
 std::vector<TH1D *> beta_gamma_1[4];
@@ -150,7 +150,21 @@ TH2D *PID;
 
 TH2D *PID_implant;
 
+//global gamma gate
+
+TH2D *EdT_global_longer_gammagate;
+
+TH2D *EdT_global_gammagate;
+
+TH1D *EDiff_global_gammagate;
+
+TH2D *NxNy_global_gammagate;
+
+TH2D *CxCy_global_gammagate;
+
+
 //101SnSplitting
+
 
 TH1D *Sn101ImplantBeta1p_DSSD1_smallpeak;
 
@@ -344,7 +358,15 @@ void DefineHistograms()
 
 	Ag94_peak_Gamma777_Bg = new TH1D("Ag94_peak_Gamma777_Bg","",3500,0,7000);
 
+	EdT_global_longer_gammagate = new TH2D("EdT_global_longer_gammagate","",2000,-1000,1000,700,0,7000);
 
+	EdT_global_gammagate = new TH2D("EdT_global_gammagate","",2000,-1000,1000,700,0,7000);
+
+	EDiff_global_gammagate = new TH1D("EDiff_global_gammagate","",1000,-500,500);
+
+	NxNy_global_gammagate = new TH2D("NxNy_global_gammagate","",20,0,20,20,0,20); 
+
+	CxCy_global_gammagate = new TH2D("CxCy_global_gammagate","",20,0,20,20,0,20);
 
 	for (int i = 0; i < numElements; i++)
 	{
@@ -526,6 +548,10 @@ void DefineHistograms()
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "clustersizes_gammaGate";
 			implantBetaHis2D = new TH2D(hisName.c_str(), "",  20, 0, 20, 20, 0, 20);
 			clustersize_gammagate[i].push_back(implantBetaHis2D);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EDiff_gammaGate";
+			implantBetaHis = new TH1D(hisName.c_str(), "",  1000, -500, 500);
+			EDiff_gammagate[i].push_back(implantBetaHis);
 
 //////////////////////////////////////***beta-gammas***///////////////////////////////////////////////
 			//singles
