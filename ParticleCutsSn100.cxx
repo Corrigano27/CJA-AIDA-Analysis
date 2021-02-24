@@ -150,6 +150,15 @@ TH2D *PID;
 
 TH2D *PID_implant;
 
+//global no gamma gate
+TH2D *EdT_global;
+
+TH2D *EdT_global_longer;
+
+TH1D *EDiff_global;
+
+TH2D *ExEy_global;
+
 //global gamma gate
 
 TH2D *EdT_global_longer_gammagate;
@@ -157,6 +166,8 @@ TH2D *EdT_global_longer_gammagate;
 TH2D *EdT_global_gammagate;
 
 TH1D *EDiff_global_gammagate;
+
+TH2D *ExEy_global_gammagate;
 
 TH2D *NxNy_global_gammagate;
 
@@ -358,7 +369,7 @@ void DefineHistograms()
 
 	Ag94_peak_Gamma777_Bg = new TH1D("Ag94_peak_Gamma777_Bg","",3500,0,7000);
 
-	EdT_global_longer_gammagate = new TH2D("EdT_global_longer_gammagate","",2000,-1000,1000,700,0,7000);
+	EdT_global_longer_gammagate = new TH2D("EdT_global_longer_gammagate","",8000, -400, 400, 700, 0, 7000);
 
 	EdT_global_gammagate = new TH2D("EdT_global_gammagate","",2000,-1000,1000,700,0,7000);
 
@@ -367,6 +378,14 @@ void DefineHistograms()
 	NxNy_global_gammagate = new TH2D("NxNy_global_gammagate","",20,0,20,20,0,20); 
 
 	CxCy_global_gammagate = new TH2D("CxCy_global_gammagate","",20,0,20,20,0,20);
+
+	EdT_global_longer = new TH2D("EdT_global_longer","",8000, -400, 400, 700, 0, 7000);
+
+	EdT_global = new TH2D("EdT_global","",2000,-1000,1000,700,0,7000);
+
+	EDiff_global = new TH1D("EDiff_global","",1000,-500,500);
+
+	ExEy_global = new TH2D("ExEy_global","",1000,0,20000,1000,0,20000);
 
 	for (int i = 0; i < numElements; i++)
 	{
@@ -417,7 +436,7 @@ void DefineHistograms()
 				delayed1pEnergyY[i][z].push_back(implantBetaHis);
 
 				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ExEyDiff_DSSD" + std::to_string(z);
-				implantBetaHis = new TH1D(hisName.c_str(), "", 100, -500, 500);
+				implantBetaHis = new TH1D(hisName.c_str(), "", 1000, -500, 500);
 				ExEyDiff[i][z].push_back(implantBetaHis);
 
 				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "Delayed1pEnergyTotal_DSSD" + std::to_string(z);
@@ -501,8 +520,12 @@ void DefineHistograms()
 			EdTAll[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_NoMultiGate";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 4000, -2000, 2000, 700, 0, 7000);
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 8000, -400, 400, 700, 0, 7000);
 			EdTAll_NoMultiGate[i].push_back(implantBetaHis2D);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_All_ShortLifetime";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, -1000, 1000, 700, 0, 7000);
+			EdTAll[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_12";
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 4000, -2000, 2000, 700, 0, 7000);
@@ -530,16 +553,12 @@ void DefineHistograms()
 			EdT_gammagate[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_gammagate_longer";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 4000, -2000, 2000, 700, 0, 7000);
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 8000, -400, 400, 700, 0, 7000);
 			EdT_gammagate_longer[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ExEy_gammagate";
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 700, 0, 7000, 700, 0, 7000);
 			ExEy_gammagate[i].push_back(implantBetaHis2D);
-
-			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ExEy_gammaloop";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 700, 0, 7000, 700, 0, 7000);
-			ExEyAll_gammaloop[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "NxNy_gammagate";
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 20, 0, 20, 20, 0, 20);
