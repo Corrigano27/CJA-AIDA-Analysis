@@ -82,7 +82,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	while (aReader.Next()){
 
 		if ((*beta).T){
-			if ((*beta).Ey >= 0.0 && (*beta).Ex>=0.0){
+			if ((*beta).Ey >= 200.0 && (*beta).Ex>=200.0){
 				multix = (*beta).TFast & 0xFF;
 				multiy = ((*beta).TFast >> 8) & 0xFF;
 				for ( auto imp:(*beta).vectorOfImp ){ //if non-element gated histos needed, do here
@@ -101,7 +101,15 @@ int analysisHistograms(std::string iName, std::string cutFile){
 									}
 								}
 							}
-						}	
+						}
+						EdT_global->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);	
+						EdT_global_longer->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
+
+						if (((*beta).T-(imp).TIME > 0)){
+							ExEy_global->Fill((*beta).Ex, (*beta).Ey);
+							EDiff_global->Fill((*beta).Ex - (*beta).Ey);
+						}
+
 						if (gammaVeto == false){ 					
 							EdT_global_gammagate->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 							EdT_global_longer_gammagate->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
@@ -145,7 +153,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											if ((*beta).Ex>1400 && (*beta).Ey>1400){
 												EdT_bp[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 											}
-
+											ExEyDiff[i][DSSD].at(j)->Fill((*beta).Ex - (*beta).Ey);
 											if (multix == 0 && multiy == 0){
 												EdT[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 												if ((*beta).Ex>0 && (*beta).Ey>0){
@@ -169,7 +177,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														delayed1pEnergyY[i][DSSD].at(j)->Fill((*beta).Ey);
 														
 														//ExEy[i][z].at(j)->Fill((*beta).Ex, (*beta).Ey);
-														//ExEyDiff[i][z].at(j)->Fill((*beta).Ex - (*beta).Ey);
 														//EnergyXChannel[i][z].at(j)->Fill((*beta).x, (*beta).E);
 														//EnergyYChannel[i][z].at(j)->Fill((*beta).y, (*beta).E);
 
@@ -279,8 +286,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											//end of dssd for
 											decayEnergyAll[i].at(j)->Fill((*beta).E);
 											EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
+											EdTAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 											if (multix == 0 && multiy == 0){
-												EdTAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 
 												if (elements[i] == "In" && isotopeStart[i]+j == 97){
 													if (((*beta).T-(imp).TIME)/1e6 > 0){
@@ -583,6 +590,14 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	CxCy_global_gammagate->Write();
 
+	EdT_global_longer->Write();
+
+	EdT_global->Write();
+
+	EDiff_global->Write();
+
+	ExEy_global->Write();
+
 	std::string isoDirName;
 
 	for(int i = 0; i < numElements; i++){
@@ -619,6 +634,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 				IsoDir->Append(implantVelocityimplantE[i][z].at(k));
 				IsoDir->Append(EdT[i][z].at(k));
 				IsoDir->Append(EdT_bp[i][z].at(k));
+				IsoDir->Append(ExEyDiff[i][z].at(k));
 				IsoDir->Append(implantVelocityAOQ[i][z].at(k));
 				IsoDir->Append(implantEnergyAOQ[i][z].at(k));
 			
