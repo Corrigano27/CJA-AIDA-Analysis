@@ -371,7 +371,7 @@ void DefineHistograms()
 
 	EdT_global_longer_gammagate = new TH2D("EdT_global_longer_gammagate","",8000, -400, 400, 700, 0, 7000);
 
-	EdT_global_gammagate = new TH2D("EdT_global_gammagate","",2000,-1000,1000,700,0,7000);
+	EdT_global_gammagate = new TH2D("EdT_global_gammagate","",2000,-10000,10000,700,0,7000);
 
 	EDiff_global_gammagate = new TH1D("EDiff_global_gammagate","",1000,-500,500);
 
@@ -381,7 +381,7 @@ void DefineHistograms()
 
 	EdT_global_longer = new TH2D("EdT_global_longer","",8000, -400, 400, 700, 0, 7000);
 
-	EdT_global = new TH2D("EdT_global","",2000,-1000,1000,700,0,7000);
+	EdT_global = new TH2D("EdT_global","",2000,-10000,10000,700,0,7000);
 
 	EDiff_global = new TH1D("EDiff_global","",1000,-500,500);
 
