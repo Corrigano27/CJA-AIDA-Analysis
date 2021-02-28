@@ -77,6 +77,7 @@ std::vector<TH1D *> delayed1pEnergyRandom_AllDSSD[4];
 std::vector<TH1D *> delayed1pEnergyAll_AllDSSD[4];
 std::vector<TH2D *> EdTAll_NoMultiGate[4];
 std::vector<TH2D *> EdTAll[4];
+std::vector<TH2D *> EdTAll11[4];
 std::vector<TH2D *> EdTAll12[4];
 std::vector<TH2D *> EdTAll21[4];
 std::vector<TH2D *> EdTAll22[4];
@@ -175,7 +176,7 @@ TH2D *CxCy_global_gammagate;
 
 
 //101SnSplitting
-
+/*
 
 TH1D *Sn101ImplantBeta1p_DSSD1_smallpeak;
 
@@ -213,7 +214,7 @@ TH1D *In97m_Gamma777_Bg;
 TH1D *In97m_GammaSingle_Bg;
 
 TH1D *In97_GroundStateE;
-
+*/
 
 //range of isotopes for each element
 void SetParticles()
@@ -335,7 +336,7 @@ void DefineHistograms()
 
 	PID_implant = new TH2D("PID_implant", "", 1e3, 1.95, 2.35, 1e3, 39, 56);
 
-	Sn101ImplantBeta1p_DSSD1_smallpeak = new TH1D("Sn101ImplantBeta1p_DSSD1_smallpeak", "", 2e2, -10, 10);
+	/*Sn101ImplantBeta1p_DSSD1_smallpeak = new TH1D("Sn101ImplantBeta1p_DSSD1_smallpeak", "", 2e2, -10, 10);
 
 	Sn101ImplantBeta1p_DSSD1_largepeak = new TH1D("Sn101ImplantBeta1p_DSSD1_largepeak", "", 2e2, -10, 10);
 
@@ -367,7 +368,7 @@ void DefineHistograms()
 
 	Ag94_peak_GammaSingle_Bg = new TH1D("Ag94_peak_GammaSingle_Bg","",3500,0,7000);
 
-	Ag94_peak_Gamma777_Bg = new TH1D("Ag94_peak_Gamma777_Bg","",3500,0,7000);
+	Ag94_peak_Gamma777_Bg = new TH1D("Ag94_peak_Gamma777_Bg","",3500,0,7000);*/
 
 	EdT_global_longer_gammagate = new TH2D("EdT_global_longer_gammagate","",8000, -400, 400, 700, 0, 7000);
 
@@ -515,10 +516,6 @@ void DefineHistograms()
 			implantBetaHis = new TH1D(hisName.c_str(), "", 350, 0, 7000);
 			implantEAll[i].push_back(implantBetaHis);
 
-			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_11";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 4000, -2000, 2000, 700, 0, 7000);
-			EdTAll[i].push_back(implantBetaHis2D);
-
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_NoMultiGate";
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 8000, -400, 400, 700, 0, 7000);
 			EdTAll_NoMultiGate[i].push_back(implantBetaHis2D);
@@ -526,6 +523,10 @@ void DefineHistograms()
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_All_ShortLifetime";
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, -1000, 1000, 700, 0, 7000);
 			EdTAll[i].push_back(implantBetaHis2D);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_11";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 4000, -2000, 2000, 700, 0, 7000);
+			EdTAll11[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_12";
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 4000, -2000, 2000, 700, 0, 7000);
