@@ -184,7 +184,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 													implantBeta1p[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
 
-													if (elements[i] == "Ag" && isotopeStart[i]+j == 94 && (*beta).z==2){
+													/*if (elements[i] == "Ag" && isotopeStart[i]+j == 94 && (*beta).z==2){
 														if ((*beta).Ex>1700){
 															if ((*beta).Ex<2000){
 																Ag94ImplantBeta1p_DSSD2_smallpeak->Fill(((*beta).T-(imp).TIME)/1.0e9);
@@ -269,7 +269,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 															Sn101ImplantBeta1p_DSSD1_largepeak->Fill(((*beta).T-(imp).TIME)/1.0e9);
 														}
 													
-													}
+													}*/
 													if ((*beta).T-(imp).TIME < 0){
 														delayed1pEnergyRandom[i][DSSD].at(j)->Fill((*beta).E);
 													}
@@ -285,11 +285,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											//end of dssd if
 											//end of dssd for
 											decayEnergyAll[i].at(j)->Fill((*beta).E);
-											EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
-											EdTAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 											if (multix == 0 && multiy == 0){
+												EdTAll11[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 
-												if (elements[i] == "In" && isotopeStart[i]+j == 97){
+												/*if (elements[i] == "In" && isotopeStart[i]+j == 97){
 													if (((*beta).T-(imp).TIME)/1e6 > 0){
 														if (((*beta).T-(imp).TIME)/1e6 < 100){
 															In97_GroundStateE->Fill((*beta).Ex);
@@ -328,7 +327,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 
 													}
-												}
+												}*/
 
 												if ((*beta).Ex>1400 && (*beta).Ey>1400){
 													if (((*beta).T-(imp).TIME > 0)){
@@ -405,7 +404,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											if (multix == 1 && multiy == 1){
 												EdTAll22[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 											}		
-
+											EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
+											EdTAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
 											ExEyAll[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
 
 											gammaVeto = true;
@@ -546,7 +546,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	PID_implant->Write();
 
-	Sn101ImplantBeta1p_DSSD1_smallpeak->Write();
+	/*Sn101ImplantBeta1p_DSSD1_smallpeak->Write();
 
 	Sn101ImplantBeta1p_DSSD1_largepeak->Write();
 
@@ -578,7 +578,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	In97m_GammaSingle_Bg->Write();
 
-	In97m_Gamma777_Bg->Write();
+	In97m_Gamma777_Bg->Write();*/
 
 	EdT_global_longer_gammagate->Write();
 
@@ -654,6 +654,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsoDir->Append(implantVelocityimplantEAll[i].at(k));
 			IsoDir->Append(EdTAll[i].at(k));
 			IsoDir->Append(EdTAll_NoMultiGate[i].at(k));
+			IsoDir->Append(EdTAll11[i].at(k));
 			IsoDir->Append(EdTAll12[i].at(k));
 			IsoDir->Append(EdTAll21[i].at(k));
 			IsoDir->Append(EdTAll22[i].at(k));
