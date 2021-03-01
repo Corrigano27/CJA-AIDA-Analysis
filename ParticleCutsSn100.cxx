@@ -398,7 +398,7 @@ void DefineHistograms()
 
 	XY_Hits = new TH2D("XY_Hits","",128,0,128,128,0,128);
 
-	XY_Hits_gammagate = new TH2D("XY_Hits","",128,0,128,128,0,128);
+	XY_Hits_gammagate = new TH2D("XY_Hits_gammagate","",128,0,128,128,0,128);
 
 	FastDSSD = new TH1D("FastDSSD","",6,0,5);
 
