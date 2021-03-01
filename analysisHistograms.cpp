@@ -108,15 +108,23 @@ int analysisHistograms(std::string iName, std::string cutFile){
 						if (((*beta).T-(imp).TIME > 0)){
 							ExEy_global->Fill((*beta).Ex, (*beta).Ey);
 							EDiff_global->Fill((*beta).Ex - (*beta).Ey);
+							if (((*beta).T-(imp).TIME)/1e6 < 15){
+								XY_Hits->Fill((*beta).x, (*beta).y);
+								FastDSSD->Fill((*beta).z);
+							}
 						}
 
 						if (gammaVeto == false){ 					
 							EdT_global_gammagate->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 							EdT_global_longer_gammagate->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 							if (((*beta).T-(imp).TIME > 0)){
-								NxNy_global_gammagate->Fill((*beta).nx, (*beta).ny);
 								EDiff_global_gammagate->Fill((*beta).Ex - (*beta).Ey);
-								CxCy_global_gammagate->Fill(multix, multiy);
+								if (((*beta).T-(imp).TIME)/1e6 < 15){
+									XY_Hits_gammagate->Fill((*beta).x, (*beta).y);
+									FastDSSD_gammagate->Fill((*beta).z);
+									NxNy_global_gammagate->Fill((*beta).nx, (*beta).ny);
+									CxCy_global_gammagate->Fill(multix, multiy);
+								}
 							}
 						}
 						for (int i = 0; i < numElements; i++){
@@ -405,7 +413,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												EdTAll22[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 											}		
 											EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
-											EdTAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
+											EdTAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 											ExEyAll[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
 
 											gammaVeto = true;
@@ -579,6 +587,14 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	In97m_GammaSingle_Bg->Write();
 
 	In97m_Gamma777_Bg->Write();*/
+
+	XY_Hits->Write();
+
+	XY_Hits_gammagate->Write();
+
+	FastDSSD->Write();
+
+	FastDSSD_gammagate->Write();
 
 	EdT_global_longer_gammagate->Write();
 
