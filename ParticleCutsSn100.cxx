@@ -160,6 +160,10 @@ TH1D *EDiff_global;
 
 TH2D *ExEy_global;
 
+TH2D *XY_Hits;
+
+TH1D *FastDSSD;
+
 //global gamma gate
 
 TH2D *EdT_global_longer_gammagate;
@@ -169,6 +173,10 @@ TH2D *EdT_global_gammagate;
 TH1D *EDiff_global_gammagate;
 
 TH2D *ExEy_global_gammagate;
+
+TH2D *XY_Hits_gammagate;
+
+TH1D *FastDSSD_gammagate;
 
 TH2D *NxNy_global_gammagate;
 
@@ -387,6 +395,14 @@ void DefineHistograms()
 	EDiff_global = new TH1D("EDiff_global","",1000,-500,500);
 
 	ExEy_global = new TH2D("ExEy_global","",1000,0,20000,1000,0,20000);
+
+	XY_Hits = new TH2D("XY_Hits","",128,0,128,128,0,128);
+
+	XY_Hits_gammagate = new TH2D("XY_Hits","",128,0,128,128,0,128);
+
+	FastDSSD = new TH1D("FastDSSD","",6,0,5);
+
+	FastDSSD_gammagate = new TH1D("FastDSSD_gammagate","",6,0,5);
 
 	for (int i = 0; i < numElements; i++)
 	{
