@@ -382,11 +382,11 @@ void DefineHistograms()
 
 	EdT_global_gammagate = new TH2D("EdT_global_gammagate","",2000,-10000,10000,700,0,7000);
 
-	EDiff_global_gammagate = new TH1D("EDiff_global_gammagate","",1000,-500,500);
+	EDiff_global_gammagate = new TH1D("Ag95EDiff_global_gammagate","",1000,-500,500);
 
-	NxNy_global_gammagate = new TH2D("NxNy_global_gammagate","",20,0,20,20,0,20); 
+	NxNy_global_gammagate = new TH2D("Ag95NxNy_global_gammagate","",20,0,20,20,0,20); 
 
-	CxCy_global_gammagate = new TH2D("CxCy_global_gammagate","",20,0,20,20,0,20);
+	CxCy_global_gammagate = new TH2D("Ag95CxCy_global_gammagate","",20,0,20,20,0,20);
 
 	EdT_global_longer = new TH2D("EdT_global_longer","",8000, -400, 400, 700, 0, 7000);
 
@@ -398,11 +398,11 @@ void DefineHistograms()
 
 	XY_Hits = new TH2D("XY_Hits","",128,0,128,128,0,128);
 
-	XY_Hits_gammagate = new TH2D("XY_Hits_gammagate","",128,0,128,128,0,128);
+	XY_Hits_gammagate = new TH2D("Ag95XY_Hits_gammagate","",128,0,128,128,0,128);
 
 	FastDSSD = new TH1D("FastDSSD","",6,0,5);
 
-	FastDSSD_gammagate = new TH1D("FastDSSD_gammagate","",6,0,5);
+	FastDSSD_gammagate = new TH1D("Ag95FastDSSD_gammagate","",6,0,5);
 
 	for (int i = 0; i < numElements; i++)
 	{
