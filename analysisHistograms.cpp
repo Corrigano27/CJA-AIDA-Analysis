@@ -15,8 +15,8 @@
 #include <map>
 #include <fstream>
 
-#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
-//#include "/home/corrigan/DTAS_Merger/merger/MergerSoft/data2Tree.cxx"
+//#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
+#include "/home/corrigan/DTAS_Merger/merger/MergerSoft/data2Tree.cxx"
 #include "ParticleCutsSn100.cxx"
 
 int analysisHistograms(std::string iName, std::string cutFile){
@@ -116,7 +116,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 							EdT_global_gammagate->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 							EdT_global_longer_gammagate->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 							if (((*beta).T-(imp).TIME > 0)){
-								EDiff_global_gammagate->Fill((*beta).Ex - (*beta).Ey);
+								//EDiff_global_gammagate->Fill((*beta).Ex - (*beta).Ey);
 							}
 						}
 						for (int i = 0; i < numElements; i++){
@@ -158,13 +158,15 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											if (elements[i] == "Ag" && isotopeStart[i]+j == 95){
 												if ((*beta).Ex>300){
 													if ((*beta).Ex<400){
-														if (((*beta).T - (imp).TIME)/1e6 < 5){
-															if (gammaVeto == false){
-																EDiff_global_gammagate->Fill((*beta).Ex - (*beta).Ey);
-																XY_Hits_gammagate->Fill((*beta).x, (*beta).y);
-																FastDSSD_gammagate->Fill((*beta).z);
-																NxNy_global_gammagate->Fill((*beta).nx, (*beta).ny);
-																CxCy_global_gammagate->Fill(multix, multiy);
+														if (((*beta).T - (imp).TIME)/1e6 > 0){
+															if (((*beta).T - (imp).TIME)/1e6 < 5){
+																if (gammaVeto == false){
+																	EDiff_global_gammagate->Fill((*beta).Ex - (*beta).Ey);
+																	XY_Hits_gammagate->Fill((*beta).x, (*beta).y);
+																	FastDSSD_gammagate->Fill((*beta).z);
+																	NxNy_global_gammagate->Fill((*beta).nx, (*beta).ny);
+																	CxCy_global_gammagate->Fill(multix, multiy);
+																}
 															}
 														}
 						
