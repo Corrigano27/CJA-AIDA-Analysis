@@ -15,8 +15,8 @@
 #include <map>
 #include <fstream>
 
-//#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
-#include "/home/corrigan/DTAS_Merger/merger/MergerSoft/data2Tree.cxx"
+#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
+//#include "/home/corrigan/DTAS_Merger/merger/MergerSoft/data2Tree.cxx"
 #include "ParticleCutsSn100.cxx"
 
 int analysisHistograms(std::string iName, std::string cutFile){
@@ -103,10 +103,13 @@ int analysisHistograms(std::string iName, std::string cutFile){
 						EdT_global->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);	
 						EdT_global_longer->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 
+
 						if (((*beta).T-(imp).TIME > 0)){
+							PID->Fill((imp).AOQ, (imp).ZET);
 							ExEy_global->Fill((*beta).Ex, (*beta).Ey);
 							EDiff_global->Fill((*beta).Ex - (*beta).Ey);
-							if (((*beta).T-(imp).TIME)/1e6 < 15){
+							if (((*beta).T-(imp).TIME)/1e3 < 100){
+								PID_noise->Fill((imp).AOQ, (imp).ZET);
 								XY_Hits->Fill((*beta).x, (*beta).y);
 								FastDSSD->Fill((*beta).z);
 							}
@@ -116,7 +119,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 							EdT_global_gammagate->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 							EdT_global_longer_gammagate->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 							if (((*beta).T-(imp).TIME > 0)){
+								if (((*beta).T-(imp).TIME)/1e3 < 100){
+									PID_gamma->Fill((imp).AOQ, (imp).ZET);
 								//EDiff_global_gammagate->Fill((*beta).Ex - (*beta).Ey);
+								}
 							}
 						}
 						for (int i = 0; i < numElements; i++){
@@ -528,10 +534,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 		}//end of loop through beta events
 
-		if ((*bigrips).T>0){
-			PID->Fill((*bigrips).aoq, (*bigrips).zet);
-		}
-
 		if ((*implant).T){
 			for ( auto pid:(*implant).vectorOfPid ){
 				PID_implant->Fill((*implant).aoq, (*implant).zet);
@@ -565,6 +567,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	std::cout << "Writing to file" << std::endl;
 
 	PID->Write();
+
+	PID_noise->Write();
+
+	PID_gamma->Write();
 
 	PID_implant->Write();
 
