@@ -149,7 +149,11 @@ TH2D *implantBetaHis2D;
 //pid
 TH2D *PID;
 
+TH2D *PID_noise;
+
 TH2D *PID_implant;
+
+TH2D *PID_gamma;
 
 //global no gamma gate
 TH2D *EdT_global;
@@ -341,6 +345,10 @@ void DefineHistograms()
 	std::string hisName;
 
 	PID = new TH2D("PID", "", 1e3, 1.95, 2.35, 1e3, 39, 56);
+
+	PID_noise = new TH2D("PID_noise", "", 1e3, 1.95, 2.35, 1e3, 39, 56);
+
+	PID_gamma = new TH2D("PID_gamma", "", 1e3, 1.95, 2.35, 1e3, 39, 56);
 
 	PID_implant = new TH2D("PID_implant", "", 1e3, 1.95, 2.35, 1e3, 39, 56);
 
