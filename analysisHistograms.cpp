@@ -749,7 +749,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsoDir->Append(implantBeta1pAll[i].at(k));
 			IsoDir->Append(implantEAll[i].at(k));
 			IsoDir->Append(implantVelocityimplantEAll[i].at(k));
-			IsoDir->Append(EdTAll_us[i].at(k));
+			IsoDir->Append(EdTAll_ms[i].at(k));
 			IsoDir->Append(EdTAll_us[i].at(k));
 			IsoDir->Append(EdTAll_NoMultiGate[i].at(k));
 			IsoDir->Append(EdTAll11[i].at(k));
