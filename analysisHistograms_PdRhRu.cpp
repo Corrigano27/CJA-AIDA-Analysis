@@ -199,7 +199,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											//end of dssd for
 											decayEnergyAll[i].at(j)->Fill((*beta).E);
 											if (multix == 0 && multiy == 0){
-												EdTAll11[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
+												EdTAll11[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
 
 												/*if (elements[i] == "In" && isotopeStart[i]+j == 97){
 													if (((*beta).T-(imp).TIME)/1e6 > 0){
