@@ -59,7 +59,6 @@ std::vector<TH1D *> delayed1pEnergyY[4][6];
 std::vector<TH1D *> delayed1pEnergyRandom[4][6];
 std::vector<TH1D *> delayed1pEnergyAll[4][6];
 std::vector<TH2D *> EdT[4][6];
-std::vector<TH2D *> EdT_bp[4][6];
 std::vector<TH2D *> implantVelocityimplantZ[4];
 std::vector<TH2D *> implantVelocityimplantE[4][6];
 
@@ -548,10 +547,6 @@ void DefineHistograms()
 				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_DSSD" + std::to_string(z);
 				implantBetaHis2D = new TH2D(hisName.c_str(), "", 200, -2000, 2000, 280, 0, 7000);
 				EdT[i][z].push_back(implantBetaHis2D);
-
-				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_bp_DSSD" + std::to_string(z);
-				implantBetaHis2D = new TH2D(hisName.c_str(), "", 4000, -10000, 10000, 280, 0, 7000);
-				EdT_bp[i][z].push_back(implantBetaHis2D);
 
 				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ExEy_DSSD" + std::to_string(z);
 				implantBetaHis2D = new TH2D(hisName.c_str(), "", 280, 0, 7000, 280, 0, 7000);
