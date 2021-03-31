@@ -309,7 +309,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																			}
 																		}
 																	}
-																	else if ((gamma).ID<16){		
+																	if ((gamma).ID<16){		
 																		//bp_gamma_2[i].at(j)->Fill((gamma.EN));
 																		bp_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
 																		bp_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
@@ -397,14 +397,15 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																		bp_gamma_EdT_ms[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
 																		bp_gamma_EdT_us[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
 																			if (elements[i] == "Sn" && isotopeStart[i]+j == 101 && (*beta).z==1){
-																			if ((((*beta).T-(imp).TIME)/1e9 > -5)){
-																				if ((*beta).Ex>2150){
-																					if ((*beta).Ex<2400){
-																						Tin101_bp_gamma_peak[3]->Fill((gamma.EN));
+																				if ((((*beta).T-(imp).TIME)/1e9 > -5)){
+																					if ((*beta).Ex>2150){
+																						if ((*beta).Ex<2400){
+																							Tin101_bp_gamma_peak[3]->Fill((gamma.EN));
+																						}
 																					}
-																				}
-																				if ((*beta).Ex>2400){
-																					Tin101_bp_gamma_rest[3]->Fill((gamma.EN));
+																					if ((*beta).Ex>2400){
+																						Tin101_bp_gamma_rest[3]->Fill((gamma.EN));
+																					}
 																				}
 																			}
 																		}													
@@ -425,13 +426,13 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												}//end of lower beta-p energy cut
 											}//end of beta-p multiplicity cut
 
-											if (multix == 0 && multiy == 1){
+											else if (multix == 0 && multiy == 1){
 												EdTAll12[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
 											}
-											if (multix == 1 && multiy == 0){
+											else if (multix == 1 && multiy == 0){
 												EdTAll21[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
 											}
-											if (multix == 1 && multiy == 1){
+											else if (multix == 1 && multiy == 1){
 												EdTAll22[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
 											}		
 											EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
@@ -470,80 +471,83 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												Indium97_gammaveto_EdT->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 											}
 
-											if (multix < 3 && multiy < 3 && (((*beta).Ex<1500 && (*beta).Ey<1500)||(elements[i] == "Ag" && isotopeStart[i]+j == 95 && (*beta).Ex<2000 && (*beta).Ey<2000))){
+											if (multix < 3 && multiy < 3 && (*beta).Ex<1500 && (*beta).Ey<1500){
 												implantBetaAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
 												for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
-													if (((*beta).T-(imp).TIME > 0)){ //forward implant-decay events
-														if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
-															if(((*beta).T-(gamma).TIME) < 20000){
-																if ((gamma).ID==777){
-																	//summed_beta_gamma_1[i].at(j)->Fill((gamma.EN));
-																	summed_beta_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																	summed_beta_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																	summed_beta_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																}
-																else if ((gamma).ID<16){		
-																	//beta_gamma_1[i].at(j)->Fill((gamma.EN));
-																	beta_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																	beta_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																	beta_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+													if ((elements[i] != "Ag" && isotopeStart[i]+j != 95) || (elements[i] == "Ag" && isotopeStart[i]+j == 95 && (*beta).Ex<1000 && (*beta).Ey<1000)){
+														if (((*beta).T-(imp).TIME > 0)){ //forward implant-decay events
+															if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
+																if(((*beta).T-(gamma).TIME) < 20000){
+																	if ((gamma).ID==777){
+																		//summed_beta_gamma_1[i].at(j)->Fill((gamma.EN));
+																		summed_beta_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
+																		summed_beta_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
+																		summed_beta_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																	}
+																	else if ((gamma).ID<16){		
+																		//beta_gamma_1[i].at(j)->Fill((gamma.EN));
+																		beta_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
+																		beta_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
+																		beta_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																	}
 																}
 															}
-														}
-														if (((*beta).T-(gamma).TIME) > 20000){ //random gammas
-															if(((*beta).T-(gamma).TIME) < 30000){
-																if ((gamma).ID==777){
-																	//summed_beta_gamma_2[i].at(j)->Fill((gamma.EN));
-																	summed_beta_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																	summed_beta_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																	summed_beta_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+															if (((*beta).T-(gamma).TIME) > 20000){ //random gammas
+																if(((*beta).T-(gamma).TIME) < 30000){
+																	if ((gamma).ID==777){
+																		//summed_beta_gamma_2[i].at(j)->Fill((gamma.EN));
+																		summed_beta_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
+																		summed_beta_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
+																		summed_beta_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																	}
+																	else if ((gamma).ID<16){		
+																		//beta_gamma_2[i].at(j)->Fill((gamma.EN));
+																		beta_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
+																		beta_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
+																		beta_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																	}
+																	
 																}
-																else if ((gamma).ID<16){		
-																	//beta_gamma_2[i].at(j)->Fill((gamma.EN));
-																	beta_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																	beta_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																	beta_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																}
-																
 															}
-														}
+														
+														}//end forward implant-time if
+														if (((*beta).T-(imp).TIME < 0)){ //backward implant-decay events
+															if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
+																if(((*beta).T-(gamma).TIME) < 20000){
+																	if ((gamma).ID==777){
+																		//summed_beta_gamma_3[i].at(j)->Fill((gamma.EN));
+																		summed_beta_gamma_EdT_s[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
+																		summed_beta_gamma_EdT_ms[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
+																		summed_beta_gamma_EdT_us[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																	}
+																	else if ((gamma).ID<16){		
+																		//beta_gamma_3[i].at(j)->Fill((gamma.EN));
+																		beta_gamma_EdT_s[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
+																		beta_gamma_EdT_ms[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
+																		beta_gamma_EdT_us[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																	}
+																	
+																}
+															}
+															if (((*beta).T-(gamma).TIME) > 20000){ //random gammas
+																if(((*beta).T-(gamma).TIME) < 30000){
+																	if ((gamma).ID==777){
+																		//summed_beta_gamma_4[i].at(j)->Fill((gamma.EN));
+																		summed_beta_gamma_EdT_s[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
+																		summed_beta_gamma_EdT_ms[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
+																		summed_beta_gamma_EdT_us[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																	}
+																	else if ((gamma).ID<16){		
+																		//beta_gamma_4[i].at(j)->Fill((gamma.EN));
+																		beta_gamma_EdT_s[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
+																		beta_gamma_EdT_ms[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
+																		beta_gamma_EdT_us[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																	}
+																}
+															}	
+														}//end backward implant-time if
 													
-													}//end forward implant-time if
-													if (((*beta).T-(imp).TIME < 0)){ //backward implant-decay events
-														if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
-															if(((*beta).T-(gamma).TIME) < 20000){
-																if ((gamma).ID==777){
-																	//summed_beta_gamma_3[i].at(j)->Fill((gamma.EN));
-																	summed_beta_gamma_EdT_s[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																	summed_beta_gamma_EdT_ms[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																	summed_beta_gamma_EdT_us[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																}
-																else if ((gamma).ID<16){		
-																	//beta_gamma_3[i].at(j)->Fill((gamma.EN));
-																	beta_gamma_EdT_s[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																	beta_gamma_EdT_ms[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																	beta_gamma_EdT_us[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																}
-																
-															}
-														}
-														if (((*beta).T-(gamma).TIME) > 20000){ //random gammas
-															if(((*beta).T-(gamma).TIME) < 30000){
-																if ((gamma).ID==777){
-																	//summed_beta_gamma_4[i].at(j)->Fill((gamma.EN));
-																	summed_beta_gamma_EdT_s[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																	summed_beta_gamma_EdT_ms[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																	summed_beta_gamma_EdT_us[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																}
-																else if ((gamma).ID<16){		
-																	//beta_gamma_4[i].at(j)->Fill((gamma.EN));
-																	beta_gamma_EdT_s[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																	beta_gamma_EdT_ms[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																	beta_gamma_EdT_us[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																}
-															}
-														}	
-													}//end backward implant-time if
+													}//end check on 95Ag different thresholds
 		
 												}//end of gamma loop		
 												
@@ -620,7 +624,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			
 		}
 
-		if (g == 1 || g == 2){
+		else if (g == 1 || g == 2){
 			Tin101_bp_gamma_peak_corr->Add(Tin101_bp_gamma_peak[g],-1);
 			Tin101_summed_bp_gamma_peak_corr->Add(Tin101_summed_bp_gamma_peak[g],-1);
 			Tin101_bp_gamma_rest_corr->Add(Tin101_bp_gamma_rest[g],-1);
@@ -813,7 +817,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 					summed_bp_gamma_EdT_us_corr[i].at(k)->Add(summed_bp_gamma_EdT_us[i][g].at(k),1);
 				}
 
-				if (g == 1 || g == 2){
+				else if (g == 1 || g == 2){
 					beta_gamma_EdT_s_corr[i].at(k)->Add(beta_gamma_EdT_s[i][g].at(k),-1);
 					beta_gamma_EdT_ms_corr[i].at(k)->Add(beta_gamma_EdT_ms[i][g].at(k),-1);
 					beta_gamma_EdT_us_corr[i].at(k)->Add(beta_gamma_EdT_us[i][g].at(k),-1);
