@@ -672,6 +672,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 				}
 
 				IsoDir->Append(summed_beta_gamma_EdT_s[i][g].at(k));
+				IsoDir->Append(summed_bp_gamma_EdT_s[i][g].at(k));
 
 			}
 
