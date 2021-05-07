@@ -77,6 +77,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	bool In97gammaVeto;
 
+	bool Ag95gammaCheck;
+
 	double GammaSumTemp;
 	double GammaSumTempBg;
 
@@ -102,6 +104,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 					if ((*beta).z == (imp).Z){
 						gammaVeto = true;
 						In97gammaVeto = false;
+						Ag95gammaCheck = false;
 						for (int i = 0; i < numElements; i++){
 							for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 								if (particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
@@ -337,11 +340,18 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											for ( auto gamma:(*beta).vectorOfGamma){ //loop over gamma events
 												//forward implant-decay events
 												//ExEyAll_gammaloop[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
-												if (((*beta).T-(gamma).TIME) > 10000 && (gamma).ID==777){ //forward gammas
-													if(((*beta).T-(gamma).TIME) < 20000 && (gamma).ID==777){
-														In97gammaVeto = true;
-														if ((gamma).EN>1000){
-															gammaVeto = false;
+												if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
+													if(((*beta).T-(gamma).TIME) < 20000){
+														if ((gamma).ID==777){
+															In97gammaVeto = true;
+															if ((gamma).EN>1000){
+																gammaVeto = false;
+															}
+														}
+														if ((gamma).ID<16){
+															if ((*beta).E < 1000 && (gamma).EN < 1400){
+																Ag95gammaCheck = true;
+															}	
 														}
 													}
 												}
@@ -366,11 +376,23 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												implantBetaAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
 												GammaSumTemp=0;
 												GammaSumTempBg=0;
+												if (Ag95gammaCheck == true){
+													Ag95_EdT_allpeaks_gammaGated ->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+												}
 												for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
 													if (((*beta).T-(imp).TIME > 0)){ //forward implant-decay events
 														if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
 															if(((*beta).T-(gamma).TIME) < 20000){
 																//summed_beta_gamma_1[i].at(j)->Fill((gamma.EN));
+
+																if ((gamma).ID == 777 && elements[i] == "Ag" && isotopeStart[i]+j == 95){
+																	if ((*beta).Ex<1000 && (*beta).Ey<1000){
+																		if ((gamma).EN > 2000 && (gamma).EN < 2250){
+																			Ag95_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+
+																		}
+																	}
+																}
 																
 																if ((gamma).ID<16){
 
@@ -381,10 +403,16 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																			beta_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
 																			GammaSumTemp+=(gamma.EN);
 																		}
-
-																		if ((((*beta).T-(imp).TIME)/1.0e6) < 10){
-																			Ag95_0_10_ms_betaE_gammaE[0]->Fill((*beta).E, (gamma.EN));
+																		if ((gamma).EN > 145 && (gamma).EN < 200){
+																			Ag95_EdT_160keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 																		}
+																		if ((gamma).EN > 800 && (gamma).EN < 1100){
+																			Ag95_EdT_800_1000keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+																		}
+																		if ((gamma).EN > 400 && (gamma).EN < 490){
+																			Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+																		}
+												
 																	}
 
 																	else{
@@ -410,9 +438,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																			beta_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
 																		}
 
-																		if ((((*beta).T-(imp).TIME)/1.0e6) < 10){
-																			Ag95_0_10_ms_betaE_gammaE[1]->Fill((*beta).E, (gamma.EN));
-																		}
 																	}
 
 																	else{
@@ -431,6 +456,16 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													if (((*beta).T-(imp).TIME < 0)){ //backward implant-decay events
 														if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
 															if(((*beta).T-(gamma).TIME) < 20000){
+
+																if ((gamma).ID == 777 && elements[i] == "Ag" && isotopeStart[i]+j == 95){
+																	if ((*beta).Ex<1000 && (*beta).Ey<1000){
+																		if ((gamma).EN > 2000 && (gamma).EN < 2250){
+																			Ag95_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+
+																		}
+																	}
+																}
+
 																if ((gamma).ID<16){
 																	if (elements[i] == "Ag" && isotopeStart[i]+j == 95){
 
@@ -440,8 +475,14 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																			beta_gamma_EdT_us[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
 																			GammaSumTempBg += (gamma.EN);
 																		}
-																		if ((((*beta).T-(imp).TIME)/1.0e6) > -10){
-																			Ag95_0_10_ms_betaE_gammaE[2]->Fill((*beta).E, (gamma.EN));
+																		if ((gamma).EN > 145 && (gamma).EN < 200){
+																			Ag95_EdT_160keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+																		}
+																		if ((gamma).EN > 800 && (gamma).EN < 1100){
+																			Ag95_EdT_800_1000keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+																		}
+																		if ((gamma).EN > 400 && (gamma).EN < 490){
+																			Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 																		}
 																	}
 																	else{	
@@ -466,9 +507,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																			beta_gamma_EdT_s[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
 																			beta_gamma_EdT_ms[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
 																			beta_gamma_EdT_us[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																		}
-																		if ((((*beta).T-(imp).TIME)/1.0e6) > -10){
-																			Ag95_0_10_ms_betaE_gammaE[3]->Fill((*beta).E, (gamma.EN));
 																		}
 																	}
 																	else{		
@@ -535,8 +573,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 							implantVelocityimplantE[i][iDSSD].at(j)->Fill((pid).VELOCITY, (*implant).E);
 							implantVelocityAOQ[i][iDSSD].at(j)->Fill((*implant).aoq,(pid).VELOCITY);
 							implantEnergyAOQ[i][iDSSD].at(j)->Fill((*implant).aoq,(*implant).E);
-								
-							
+														
 						}
 					}
 				}
@@ -561,7 +598,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			//Tin101_summed_bp_gamma_peak_corr->Add(Tin101_summed_bp_gamma_peak[g],1);
 			Tin101_bp_gamma_rest_corr->Add(Tin101_bp_gamma_rest[g],1);
 			//Tin101_summed_bp_gamma_rest_corr->Add(Tin101_summed_bp_gamma_rest[g],1);
-			Ag95_0_10_ms_betaE_gammaE_corr->Add(Ag95_0_10_ms_betaE_gammaE[g],1);
 			
 			
 		}
@@ -571,7 +607,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			//Tin101_summed_bp_gamma_peak_corr->Add(Tin101_summed_bp_gamma_peak[g],-1);
 			Tin101_bp_gamma_rest_corr->Add(Tin101_bp_gamma_rest[g],-1);
 			//Tin101_summed_bp_gamma_rest_corr->Add(Tin101_summed_bp_gamma_rest[g],-1);
-			Ag95_0_10_ms_betaE_gammaE_corr->Add(Ag95_0_10_ms_betaE_gammaE[g],-1);
 			
 		}
 				
@@ -587,7 +622,18 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	Tin101_bp_gamma_rest_corr->Write();
 	Tin101_summed_bp_gamma_rest_corr->Write();
 
-	Ag95_0_10_ms_betaE_gammaE_corr->Write();
+	Ag95_EdT_160keVgammaGated->Write();
+	Ag95_EdT_800_1000keVgammaGated->Write();
+	Ag95_EdT_440keVgammaGated->Write();
+
+	Ag95_EdT_160_800_1000keVgammaGated->Add(Ag95_EdT_160keVgammaGated, 1);
+	Ag95_EdT_160_800_1000keVgammaGated->Add(Ag95_EdT_800_1000keVgammaGated, 1);
+
+	Ag95_EdT_160_800_1000keVgammaGated->Write();
+	
+	Ag95_EdT_allpeaks_gammaGated->Write();
+
+	Ag95_EdT_2104keVsummed_gammaGated->Write();
 
 	std::string isoDirName;
 
