@@ -144,8 +144,15 @@ TH1D *Tin101_summed_bp_gamma_rest[2];
 TH1D *Tin101_summed_bp_gamma_rest_corr;
 
 //95Ag specific
-TH2D *Ag95_0_10_ms_betaE_gammaE[4];
-TH2D *Ag95_0_10_ms_betaE_gammaE_corr;
+
+TH2D *Ag95_EdT_160keVgammaGated;
+TH2D *Ag95_EdT_800_1000keVgammaGated;
+TH2D *Ag95_EdT_160_800_1000keVgammaGated;
+TH2D *Ag95_EdT_440keVgammaGated;
+TH2D *Ag95_EdT_allpeaks_gammaGated;
+
+TH2D *Ag95_EdT_2104keVsummed_gammaGated;
+
 
 //end of gammas
 
@@ -320,18 +327,20 @@ void DefineHistograms()
 			Tin101_summed_bp_gamma_rest[g] = new TH1D(hisName.c_str(), "", 1000, 0, 7000);
 		}
 
-		hisName = "Ag95_0_10ms_betaE_gammaE_" + std::to_string(g);
-		Ag95_0_10_ms_betaE_gammaE[g] = new TH2D(hisName.c_str(), "", 700, 0, 7000, 1000, 0, 7000);
-
-
 	}
+
+	Ag95_EdT_160keVgammaGated = new TH2D("Ag95_EdT_160keV","",200,-10000,10000,80,200,1000);
+	Ag95_EdT_800_1000keVgammaGated = new TH2D("Ag95_EdT_800_1000keV","",200,-10000,10000,80,200,1000);
+	Ag95_EdT_160_800_1000keVgammaGated = new TH2D("Ag95_EdT_160_800_1000keV","",200,-10000,10000,80,200,1000);
+	Ag95_EdT_440keVgammaGated = new TH2D("Ag95_EdT_440keV","",200,-10000,10000,80,200,1000);
+	Ag95_EdT_allpeaks_gammaGated = new TH2D("Ag95_EdT_allpeaks","",200,-10000,10000,80,200,1000);
+
+	Ag95_EdT_2104keVsummed_gammaGated = new TH2D("Ag95_2104keVsummed","",200,-10000,10000,80,200,1000);
 	
 	Tin101_bp_gamma_peak_corr = new TH1D("Tin101_bp_gamma_peak_corr","",1000, 0, 7000);
 	Tin101_summed_bp_gamma_peak_corr = new TH1D("Tin101_summed_bp_gamma_peak_corr","",1000, 0, 7000);
 	Tin101_bp_gamma_rest_corr = new TH1D("Tin101_bp_gamma_rest_corr","",1000, 0, 7000);
 	Tin101_summed_bp_gamma_rest_corr = new TH1D("Tin101_summed_bp_gamma_rest_corr","",1000, 0, 7000);
-
-	Ag95_0_10_ms_betaE_gammaE_corr = new TH2D("Ag95_0_10_ms_betaE_gammaE_corr", "", 700, 0, 7000, 1000, 0, 7000);
 
 
 	for (int i = 0; i < numElements; i++)
