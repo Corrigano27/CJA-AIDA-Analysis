@@ -117,7 +117,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											//AIDA Plastic veto (beta)
 											if ((*beta).T - anc.TIME < 20e3 && (anc.ID == 34)){
 												if ((*beta).T - anc.TIME > 10e3 && (anc.ID == 34)){
-													betaVeto = true;
+													//betaVeto = true;
 												}
 											}
 
@@ -391,6 +391,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																			Ag95_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 
 																		}
+																		if ((gamma).EN > 70 && (gamma).EN < 112){
+																			Ag95_EdT_77keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+
+																		}
 																	}
 																}
 																
@@ -406,7 +410,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																		if ((gamma).EN > 145 && (gamma).EN < 200){
 																			Ag95_EdT_160keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 																		}
-																		if ((gamma).EN > 800 && (gamma).EN < 1100){
+																		if ((gamma).EN > 800 && (gamma).EN < 1200){
 																			Ag95_EdT_800_1000keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 																		}
 																		if ((gamma).EN > 400 && (gamma).EN < 490){
@@ -634,6 +638,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	Ag95_EdT_allpeaks_gammaGated->Write();
 
 	Ag95_EdT_2104keVsummed_gammaGated->Write();
+
+	Ag95_EdT_77keVsummed_gammaGated->Write();
 
 	std::string isoDirName;
 
