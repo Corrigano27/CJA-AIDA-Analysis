@@ -152,6 +152,7 @@ TH2D *Ag95_EdT_440keVgammaGated;
 TH2D *Ag95_EdT_allpeaks_gammaGated;
 
 TH2D *Ag95_EdT_2104keVsummed_gammaGated;
+TH2D *Ag95_EdT_77keVsummed_gammaGated;
 
 
 //end of gammas
@@ -308,7 +309,7 @@ void DefineHistograms()
 
 	PID_implant = new TH2D("PID_implant", "", 1e3, 1.95, 2.35, 1e3, 39, 56);
 
-	Indium97_gammaveto_EdT = new TH2D("Indium97_gammaveto_EdT_us","", 2000, -10, 10,700,0,7000);
+	Indium97_gammaveto_EdT = new TH2D("Indium97_gammaveto_EdT_ms","", 2000, -10, 10,700,0,7000);
 
 	//Sn101 & Ag95
 	for (int g = 0; g < 4; g++){
@@ -336,7 +337,8 @@ void DefineHistograms()
 	Ag95_EdT_allpeaks_gammaGated = new TH2D("Ag95_EdT_allpeaks","",200,-10000,10000,80,200,1000);
 
 	Ag95_EdT_2104keVsummed_gammaGated = new TH2D("Ag95_2104keVsummed","",200,-10000,10000,80,200,1000);
-	
+	Ag95_EdT_77keVsummed_gammaGated = new TH2D("Ag95_77keVsummed","",600,-30000,30000,80,200,1000);
+
 	Tin101_bp_gamma_peak_corr = new TH1D("Tin101_bp_gamma_peak_corr","",1000, 0, 7000);
 	Tin101_summed_bp_gamma_peak_corr = new TH1D("Tin101_summed_bp_gamma_peak_corr","",1000, 0, 7000);
 	Tin101_bp_gamma_rest_corr = new TH1D("Tin101_bp_gamma_rest_corr","",1000, 0, 7000);
