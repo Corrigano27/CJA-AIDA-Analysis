@@ -372,7 +372,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												Indium97_gammaveto_EdT->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 											}
 
-											if (multix < 3 && multiy < 3 && (*beta).Ex<1500 && (*beta).Ey<1500){
+											if ((*beta).Ex<1500 && (*beta).Ey<1500){
 												implantBetaAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
 												GammaSumTemp=0;
 												GammaSumTempBg=0;
@@ -769,8 +769,11 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsoDir->Append(summed_bp_gamma_EdT_ms_corr[i].at(k));
 			IsoDir->Append(summed_bp_gamma_EdT_us_corr[i].at(k));
 
-			IsoDir->Append(summed_bp_gamma_EdT_s[i][0].at(k));
-			IsoDir->Append(summed_bp_gamma_EdT_s[i][1].at(k));
+			IsoDir->Append(beta_gamma_EdT_us[i][0].at(k));
+			IsoDir->Append(summed_beta_gamma_EdT_us[i][0].at(k));
+			IsoDir->Append(bp_gamma_EdT_us[i][0].at(k));
+			IsoDir->Append(summed_bp_gamma_EdT_us[i][0].at(k));
+
 
 			//IsoDir->Append(implantVelocityimplantZ[i].at(k));
 			
