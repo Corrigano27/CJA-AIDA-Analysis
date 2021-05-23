@@ -340,8 +340,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											for ( auto gamma:(*beta).vectorOfGamma){ //loop over gamma events
 												//forward implant-decay events
 												//ExEyAll_gammaloop[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
-												if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
-													if(((*beta).T-(gamma).TIME) < 20000){
+												if (((*beta).T-(gamma).TIME) > 0){ //forward gammas
+													if(((*beta).T-(gamma).TIME) < 40000){
 														if ((gamma).ID==777){
 															In97gammaVeto = true;
 															if ((gamma).EN>1000){
@@ -381,8 +381,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												}
 												for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
 													if (((*beta).T-(imp).TIME > 0)){ //forward implant-decay events
-														if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
-															if(((*beta).T-(gamma).TIME) < 20000){
+														if (((*beta).T-(gamma).TIME) > 0){ //forward gammas
+															if(((*beta).T-(gamma).TIME) < 40000){
 																//summed_beta_gamma_1[i].at(j)->Fill((gamma.EN));
 
 																if ((gamma).ID == 777 && elements[i] == "Ag" && isotopeStart[i]+j == 95){
