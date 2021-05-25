@@ -15,8 +15,8 @@
 #include <map>
 #include <fstream>
 
-#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
-//#include "/home/corrigan/DTAS_Merger/merger/MergerSoft/data2Tree.cxx"
+//#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
+#include "/home/corrigan/DTAS_Merger/merger/MergerSoft/data2Tree.cxx"
 #include "ParticleCutsSn100.cxx"
 
 int analysisHistograms(std::string iName, std::string cutFile){
@@ -389,7 +389,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																	if ((*beta).Ex<1000 && (*beta).Ey<1000){
 																		if ((gamma).EN > 2000 && (gamma).EN < 2250){
 																			Ag95_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
-																			Ag95_EDiff_dT_2104keVsummed_gammaGated->Fill((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex - (*beta).Ey);
+																			Ag95_EDiff_dT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex - (*beta).Ey);
 																		}
 																		if ((gamma).EN > 70 && (gamma).EN < 112){
 																			Ag95_EdT_77keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
