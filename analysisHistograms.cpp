@@ -340,8 +340,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											for ( auto gamma:(*beta).vectorOfGamma){ //loop over gamma events
 												//forward implant-decay events
 												//ExEyAll_gammaloop[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
-												if (((*beta).T-(gamma).TIME) > 0){ //forward gammas
-													if(((*beta).T-(gamma).TIME) < 40000){
+												if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
+													if(((*beta).T-(gamma).TIME) < 20000){
 														if ((gamma).ID==777){
 															In97gammaVeto = true;
 															if ((gamma).EN>1000){
@@ -381,15 +381,15 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												}
 												for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
 													if (((*beta).T-(imp).TIME > 0)){ //forward implant-decay events
-														if (((*beta).T-(gamma).TIME) > 0){ //forward gammas
-															if(((*beta).T-(gamma).TIME) < 40000){
+														if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
+															if(((*beta).T-(gamma).TIME) < 20000){
 																//summed_beta_gamma_1[i].at(j)->Fill((gamma.EN));
 
 																if ((gamma).ID == 777 && elements[i] == "Ag" && isotopeStart[i]+j == 95){
 																	if ((*beta).Ex<1000 && (*beta).Ey<1000){
 																		if ((gamma).EN > 2000 && (gamma).EN < 2250){
 																			Ag95_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
-
+																			Ag95_EDiff_dT_2104keVsummed_gammaGated->Fill((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex - (*beta).Ey);
 																		}
 																		if ((gamma).EN > 70 && (gamma).EN < 112){
 																			Ag95_EdT_77keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
@@ -640,6 +640,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	Ag95_EdT_2104keVsummed_gammaGated->Write();
 
 	Ag95_EdT_77keVsummed_gammaGated->Write();
+
+	Ag95_EDiff_dT_2104keVsummed_gammaGated->Write();
 
 	std::string isoDirName;
 
