@@ -154,7 +154,7 @@ TH2D *Ag95_EdT_allpeaks_gammaGated;
 TH2D *Ag95_EdT_2104keVsummed_gammaGated;
 TH2D *Ag95_EdT_77keVsummed_gammaGated;
 
-
+TH2D *Ag95_EDiff_dT_2104keVsummed_gammaGated;
 //end of gammas
 
 std::vector<TH2D *> EnergyXChannelAll[4];
@@ -338,6 +338,8 @@ void DefineHistograms()
 
 	Ag95_EdT_2104keVsummed_gammaGated = new TH2D("Ag95_2104keVsummed","",200,-10000,10000,80,200,1000);
 	Ag95_EdT_77keVsummed_gammaGated = new TH2D("Ag95_77keVsummed","",600,-30000,30000,80,200,1000);
+
+	Ag95_EDiff_dT_2104keVsummed_gammaGated = new TH2D("Ag95_EDiff_dT_2104keVsummed_gammaGated","",200,-10000,10000,100,-600,600);
 
 	Tin101_bp_gamma_peak_corr = new TH1D("Tin101_bp_gamma_peak_corr","",1000, 0, 7000);
 	Tin101_summed_bp_gamma_peak_corr = new TH1D("Tin101_summed_bp_gamma_peak_corr","",1000, 0, 7000);
