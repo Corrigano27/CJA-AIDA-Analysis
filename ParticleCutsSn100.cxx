@@ -152,6 +152,12 @@ TH2D *Ag95_EdT_440keVgammaGated;
 TH2D *Ag95_EdT_allpeaks_gammaGated;
 
 TH2D *Ag95_EdT_2104keVsummed_gammaGated;
+TH2D *Ag95_EdT_2104keVsummed_gammaGated_back;
+TH2D *Ag95_EdT_2104keVsummed_gammaGated_11;
+TH2D *Ag95_Implant_EdT_2104keVsummed_gammaGated;
+
+TH2D *Ag95_EdT_2104keVsummed_gammaGated_back;
+
 TH2D *Ag95_EdT_77keVsummed_gammaGated;
 
 TH2D *Ag95_EDiff_dT_2104keVsummed_gammaGated;
@@ -336,7 +342,11 @@ void DefineHistograms()
 	Ag95_EdT_440keVgammaGated = new TH2D("Ag95_EdT_440keV","",200,-10000,10000,80,200,1000);
 	Ag95_EdT_allpeaks_gammaGated = new TH2D("Ag95_EdT_allpeaks","",200,-10000,10000,80,200,1000);
 
-	Ag95_EdT_2104keVsummed_gammaGated = new TH2D("Ag95_2104keVsummed","",200,-10000,10000,80,200,1000);
+	Ag95_EdT_2104keVsummed_gammaGated = new TH2D("Ag95_2104keVsummed_front","",200,-10000,10000,80,200,1000);
+	Ag95_EdT_2104keVsummed_gammaGated_back = new TH2D("Ag95_2104keVsummed_back","",200,-10000,10000,80,200,1000);
+	Ag95_EdT_2104keVsummed_gammaGated_11 = new TH2D("Ag95_2104keVsummed_front_11","",200,-10000,10000,80,200,1000);
+	Ag95_Implant_EdT_2104keVsummed_gammaGated = new TH2D("Ag95_2104keVsummed_implants","",200,-10000,10000,80,200,7000);
+
 	Ag95_EdT_77keVsummed_gammaGated = new TH2D("Ag95_77keVsummed","",600,-30000,30000,80,200,1000);
 
 	Ag95_EDiff_dT_2104keVsummed_gammaGated = new TH2D("Ag95_EDiff_dT_2104keVsummed_gammaGated","",200,-10000,10000,100,-600,600);
