@@ -156,8 +156,6 @@ TH2D *Ag95_EdT_2104keVsummed_gammaGated_back;
 TH2D *Ag95_EdT_2104keVsummed_gammaGated_11;
 TH2D *Ag95_Implant_EdT_2104keVsummed_gammaGated;
 
-TH2D *Ag95_EdT_2104keVsummed_gammaGated_back;
-
 TH2D *Ag95_EdT_77keVsummed_gammaGated;
 
 TH2D *Ag95_EDiff_dT_2104keVsummed_gammaGated;
