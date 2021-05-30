@@ -391,7 +391,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																			Ag95_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			Ag95_EdT_2104keVsummed_gammaGated_back->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ey);
 
-																			if ((*beta).nx==1 && (*beta).ny==1){
+																			if (multix==0 && multiy==0){
 																				Ag95_EdT_2104keVsummed_gammaGated_11->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
 
