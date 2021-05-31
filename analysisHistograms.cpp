@@ -90,6 +90,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	double Sn101Counter;
 	double Sn101CounterBg;
 
+	double Ag94_Peak_Counter;
+	double Ag94_Peak_CounterBg;
+
 	uint8_t multix = 0;
 	uint8_t multiy = 0;
 	
@@ -182,6 +185,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													Sn101CounterBg = 0;
 													Sn101Counter_Pk = 0;
 													Sn101CounterBg_Pk = 0;
+													Ag94_Peak_Counter = 0;
+													Ag94_Peak_CounterBg = 0;
 													for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
 														if (((*beta).T-(imp).TIME > 0)){ //forward implant-decay events
 															if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
@@ -207,6 +212,14 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																				}
 																			}
 																		}
+																		if (elements[i] == "Ag" && isotopeStart[i]+j == 94){
+																			if ((*beta).Ex>1711){
+																				if ((*beta).Ex<1940){
+																					Ag94_1800_bp_DTASindy[0]->Fill((gamma.EN));
+																					Ag94_Peak_Counter += (gamma.EN);
+																				}
+																			}
+																		}
 																	}
 																}
 															}
@@ -226,6 +239,13 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																				}
 																				if ((*beta).Ex>2400){
 																					Tin101_bp_gamma_rest[1]->Fill((gamma.EN));
+																				}
+																			}
+																		}
+																		if (elements[i] == "Ag" && isotopeStart[i]+j == 94){
+																			if ((*beta).Ex>1711){
+																				if ((*beta).Ex<1940){
+																					Ag94_1800_bp_DTASindy[1]->Fill((gamma.EN));
 																				}
 																			}
 																		}
@@ -257,6 +277,14 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																				}
 																			}
 																		}
+																		if (elements[i] == "Ag" && isotopeStart[i]+j == 94){
+																			if ((*beta).Ex>1711){
+																				if ((*beta).Ex<1940){
+																					Ag94_1800_bp_DTASindy[2]->Fill((gamma.EN));
+																					Ag94_Peak_CounterBg += (gamma.EN);
+																				}
+																			}
+																		}
 																	}
 																}
 															}
@@ -278,6 +306,13 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																					Tin101_bp_gamma_rest[3]->Fill((gamma.EN));
 																				}
 																			
+																			}
+																		}
+																		if (elements[i] == "Ag" && isotopeStart[i]+j == 94){
+																			if ((*beta).Ex>1711){
+																				if ((*beta).Ex<1940){
+																					Ag94_1800_bp_DTASindy[3]->Fill((gamma.EN));
+																				}
 																			}
 																		}
 																														
@@ -308,6 +343,12 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													}
 													if (Sn101CounterBg != 0){
 														Tin101_summed_bp_gamma_rest[1]->Fill(Sn101CounterBg);
+													}
+													if (Ag94_Peak_Counter != 0){
+														Ag94_1800_bp_DTASsummed[0]->Fill(Ag94_Peak_Counter);
+													}
+													if (Ag94_Peak_CounterBg != 0){
+														Ag94_1800_bp_DTASsummed[1]->Fill(Ag94_Peak_CounterBg);
 													}
 
 													implantBeta1pAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
@@ -630,6 +671,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			Tin101_bp_gamma_rest_corr->Add(Tin101_bp_gamma_rest[g],-1);
 			//Tin101_summed_bp_gamma_rest_corr->Add(Tin101_summed_bp_gamma_rest[g],-1);
 			
+		}
+		Ag94_1800_bp_DTASindy[g]->Write();
+		if (g < 2){
+			Ag94_1800_bp_DTASsummed[g]->Write();
 		}
 				
 	}
