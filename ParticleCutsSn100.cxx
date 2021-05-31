@@ -159,6 +159,12 @@ TH2D *Ag95_Implant_EdT_2104keVsummed_gammaGated;
 TH2D *Ag95_EdT_77keVsummed_gammaGated;
 
 TH2D *Ag95_EDiff_dT_2104keVsummed_gammaGated;
+
+//Ag94 specific
+TH1D *Ag94_1800_bp_DTASindy[4];
+
+TH1D *Ag94_1800_bp_DTASsummed[2];
+
 //end of gammas
 
 std::vector<TH2D *> EnergyXChannelAll[4];
@@ -315,7 +321,7 @@ void DefineHistograms()
 
 	Indium97_gammaveto_EdT = new TH2D("Indium97_gammaveto_EdT_ms","", 2000, -10, 10,700,0,7000);
 
-	//Sn101 & Ag95
+	//Sn101 & Ag95/94
 	for (int g = 0; g < 4; g++){
 			
 		hisName = "Tin101_bp_gamma_peak_" + std::to_string(g);
@@ -330,7 +336,14 @@ void DefineHistograms()
 
 			hisName = "Tin101_summed_bp_gamma_rest_" + std::to_string(g);
 			Tin101_summed_bp_gamma_rest[g] = new TH1D(hisName.c_str(), "", 1000, 0, 7000);
+
+			hisName = "Ag94_1800_bp_DTASindy_" + std::to_string(g);
+			Ag94_1800_bp_DTASindy[g] = new TH1D(hisName.c_str(), "", 1000, 0, 7000);
+			
 		}
+
+		hisName = "Ag94_1800_bp_DTASindy_" + std::to_string(g);
+		Ag94_1800_bp_DTASindy[g] = new TH1D(hisName.c_str(), "", 1000, 0, 7000);
 
 	}
 
