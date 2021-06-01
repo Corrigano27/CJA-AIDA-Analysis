@@ -112,6 +112,8 @@ std::vector<TH2D *> summed_beta_gamma_EdT_s_corr[4];
 std::vector<TH2D *> summed_beta_gamma_EdT_ms_corr[4];
 std::vector<TH2D *> summed_beta_gamma_EdT_us_corr[4];
 
+std::vector<TH2D *> summed_beta_gamma_E_beta_E[4][2];
+
 
 //correcting bp-gamma singles
 std::vector<TH2D *> bp_gamma_EdT_s[4][4];
@@ -131,6 +133,8 @@ std::vector<TH2D *> summed_bp_gamma_EdT_us[4][2];
 std::vector<TH2D *> summed_bp_gamma_EdT_s_corr[4];
 std::vector<TH2D *> summed_bp_gamma_EdT_ms_corr[4];
 std::vector<TH2D *> summed_bp_gamma_EdT_us_corr[4];
+
+std::vector<TH2D *> summed_p_gamma_E_p_E[4][2];
 
 
 //Sn101 specific
@@ -162,7 +166,6 @@ TH2D *Ag95_EDiff_dT_2104keVsummed_gammaGated;
 
 //Ag94 specific
 TH1D *Ag94_1800_bp_DTASindy[4];
-
 TH1D *Ag94_1800_bp_DTASsummed[2];
 
 //end of gammas
@@ -426,6 +429,16 @@ void DefineHistograms()
 					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_bp_gamma_EdT_us_" + std::to_string(g);
 					implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, 0, 20000, 1000, 0, 10000);
 					summed_bp_gamma_EdT_us[i][g].push_back(implantBetaHis2D);
+
+					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_p_gamma_E_p_E_" + std::to_string(g);
+					implantBetaHis2D = new TH2D(hisName.c_str(), "", 700, 0, 7000, 1000, 0, 10000);
+					summed_p_gamma_E_p_E[i][g].push_back(implantBetaHis2D);
+
+					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_beta_gamma_E_beta_E_" + std::to_string(g);
+					implantBetaHis2D = new TH2D(hisName.c_str(), "", 700, 0, 7000, 1000, 0, 10000);
+					summed_beta_gamma_E_beta_E[i][g].push_back(implantBetaHis2D);
+
+
 				}
 
 			}
