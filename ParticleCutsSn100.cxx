@@ -340,8 +340,8 @@ void DefineHistograms()
 			hisName = "Tin101_summed_bp_gamma_rest_" + std::to_string(g);
 			Tin101_summed_bp_gamma_rest[g] = new TH1D(hisName.c_str(), "", 1000, 0, 7000);
 
-			hisName = "Ag94_1800_bp_DTASindy_" + std::to_string(g);
-			Ag94_1800_bp_DTASindy[g] = new TH1D(hisName.c_str(), "", 1000, 0, 7000);
+			hisName = "Ag94_1800_bp_DTASsummed_" + std::to_string(g);
+			Ag94_1800_bp_DTASsummed[g] = new TH1D(hisName.c_str(), "", 1000, 0, 7000);
 			
 		}
 
