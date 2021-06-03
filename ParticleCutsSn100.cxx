@@ -147,6 +147,11 @@ TH1D *Tin101_summed_bp_gamma_peak_corr;
 TH1D *Tin101_summed_bp_gamma_rest[2];
 TH1D *Tin101_summed_bp_gamma_rest_corr;
 
+//96Ag specific
+TH2D *Ag96_EdT_470keVgammaGated;
+TH2D *Ag96_EdT_743keVgammaGated;
+TH2D *Ag96_EdT_1249keVgammaGated;
+TH2D *Ag96_EdT_all3Peaks_gammaGated;
 //95Ag specific
 
 TH2D *Ag95_EdT_160keVgammaGated;
@@ -349,6 +354,11 @@ void DefineHistograms()
 		Ag94_1800_bp_DTASindy[g] = new TH1D(hisName.c_str(), "", 1000, 0, 7000);
 
 	}
+
+	Ag96_EdT_470keVgammaGated = new TH2D("Ag96_EdT_470keVgammaGated","",1000,-5000,5000,80,200,1000);
+	Ag96_EdT_743keVgammaGated = new TH2D("Ag96_EdT_743keVgammaGated","",1000,-5000,5000,80,200,1000);
+	Ag96_EdT_1249keVgammaGated = new TH2D("Ag96_EdT_1249keVgammaGated","",1000,-5000,5000,80,200,1000);
+	Ag96_EdT_all3Peaks_gammaGated = new TH2D("Ag96_EdT_all3Peaks_gammaGated","",1000,-5000,5000,80,200,1000);
 
 	Ag95_EdT_160keVgammaGated = new TH2D("Ag95_EdT_160keV","",200,-10000,10000,80,200,1000);
 	Ag95_EdT_800_1000keVgammaGated = new TH2D("Ag95_EdT_800_1000keV","",200,-10000,10000,80,200,1000);
