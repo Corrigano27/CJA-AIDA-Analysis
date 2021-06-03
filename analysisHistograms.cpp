@@ -79,6 +79,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	bool Ag95gammaCheck;
 
+	bool Ag96_470;
+	bool Ag96_743;
+	bool Ag96_1249;
+
 	double GammaSumTemp;
 	double GammaSumTempBg;
 
@@ -111,6 +115,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 						gammaVeto = true;
 						In97gammaVeto = false;
 						Ag95gammaCheck = false;
+						Ag96_470 = false;
+						Ag96_743 = false;
+						Ag96_1249 = false;
 						for (int i = 0; i < numElements; i++){
 							for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 								if (particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
@@ -486,6 +493,20 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																			ProtonGammaSumTemp+=(gamma.EN);
 																		}
 																	}
+																	if (elements[i] == "Ag" && isotopeStart[i]+j == 96){
+																		if ((*beta).Ex<1000 && (*beta).Ey<1000){
+																			if ((gamma).EN > 450 && (gamma).EN < 550){
+																				Ag96_470 = true;
+																			}
+																			if ((gamma).EN > 720 && (gamma).EN < 850){
+																				Ag96_743 = true;
+																			}
+																			if ((gamma).EN > 1200 && (gamma).EN < 1400){
+																				Ag96_1249 = true;
+																			}
+																		}
+												
+																	}
 
 																}
 																
@@ -602,7 +623,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											
 		
 												}//end of gamma loop
-
+												//fill tallied histograms
 												if (GammaSumTemp != 0){
 													summed_beta_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, GammaSumTemp);
 													summed_beta_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, GammaSumTemp);
@@ -624,7 +645,12 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												if(ProtonGammaSumTempBg != 0){
 													summed_p_gamma_E_p_E[i][1].at(j)->Fill((*beta).Ex, ProtonGammaSumTempBg);
 												}
-
+												if (Ag96_470 == true){Ag96_EdT_470keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
+												if (Ag96_743 == true){Ag96_EdT_743keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
+												if (Ag96_1249 == true){Ag96_EdT_1249keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
+												if (Ag96_470 == true || Ag96_743 == true || Ag96_1249 == true){
+													Ag96_EdT_all3Peaks_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+												}
 													
 											}//beta energy and multi-cut
 
@@ -736,6 +762,14 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	Ag95_EDiff_dT_2104keVsummed_gammaGated->Write();
 
 	Ag95_Implant_EdT_2104keVsummed_gammaGated->Write();
+
+	Ag96_EdT_470keVgammaGated->Write();
+
+	Ag96_EdT_743keVgammaGated->Write();
+
+	Ag96_EdT_1249keVgammaGated->Write();
+
+	Ag96_EdT_all3Peaks_gammaGated->Write();
 
 	std::string isoDirName;
 
