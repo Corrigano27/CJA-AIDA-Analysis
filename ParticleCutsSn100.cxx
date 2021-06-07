@@ -152,6 +152,8 @@ TH2D *Ag96_EdT_470keVgammaGated;
 TH2D *Ag96_EdT_743keVgammaGated;
 TH2D *Ag96_EdT_1249keVgammaGated;
 TH2D *Ag96_EdT_all3Peaks_gammaGated;
+
+TH2D *Ag96_EdT_all3Peaks_Random_gammaGated;
 //95Ag specific
 
 TH2D *Ag95_EdT_160keVgammaGated;
@@ -359,6 +361,8 @@ void DefineHistograms()
 	Ag96_EdT_743keVgammaGated = new TH2D("Ag96_EdT_743keVgammaGated","",1000,-5000,5000,80,200,1000);
 	Ag96_EdT_1249keVgammaGated = new TH2D("Ag96_EdT_1249keVgammaGated","",1000,-5000,5000,80,200,1000);
 	Ag96_EdT_all3Peaks_gammaGated = new TH2D("Ag96_EdT_all3Peaks_gammaGated","",1000,-5000,5000,80,200,1000);
+
+	Ag96_EdT_all3Peaks_Random_gammaGated = new TH2D("Ag96_EdT_Random_gammaGated","",1000,-5000,5000,80,200,1000);
 
 	Ag95_EdT_160keVgammaGated = new TH2D("Ag95_EdT_160keV","",200,-10000,10000,80,200,1000);
 	Ag95_EdT_800_1000keVgammaGated = new TH2D("Ag95_EdT_800_1000keV","",200,-10000,10000,80,200,1000);
