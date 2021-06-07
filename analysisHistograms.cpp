@@ -15,8 +15,8 @@
 #include <map>
 #include <fstream>
 
-#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
-//#include "/home/corrigan/DTAS_Merger/merger/MergerSoft/data2Tree.cxx"
+//#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
+#include "/home/corrigan/DTAS_Merger/merger/MergerSoft/data2Tree.cxx"
 #include "ParticleCutsSn100.cxx"
 
 int analysisHistograms(std::string iName, std::string cutFile){
@@ -108,565 +108,567 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 		if ((*beta).T){
 			if ((*beta).Ey >= 200.0 && (*beta).Ex>=200.0){
-				multix = (*beta).TFast & 0xFF;
-				multiy = ((*beta).TFast >> 8) & 0xFF;
-				for ( auto imp:(*beta).vectorOfImp ){ //if non-element gated histos needed, do here
-					if ((*beta).z == (imp).Z){
-						gammaVeto = true;
-						In97gammaVeto = false;
-						Ag95gammaCheck = false;
-						Ag96_470 = false;
-						Ag96_743 = false;
-						Ag96_1249 = false;
-						for (int i = 0; i < numElements; i++){
-							for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
-								if (particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
-									if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){// use these statements for the dssd loop later on
-										//start applying vetoes here
-										betaVeto = false;
-										//initialise veto as false, then set true when conditions are met. Fill histograms when false
+				if (abs((*beta).Ex-(*beta).Ey)<120){
+					multix = (*beta).TFast & 0xFF;
+					multiy = ((*beta).TFast >> 8) & 0xFF;
+					for ( auto imp:(*beta).vectorOfImp ){ //if non-element gated histos needed, do here
+						if ((*beta).z == (imp).Z){
+							gammaVeto = true;
+							In97gammaVeto = false;
+							Ag95gammaCheck = false;
+							Ag96_470 = false;
+							Ag96_743 = false;
+							Ag96_1249 = false;
+							for (int i = 0; i < numElements; i++){
+								for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
+									if (particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
+										if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){// use these statements for the dssd loop later on
+											//start applying vetoes here
+											betaVeto = false;
+											//initialise veto as false, then set true when conditions are met. Fill histograms when false
+												
+											for (auto anc:(*beta).vectorOfAnc){
+												//AIDA Plastic veto (beta)
+												if ((*beta).T - anc.TIME < 20e3 && (anc.ID == 34)){
+													if ((*beta).T - anc.TIME > 10e3 && (anc.ID == 34)){
+														//betaVeto = true;
+													}
+												}
+
+												//F11 veto (beta)
+												if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33)){
+													if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33)){
+														//betaVeto = true;
+													}
+												}
+													
+											}
 											
-										for (auto anc:(*beta).vectorOfAnc){
-											//AIDA Plastic veto (beta)
-											if ((*beta).T - anc.TIME < 20e3 && (anc.ID == 34)){
-												if ((*beta).T - anc.TIME > 10e3 && (anc.ID == 34)){
-													//betaVeto = true;
-												}
-											}
+											if (betaVeto == false){
+												//use below to have variable dssd - will need to introduce further dssd vectors
+												//if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){
+												int DSSD = ((*beta).z);
+												decayEnergy[i][DSSD].at(j)->Fill((*beta).E);
+												ExEyDiff[i][DSSD].at(j)->Fill((*beta).Ex - (*beta).Ey);
 
-											//F11 veto (beta)
-											if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33)){
-												if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33)){
-													//betaVeto = true;
-												}
-											}
-												
-										}
-										
-										if (betaVeto == false){
-											//use below to have variable dssd - will need to introduce further dssd vectors
-											//if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){
-											int DSSD = ((*beta).z);
-											decayEnergy[i][DSSD].at(j)->Fill((*beta).E);
-											ExEyDiff[i][DSSD].at(j)->Fill((*beta).Ex - (*beta).Ey);
+												if (multix == 0 && multiy == 0){
+													EdT[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
+													
+													if ((*beta).Ex>1400 && (*beta).Ey>1400){
+														if (((*beta).T-(imp).TIME > 0)){
+															delayed1pEnergy[i][DSSD].at(j)->Fill((*beta).E);
+															delayed1pEnergyX[i][DSSD].at(j)->Fill((*beta).Ex);
+															delayed1pEnergyY[i][DSSD].at(j)->Fill((*beta).Ey);
+															
+															//ExEy[i][z].at(j)->Fill((*beta).Ex, (*beta).Ey);
+															//EnergyXChannel[i][z].at(j)->Fill((*beta).x, (*beta).E);
+															//EnergyYChannel[i][z].at(j)->Fill((*beta).y, (*beta).E);
 
-											if (multix == 0 && multiy == 0){
-												EdT[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
+														}
+
+														implantBeta1p[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+
+														if ((*beta).T-(imp).TIME < 0){
+															delayed1pEnergyRandom[i][DSSD].at(j)->Fill((*beta).E);
+														}
+
+														delayed1pEnergyAll[i][DSSD].at(j)->Fill((*beta).E);
+													}//end of lower beta-p energy cut
 												
-												if ((*beta).Ex>1400 && (*beta).Ey>1400){
-													if (((*beta).T-(imp).TIME > 0)){
-														delayed1pEnergy[i][DSSD].at(j)->Fill((*beta).E);
-														delayed1pEnergyX[i][DSSD].at(j)->Fill((*beta).Ex);
-														delayed1pEnergyY[i][DSSD].at(j)->Fill((*beta).Ey);
+												}
+												if (multix < 3 && multiy < 3 && (*beta).E<1500){
+													implantBeta[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+											
+												}//end of upper beta energy cut
+												//end of dssd if
+												//end of dssd for
+												decayEnergyAll[i].at(j)->Fill((*beta).E);
+												if (multix == 0 && multiy == 0){
+													EdTAll11[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
+													if ((*beta).Ex>1400 && (*beta).Ey>1400){
+														if (((*beta).T-(imp).TIME > 0)){
+															delayed1pEnergy_AllDSSD[i].at(j)->Fill((*beta).E);
+														}
+														//beta-p gamma loop
+														ProtonGammaSumTemp = 0;
+														ProtonGammaSumTempBg = 0;
+														Sn101Counter = 0;
+														Sn101CounterBg = 0;
+														Sn101Counter_Pk = 0;
+														Sn101CounterBg_Pk = 0;
+														Ag94_Peak_Counter = 0;
+														Ag94_Peak_CounterBg = 0;
+														for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
+															if (((*beta).T-(imp).TIME > 0)){ //forward implant-decay events
+																if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
+																	if (((*beta).T-(gamma).TIME) < 20000){
+																		if ((gamma).ID<16){		
+																			//bp_gamma_1[i].at(j)->Fill((gamma.EN));
+																			bp_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
+																			bp_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
+																			bp_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																			ProtonGammaSumTemp+=(gamma.EN);
+																			if (elements[i] == "Sn" && isotopeStart[i]+j == 101 && (*beta).z==1){
+																				if ((((*beta).T-(imp).TIME)/1e9 < 5)){
+																					if ((*beta).Ex>2150){
+																						if ((*beta).Ex<2400){
+																							Tin101_bp_gamma_peak[0]->Fill((gamma.EN));
+																							Sn101Counter_Pk += (gamma.EN);
+																							
+																						}
+																					}
+																					if ((*beta).Ex>2400){
+																						Tin101_bp_gamma_rest[0]->Fill((gamma.EN));
+																						Sn101Counter += (gamma.EN);
+																					}
+																				}
+																			}
+																			if (elements[i] == "Ag" && isotopeStart[i]+j == 94){
+																				if ((*beta).Ex>1711){
+																					if ((*beta).Ex<1940){
+																						Ag94_1800_bp_DTASindy[0]->Fill((gamma.EN));
+																						Ag94_Peak_Counter += (gamma.EN);
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+																if (((*beta).T-(gamma).TIME) > 20000){ //random gammas
+																	if(((*beta).T-(gamma).TIME) < 30000){
+																		if ((gamma).ID<16){		
+																			//bp_gamma_2[i].at(j)->Fill((gamma.EN));
+																			bp_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
+																			bp_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
+																			bp_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																			if (elements[i] == "Sn" && isotopeStart[i]+j == 101 && (*beta).z==1){
+																				if ((((*beta).T-(imp).TIME)/1e9 < 5)){
+																					if ((*beta).Ex>2150){
+																						if ((*beta).Ex<2400){
+																							Tin101_bp_gamma_peak[1]->Fill((gamma.EN));
+																						}
+																					}
+																					if ((*beta).Ex>2400){
+																						Tin101_bp_gamma_rest[1]->Fill((gamma.EN));
+																					}
+																				}
+																			}
+																			if (elements[i] == "Ag" && isotopeStart[i]+j == 94){
+																				if ((*beta).Ex>1711){
+																					if ((*beta).Ex<1940){
+																						Ag94_1800_bp_DTASindy[1]->Fill((gamma.EN));
+																					}
+																				}
+																			}
+																		}
+																	}
+																}	
+															}//end forward implant-time if
+															if (((*beta).T-(imp).TIME < 0)){ //backward implant-decay events
+																if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
+																	if(((*beta).T-(gamma).TIME) < 20000){
+																		if ((gamma).ID<16){		
+																			//bp_gamma_3[i].at(j)->Fill((gamma.EN));
+																			bp_gamma_EdT_s[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
+																			bp_gamma_EdT_ms[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
+																			bp_gamma_EdT_us[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																			ProtonGammaSumTempBg+=(gamma.EN);
+
+																			if (elements[i] == "Sn" && isotopeStart[i]+j == 101 && (*beta).z==1){
+																				if ((((*beta).T-(imp).TIME)/1e9 > -5)){
+																					if ((*beta).Ex>2150){
+																						if ((*beta).Ex<2400){
+																							Tin101_bp_gamma_peak[2]->Fill((gamma.EN));
+																							Sn101CounterBg_Pk += (gamma.EN);
+																						}
+																					}
+																					if ((*beta).Ex>2400){
+																						Tin101_bp_gamma_rest[2]->Fill((gamma.EN));
+																						Sn101CounterBg += (gamma.EN);
+																					}
+																				}
+																			}
+																			if (elements[i] == "Ag" && isotopeStart[i]+j == 94){
+																				if ((*beta).Ex>1711){
+																					if ((*beta).Ex<1940){
+																						Ag94_1800_bp_DTASindy[2]->Fill((gamma.EN));
+																						Ag94_Peak_CounterBg += (gamma.EN);
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+																if (((*beta).T-(gamma).TIME) > 20000){ //random gammas
+																	if(((*beta).T-(gamma).TIME) < 30000){
+																		if ((gamma).ID<16){		
+																			//bp_gamma_4[i].at(j)->Fill((gamma.EN));
+																			bp_gamma_EdT_s[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
+																			bp_gamma_EdT_ms[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
+																			bp_gamma_EdT_us[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																			if (elements[i] == "Sn" && isotopeStart[i]+j == 101 && (*beta).z==1){
+																				if ((((*beta).T-(imp).TIME)/1e9 > -5)){
+																					if ((*beta).Ex>2150){
+																						if ((*beta).Ex<2400){
+																							Tin101_bp_gamma_peak[3]->Fill((gamma.EN));
+																						}
+																					}
+																					if ((*beta).Ex>2400){
+																						Tin101_bp_gamma_rest[3]->Fill((gamma.EN));
+																					}
+																				
+																				}
+																			}
+																			if (elements[i] == "Ag" && isotopeStart[i]+j == 94){
+																				if ((*beta).Ex>1711){
+																					if ((*beta).Ex<1940){
+																						Ag94_1800_bp_DTASindy[3]->Fill((gamma.EN));
+																					}
+																				}
+																			}
+																															
+																		}
+																	}
+																}		
+															}//end backward implant-time if
+														}// end gamma loop
 														
-														//ExEy[i][z].at(j)->Fill((*beta).Ex, (*beta).Ey);
-														//EnergyXChannel[i][z].at(j)->Fill((*beta).x, (*beta).E);
-														//EnergyYChannel[i][z].at(j)->Fill((*beta).y, (*beta).E);
+														if (ProtonGammaSumTemp != 0){
+															summed_bp_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, ProtonGammaSumTemp);
+															summed_bp_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, ProtonGammaSumTemp);
+															summed_bp_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, ProtonGammaSumTemp);
 
+															summed_p_gamma_E_p_E[i][0].at(j)->Fill((*beta).Ex, ProtonGammaSumTemp);
+														}
+														if (ProtonGammaSumTempBg != 0){
+															summed_bp_gamma_EdT_s[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, ProtonGammaSumTempBg);
+															summed_bp_gamma_EdT_ms[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, ProtonGammaSumTempBg);
+															summed_bp_gamma_EdT_us[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, ProtonGammaSumTempBg);
+
+															summed_p_gamma_E_p_E[i][1].at(j)->Fill((*beta).Ex, ProtonGammaSumTempBg);
+														}
+														if (Sn101Counter_Pk != 0){
+															Tin101_summed_bp_gamma_peak[0]->Fill(Sn101Counter_Pk);
+														}
+														if (Sn101CounterBg_Pk != 0){
+															Tin101_summed_bp_gamma_peak[1]->Fill(Sn101CounterBg_Pk);
+														}
+														if (Sn101Counter != 0){
+															Tin101_summed_bp_gamma_rest[0]->Fill(Sn101Counter);
+														}
+														if (Sn101CounterBg != 0){
+															Tin101_summed_bp_gamma_rest[1]->Fill(Sn101CounterBg);
+														}
+														if (Ag94_Peak_Counter != 0){
+															Ag94_1800_bp_DTASsummed[0]->Fill(Ag94_Peak_Counter);
+														}
+														if (Ag94_Peak_CounterBg != 0){
+															Ag94_1800_bp_DTASsummed[1]->Fill(Ag94_Peak_CounterBg);
+														}
+
+														implantBeta1pAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+
+														if ((*beta).T-(imp).TIME < 0){
+															delayed1pEnergyRandom_AllDSSD[i].at(j)->Fill((*beta).E);
+														}
+
+														delayed1pEnergyAll_AllDSSD[i].at(j)->Fill((*beta).E);
+													}//end of lower beta-p energy cut
+												}//end of beta-p multiplicity cut
+
+												if (multix == 0 && multiy == 1){
+													EdTAll12[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
+												}
+												if (multix == 1 && multiy == 0){
+													EdTAll21[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
+												}
+												if (multix == 1 && multiy == 1){
+													EdTAll22[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
+												}		
+												EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
+												EdTAll_us[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+												EdTAll_ms[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
+												ExEyAll[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
+
+												//DTAS 511/1022 coincidence check
+												gammaVeto = true;
+												//gamma gated spectra
+												for ( auto gamma:(*beta).vectorOfGamma){ //loop over gamma events
+													//forward implant-decay events
+													//ExEyAll_gammaloop[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
+													if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
+														if(((*beta).T-(gamma).TIME) < 20000){
+															if ((gamma).ID==777){
+																In97gammaVeto = true;
+																if ((gamma).EN>1000){
+																	gammaVeto = false;
+																}
+															}
+															if ((gamma).ID<16){
+																if ((*beta).E < 1000 && (gamma).EN < 1400){
+																	Ag95gammaCheck = true;
+																}	
+															}
+														}
 													}
-
-													implantBeta1p[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
-
-													if ((*beta).T-(imp).TIME < 0){
-														delayed1pEnergyRandom[i][DSSD].at(j)->Fill((*beta).E);
-													}
-
-													delayed1pEnergyAll[i][DSSD].at(j)->Fill((*beta).E);
-												}//end of lower beta-p energy cut
-											
-											}
-											if (multix < 3 && multiy < 3 && (*beta).E<1500){
-												implantBeta[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
-										
-											}//end of upper beta energy cut
-											//end of dssd if
-											//end of dssd for
-											decayEnergyAll[i].at(j)->Fill((*beta).E);
-											if (multix == 0 && multiy == 0){
-												EdTAll11[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
-												if ((*beta).Ex>1400 && (*beta).Ey>1400){
+												}	
+												if (gammaVeto == false){ 					
+													EdT_gammagate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+													EdT_gammagate_longer[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 													if (((*beta).T-(imp).TIME > 0)){
-														delayed1pEnergy_AllDSSD[i].at(j)->Fill((*beta).E);
+														ExEy_gammagate[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
+														EDiff_gammagate[i].at(j)->Fill((*beta).Ex - (*beta).Ey);
+														NxNy_gammagate[i].at(j)->Fill((*beta).nx, (*beta).ny);
+														clustersize_gammagate[i].at(j)->Fill(multix, multiy);
 													}
-													//beta-p gamma loop
-													ProtonGammaSumTemp = 0;
-													ProtonGammaSumTempBg = 0;
-													Sn101Counter = 0;
-													Sn101CounterBg = 0;
-													Sn101Counter_Pk = 0;
-													Sn101CounterBg_Pk = 0;
-													Ag94_Peak_Counter = 0;
-													Ag94_Peak_CounterBg = 0;
+												}
+
+												//beta - DTAS correlations
+												if (elements[i] == "In" && isotopeStart[i]+j == 97 && In97gammaVeto == true){
+													Indium97_gammaveto_EdT->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
+												}
+
+												if ((*beta).Ex<1500 && (*beta).Ey<1500){
+													implantBetaAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+													GammaSumTemp=0;
+													GammaSumTempBg=0;
+													ProtonGammaSumTemp=0;
+													ProtonGammaSumTempBg=0;
+													if (Ag95gammaCheck == true){
+														Ag95_EdT_allpeaks_gammaGated ->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+													}
 													for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
 														if (((*beta).T-(imp).TIME > 0)){ //forward implant-decay events
 															if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
-																if (((*beta).T-(gamma).TIME) < 20000){
-																	if ((gamma).ID<16){		
-																		//bp_gamma_1[i].at(j)->Fill((gamma.EN));
-																		bp_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																		bp_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																		bp_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																		ProtonGammaSumTemp+=(gamma.EN);
-																		if (elements[i] == "Sn" && isotopeStart[i]+j == 101 && (*beta).z==1){
-																			if ((((*beta).T-(imp).TIME)/1e9 < 5)){
-																				if ((*beta).Ex>2150){
-																					if ((*beta).Ex<2400){
-																						Tin101_bp_gamma_peak[0]->Fill((gamma.EN));
-																						Sn101Counter_Pk += (gamma.EN);
-																						
-																					}
-																				}
-																				if ((*beta).Ex>2400){
-																					Tin101_bp_gamma_rest[0]->Fill((gamma.EN));
-																					Sn101Counter += (gamma.EN);
-																				}
-																			}
-																		}
-																		if (elements[i] == "Ag" && isotopeStart[i]+j == 94){
-																			if ((*beta).Ex>1711){
-																				if ((*beta).Ex<1940){
-																					Ag94_1800_bp_DTASindy[0]->Fill((gamma.EN));
-																					Ag94_Peak_Counter += (gamma.EN);
-																				}
-																			}
-																		}
-																	}
-																}
-															}
-															if (((*beta).T-(gamma).TIME) > 20000){ //random gammas
-																if(((*beta).T-(gamma).TIME) < 30000){
-																	if ((gamma).ID<16){		
-																		//bp_gamma_2[i].at(j)->Fill((gamma.EN));
-																		bp_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																		bp_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																		bp_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																		if (elements[i] == "Sn" && isotopeStart[i]+j == 101 && (*beta).z==1){
-																			if ((((*beta).T-(imp).TIME)/1e9 < 5)){
-																				if ((*beta).Ex>2150){
-																					if ((*beta).Ex<2400){
-																						Tin101_bp_gamma_peak[1]->Fill((gamma.EN));
-																					}
-																				}
-																				if ((*beta).Ex>2400){
-																					Tin101_bp_gamma_rest[1]->Fill((gamma.EN));
-																				}
-																			}
-																		}
-																		if (elements[i] == "Ag" && isotopeStart[i]+j == 94){
-																			if ((*beta).Ex>1711){
-																				if ((*beta).Ex<1940){
-																					Ag94_1800_bp_DTASindy[1]->Fill((gamma.EN));
-																				}
-																			}
-																		}
-																	}
-																}
-															}	
-														}//end forward implant-time if
-														if (((*beta).T-(imp).TIME < 0)){ //backward implant-decay events
-															if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
 																if(((*beta).T-(gamma).TIME) < 20000){
-																	if ((gamma).ID<16){		
-																		//bp_gamma_3[i].at(j)->Fill((gamma.EN));
-																		bp_gamma_EdT_s[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																		bp_gamma_EdT_ms[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																		bp_gamma_EdT_us[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																		ProtonGammaSumTempBg+=(gamma.EN);
+																	//summed_beta_gamma_1[i].at(j)->Fill((gamma.EN));
 
-																		if (elements[i] == "Sn" && isotopeStart[i]+j == 101 && (*beta).z==1){
-																			if ((((*beta).T-(imp).TIME)/1e9 > -5)){
-																				if ((*beta).Ex>2150){
-																					if ((*beta).Ex<2400){
-																						Tin101_bp_gamma_peak[2]->Fill((gamma.EN));
-																						Sn101CounterBg_Pk += (gamma.EN);
-																					}
-																				}
-																				if ((*beta).Ex>2400){
-																					Tin101_bp_gamma_rest[2]->Fill((gamma.EN));
-																					Sn101CounterBg += (gamma.EN);
-																				}
-																			}
-																		}
-																		if (elements[i] == "Ag" && isotopeStart[i]+j == 94){
-																			if ((*beta).Ex>1711){
-																				if ((*beta).Ex<1940){
-																					Ag94_1800_bp_DTASindy[2]->Fill((gamma.EN));
-																					Ag94_Peak_CounterBg += (gamma.EN);
-																				}
-																			}
-																		}
-																	}
-																}
-															}
-															if (((*beta).T-(gamma).TIME) > 20000){ //random gammas
-																if(((*beta).T-(gamma).TIME) < 30000){
-																	if ((gamma).ID<16){		
-																		//bp_gamma_4[i].at(j)->Fill((gamma.EN));
-																		bp_gamma_EdT_s[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																		bp_gamma_EdT_ms[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																		bp_gamma_EdT_us[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																		if (elements[i] == "Sn" && isotopeStart[i]+j == 101 && (*beta).z==1){
-																			if ((((*beta).T-(imp).TIME)/1e9 > -5)){
-																				if ((*beta).Ex>2150){
-																					if ((*beta).Ex<2400){
-																						Tin101_bp_gamma_peak[3]->Fill((gamma.EN));
-																					}
-																				}
-																				if ((*beta).Ex>2400){
-																					Tin101_bp_gamma_rest[3]->Fill((gamma.EN));
-																				}
-																			
-																			}
-																		}
-																		if (elements[i] == "Ag" && isotopeStart[i]+j == 94){
-																			if ((*beta).Ex>1711){
-																				if ((*beta).Ex<1940){
-																					Ag94_1800_bp_DTASindy[3]->Fill((gamma.EN));
-																				}
-																			}
-																		}
-																														
-																	}
-																}
-															}		
-														}//end backward implant-time if
-													}// end gamma loop
-													
-													if (ProtonGammaSumTemp != 0){
-														summed_bp_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, ProtonGammaSumTemp);
-														summed_bp_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, ProtonGammaSumTemp);
-														summed_bp_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, ProtonGammaSumTemp);
-
-														summed_p_gamma_E_p_E[i][0].at(j)->Fill((*beta).Ex, ProtonGammaSumTemp);
-													}
-													if (ProtonGammaSumTempBg != 0){
-														summed_bp_gamma_EdT_s[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, ProtonGammaSumTempBg);
-														summed_bp_gamma_EdT_ms[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, ProtonGammaSumTempBg);
-														summed_bp_gamma_EdT_us[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, ProtonGammaSumTempBg);
-
-														summed_p_gamma_E_p_E[i][1].at(j)->Fill((*beta).Ex, ProtonGammaSumTempBg);
-													}
-													if (Sn101Counter_Pk != 0){
-														Tin101_summed_bp_gamma_peak[0]->Fill(Sn101Counter_Pk);
-													}
-													if (Sn101CounterBg_Pk != 0){
-														Tin101_summed_bp_gamma_peak[1]->Fill(Sn101CounterBg_Pk);
-													}
-													if (Sn101Counter != 0){
-														Tin101_summed_bp_gamma_rest[0]->Fill(Sn101Counter);
-													}
-													if (Sn101CounterBg != 0){
-														Tin101_summed_bp_gamma_rest[1]->Fill(Sn101CounterBg);
-													}
-													if (Ag94_Peak_Counter != 0){
-														Ag94_1800_bp_DTASsummed[0]->Fill(Ag94_Peak_Counter);
-													}
-													if (Ag94_Peak_CounterBg != 0){
-														Ag94_1800_bp_DTASsummed[1]->Fill(Ag94_Peak_CounterBg);
-													}
-
-													implantBeta1pAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
-
-													if ((*beta).T-(imp).TIME < 0){
-														delayed1pEnergyRandom_AllDSSD[i].at(j)->Fill((*beta).E);
-													}
-
-													delayed1pEnergyAll_AllDSSD[i].at(j)->Fill((*beta).E);
-												}//end of lower beta-p energy cut
-											}//end of beta-p multiplicity cut
-
-											if (multix == 0 && multiy == 1){
-												EdTAll12[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
-											}
-											if (multix == 1 && multiy == 0){
-												EdTAll21[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
-											}
-											if (multix == 1 && multiy == 1){
-												EdTAll22[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
-											}		
-											EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
-											EdTAll_us[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
-											EdTAll_ms[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
-											ExEyAll[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
-
-											//DTAS 511/1022 coincidence check
-											gammaVeto = true;
-											//gamma gated spectra
-											for ( auto gamma:(*beta).vectorOfGamma){ //loop over gamma events
-												//forward implant-decay events
-												//ExEyAll_gammaloop[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
-												if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
-													if(((*beta).T-(gamma).TIME) < 20000){
-														if ((gamma).ID==777){
-															In97gammaVeto = true;
-															if ((gamma).EN>1000){
-																gammaVeto = false;
-															}
-														}
-														if ((gamma).ID<16){
-															if ((*beta).E < 1000 && (gamma).EN < 1400){
-																Ag95gammaCheck = true;
-															}	
-														}
-													}
-												}
-											}	
-											if (gammaVeto == false){ 					
-												EdT_gammagate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
-												EdT_gammagate_longer[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
-												if (((*beta).T-(imp).TIME > 0)){
-													ExEy_gammagate[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
-													EDiff_gammagate[i].at(j)->Fill((*beta).Ex - (*beta).Ey);
-													NxNy_gammagate[i].at(j)->Fill((*beta).nx, (*beta).ny);
-													clustersize_gammagate[i].at(j)->Fill(multix, multiy);
-												}
-											}
-
-											//beta - DTAS correlations
-											if (elements[i] == "In" && isotopeStart[i]+j == 97 && In97gammaVeto == true){
-												Indium97_gammaveto_EdT->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
-											}
-
-											if ((*beta).Ex<1500 && (*beta).Ey<1500){
-												implantBetaAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
-												GammaSumTemp=0;
-												GammaSumTempBg=0;
-												ProtonGammaSumTemp=0;
-												ProtonGammaSumTempBg=0;
-												if (Ag95gammaCheck == true){
-													Ag95_EdT_allpeaks_gammaGated ->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-												}
-												for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
-													if (((*beta).T-(imp).TIME > 0)){ //forward implant-decay events
-														if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
-															if(((*beta).T-(gamma).TIME) < 20000){
-																//summed_beta_gamma_1[i].at(j)->Fill((gamma.EN));
-
-																if ((gamma).ID == 777 && elements[i] == "Ag" && isotopeStart[i]+j == 95){
-																	if ((*beta).Ex<1000 && (*beta).Ey<1000){
-																		if ((gamma).EN > 2000 && (gamma).EN < 2250){
-																			Ag95_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-																			Ag95_EdT_2104keVsummed_gammaGated_back->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ey);
-
-																			if (multix==0 && multiy==0){
-																				Ag95_EdT_2104keVsummed_gammaGated_11->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-																			}
-
-																			Ag95_Implant_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (imp).EN);
-																			Ag95_EDiff_dT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex - (*beta).Ey);
-																		}
-																		if ((gamma).EN > 70 && (gamma).EN < 112){
-																			Ag95_EdT_77keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-
-																		}
-																	}
-																}
-																
-																if ((gamma).ID<16){
-
-																	if (elements[i] == "Ag" && isotopeStart[i]+j == 95){
+																	if ((gamma).ID == 777 && elements[i] == "Ag" && isotopeStart[i]+j == 95){
 																		if ((*beta).Ex<1000 && (*beta).Ey<1000){
+																			if ((gamma).EN > 2000 && (gamma).EN < 2250){
+																				Ag95_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																				Ag95_EdT_2104keVsummed_gammaGated_back->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ey);
+
+																				if (multix==0 && multiy==0){
+																					Ag95_EdT_2104keVsummed_gammaGated_11->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																				}
+
+																				Ag95_Implant_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (imp).EN);
+																				Ag95_EDiff_dT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex - (*beta).Ey);
+																			}
+																			if ((gamma).EN > 70 && (gamma).EN < 112){
+																				Ag95_EdT_77keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+
+																			}
+																		}
+																	}
+																	
+																	if ((gamma).ID<16){
+
+																		if (elements[i] == "Ag" && isotopeStart[i]+j == 95){
+																			if ((*beta).Ex<1000 && (*beta).Ey<1000){
+																				beta_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
+																				beta_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
+																				beta_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																				GammaSumTemp+=(gamma.EN);
+																			}
+																			if ((gamma).EN > 145 && (gamma).EN < 200){
+																				Ag95_EdT_160keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																			}
+																			if ((gamma).EN > 800 && (gamma).EN < 1200){
+																				Ag95_EdT_800_1000keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																			}
+																			if ((gamma).EN > 400 && (gamma).EN < 490){
+																				Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																			}
+													
+																		}
+
+																		else{
+																			//beta_gamma_1[i].at(j)->Fill((gamma.EN));
 																			beta_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
 																			beta_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
 																			beta_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
 																			GammaSumTemp+=(gamma.EN);
+																			if (multix==0 && multiy==0 && (*beta).Ex<1400 && (*beta).Ey<1400){
+																				ProtonGammaSumTemp+=(gamma.EN);
+																			}
 																		}
-																		if ((gamma).EN > 145 && (gamma).EN < 200){
-																			Ag95_EdT_160keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																		if (elements[i] == "Ag" && isotopeStart[i]+j == 96){
+																			if ((*beta).Ex<1000 && (*beta).Ey<1000){
+																				if ((gamma).EN > 450 && (gamma).EN < 550){
+																					Ag96_470 = true;
+																				}
+																				if ((gamma).EN > 720 && (gamma).EN < 850){
+																					Ag96_743 = true;
+																				}
+																				if ((gamma).EN > 1200 && (gamma).EN < 1400){
+																					Ag96_1249 = true;
+																				}
+																			}
+													
 																		}
-																		if ((gamma).EN > 800 && (gamma).EN < 1200){
-																			Ag95_EdT_800_1000keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-																		}
-																		if ((gamma).EN > 400 && (gamma).EN < 490){
-																			Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-																		}
-												
-																	}
 
-																	else{
-																		//beta_gamma_1[i].at(j)->Fill((gamma.EN));
-																		beta_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																		beta_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																		beta_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																		GammaSumTemp+=(gamma.EN);
-																		if (multix==0 && multiy==0 && (*beta).Ex<1400 && (*beta).Ey<1400){
-																			ProtonGammaSumTemp+=(gamma.EN);
-																		}
 																	}
-																	if (elements[i] == "Ag" && isotopeStart[i]+j == 96){
-																		if ((*beta).Ex<1000 && (*beta).Ey<1000){
-																			if ((gamma).EN > 450 && (gamma).EN < 550){
-																				Ag96_470 = true;
-																			}
-																			if ((gamma).EN > 720 && (gamma).EN < 850){
-																				Ag96_743 = true;
-																			}
-																			if ((gamma).EN > 1200 && (gamma).EN < 1400){
-																				Ag96_1249 = true;
-																			}
-																		}
-												
-																	}
-
+																	
 																}
-																
 															}
-														}
-														if (((*beta).T-(gamma).TIME) > 20000){ //random gammas
-															if(((*beta).T-(gamma).TIME) < 30000){
-																if ((gamma).ID<16){	
+															if (((*beta).T-(gamma).TIME) > 20000){ //random gammas
+																if(((*beta).T-(gamma).TIME) < 30000){
+																	if ((gamma).ID<16){	
 
-																	if (elements[i] == "Ag" && isotopeStart[i]+j == 95){
-																		if ((*beta).Ex<1000 && (*beta).Ey<1000){
+																		if (elements[i] == "Ag" && isotopeStart[i]+j == 95){
+																			if ((*beta).Ex<1000 && (*beta).Ey<1000){
+																				beta_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
+																				beta_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
+																				beta_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																			}
+
+																		}
+
+																		else{
+																			//beta_gamma_2[i].at(j)->Fill((gamma.EN));
 																			beta_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
 																			beta_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
 																			beta_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
 																		}
 
 																	}
-
-																	else{
-																		//beta_gamma_2[i].at(j)->Fill((gamma.EN));
-																		beta_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																		beta_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																		beta_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																	}
-
+																	
 																}
-																
 															}
-														}
-													
-													}//end forward implant-time if
-													if (((*beta).T-(imp).TIME < 0)){ //backward implant-decay events
-														if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
-															if(((*beta).T-(gamma).TIME) < 20000){
+														
+														}//end forward implant-time if
+														if (((*beta).T-(imp).TIME < 0)){ //backward implant-decay events
+															if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
+																if(((*beta).T-(gamma).TIME) < 20000){
 
-																if ((gamma).ID == 777 && elements[i] == "Ag" && isotopeStart[i]+j == 95){
-																	if ((*beta).Ex<1000 && (*beta).Ey<1000){
-																		if ((gamma).EN > 2000 && (gamma).EN < 2250){
-																			Ag95_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-																			Ag95_EdT_2104keVsummed_gammaGated_back->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ey);
+																	if ((gamma).ID == 777 && elements[i] == "Ag" && isotopeStart[i]+j == 95){
+																		if ((*beta).Ex<1000 && (*beta).Ey<1000){
+																			if ((gamma).EN > 2000 && (gamma).EN < 2250){
+																				Ag95_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																				Ag95_EdT_2104keVsummed_gammaGated_back->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ey);
 
-																			if ((*beta).nx==1 && (*beta).ny==1){
-																				Ag95_EdT_2104keVsummed_gammaGated_11->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																				if ((*beta).nx==1 && (*beta).ny==1){
+																					Ag95_EdT_2104keVsummed_gammaGated_11->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																				}
+																				
+																				Ag95_Implant_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (imp).EN);
+																				Ag95_EDiff_dT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex - (*beta).Ey);
 																			}
-																			
-																			Ag95_Implant_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (imp).EN);
-																			Ag95_EDiff_dT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex - (*beta).Ey);
-																		}
-																		if ((gamma).EN > 70 && (gamma).EN < 112){
-																			Ag95_EdT_77keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																			if ((gamma).EN > 70 && (gamma).EN < 112){
+																				Ag95_EdT_77keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 
+																			}
 																		}
 																	}
-																}
 
-																if ((gamma).ID<16){
-																	if (elements[i] == "Ag" && isotopeStart[i]+j == 95){
+																	if ((gamma).ID<16){
+																		if (elements[i] == "Ag" && isotopeStart[i]+j == 95){
 
-																		if ((*beta).Ex<1000 && (*beta).Ey<1000){
+																			if ((*beta).Ex<1000 && (*beta).Ey<1000){
+																				beta_gamma_EdT_s[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
+																				beta_gamma_EdT_ms[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
+																				beta_gamma_EdT_us[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																				GammaSumTempBg += (gamma.EN);
+																			}
+																			if ((gamma).EN > 145 && (gamma).EN < 200){
+																				Ag95_EdT_160keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																			}
+																			if ((gamma).EN > 800 && (gamma).EN < 1100){
+																				Ag95_EdT_800_1000keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																			}
+																			if ((gamma).EN > 400 && (gamma).EN < 490){
+																				Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																			}
+																		}
+																		else{	
+																			//beta_gamma_3[i].at(j)->Fill((gamma.EN));
 																			beta_gamma_EdT_s[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
 																			beta_gamma_EdT_ms[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
 																			beta_gamma_EdT_us[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
 																			GammaSumTempBg += (gamma.EN);
+																			if (multix==0 && multiy==0 && (*beta).Ex<1400 && (*beta).Ey<1400){
+																				ProtonGammaSumTempBg+=(gamma.EN);
+																			}
 																		}
-																		if ((gamma).EN > 145 && (gamma).EN < 200){
-																			Ag95_EdT_160keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-																		}
-																		if ((gamma).EN > 800 && (gamma).EN < 1100){
-																			Ag95_EdT_800_1000keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-																		}
-																		if ((gamma).EN > 400 && (gamma).EN < 490){
-																			Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-																		}
-																	}
-																	else{	
-																		//beta_gamma_3[i].at(j)->Fill((gamma.EN));
-																		beta_gamma_EdT_s[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																		beta_gamma_EdT_ms[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																		beta_gamma_EdT_us[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																		GammaSumTempBg += (gamma.EN);
-																		if (multix==0 && multiy==0 && (*beta).Ex<1400 && (*beta).Ey<1400){
-																			ProtonGammaSumTempBg+=(gamma.EN);
-																		}
-																	}
 
+																	}
+																	
 																}
-																
 															}
-														}
-														if (((*beta).T-(gamma).TIME) > 20000){ //random gammas
-															if(((*beta).T-(gamma).TIME) < 30000){
-																if ((gamma).ID<16){
+															if (((*beta).T-(gamma).TIME) > 20000){ //random gammas
+																if(((*beta).T-(gamma).TIME) < 30000){
+																	if ((gamma).ID<16){
 
-																	if (elements[i] == "Ag" && isotopeStart[i]+j == 95){
-																		if ((*beta).Ex<1000 && (*beta).Ey<1000){
+																		if (elements[i] == "Ag" && isotopeStart[i]+j == 95){
+																			if ((*beta).Ex<1000 && (*beta).Ey<1000){
 
+																				beta_gamma_EdT_s[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
+																				beta_gamma_EdT_ms[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
+																				beta_gamma_EdT_us[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																			}
+																		}
+																		else{		
+																		//beta_gamma_4[i].at(j)->Fill((gamma.EN));
 																			beta_gamma_EdT_s[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
 																			beta_gamma_EdT_ms[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
 																			beta_gamma_EdT_us[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
 																		}
-																	}
-																	else{		
-																	//beta_gamma_4[i].at(j)->Fill((gamma.EN));
-																		beta_gamma_EdT_s[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																		beta_gamma_EdT_ms[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																		beta_gamma_EdT_us[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																	}
 
+																	}
 																}
-															}
-														}	
-													}//end backward implant-time if
-													
+															}	
+														}//end backward implant-time if
+														
+												
+			
+													}//end of gamma loop
+													//fill tallied histograms
+													if (GammaSumTemp != 0){
+														summed_beta_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, GammaSumTemp);
+														summed_beta_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, GammaSumTemp);
+														summed_beta_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, GammaSumTemp);
+
+														summed_beta_gamma_E_beta_E[i][0].at(j)->Fill((*beta).E, GammaSumTemp);
+													}
+													if(ProtonGammaSumTemp != 0){
+														summed_p_gamma_E_p_E[i][0].at(j)->Fill((*beta).Ex, ProtonGammaSumTemp);
+													}
+
+													if (GammaSumTempBg != 0){
+														summed_beta_gamma_EdT_s[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, GammaSumTempBg);
+														summed_beta_gamma_EdT_ms[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, GammaSumTempBg);
+														summed_beta_gamma_EdT_us[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, GammaSumTempBg);
+
+														summed_beta_gamma_E_beta_E[i][1].at(j)->Fill((*beta).E, GammaSumTempBg);
+													}
+													if(ProtonGammaSumTempBg != 0){
+														summed_p_gamma_E_p_E[i][1].at(j)->Fill((*beta).Ex, ProtonGammaSumTempBg);
+													}
+													if (Ag96_470 == true){Ag96_EdT_470keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
+													if (Ag96_743 == true){Ag96_EdT_743keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
+													if (Ag96_1249 == true){Ag96_EdT_1249keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
+													if (Ag96_470 == true || Ag96_743 == true || Ag96_1249 == true){
+														Ag96_EdT_all3Peaks_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+													}
+														
+												}//beta energy and multi-cut
+
+
+
 											
-		
-												}//end of gamma loop
-												//fill tallied histograms
-												if (GammaSumTemp != 0){
-													summed_beta_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, GammaSumTemp);
-													summed_beta_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, GammaSumTemp);
-													summed_beta_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, GammaSumTemp);
+											}//end of beta veto application
+											
 
-													summed_beta_gamma_E_beta_E[i][0].at(j)->Fill((*beta).E, GammaSumTemp);
-												}
-												if(ProtonGammaSumTemp != 0){
-													summed_p_gamma_E_p_E[i][0].at(j)->Fill((*beta).Ex, ProtonGammaSumTemp);
-												}
+										}//end of stopping layer if statement
+									}//end of particle cut if statement
 
-												if (GammaSumTempBg != 0){
-													summed_beta_gamma_EdT_s[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, GammaSumTempBg);
-													summed_beta_gamma_EdT_ms[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, GammaSumTempBg);
-													summed_beta_gamma_EdT_us[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, GammaSumTempBg);
-
-													summed_beta_gamma_E_beta_E[i][1].at(j)->Fill((*beta).E, GammaSumTempBg);
-												}
-												if(ProtonGammaSumTempBg != 0){
-													summed_p_gamma_E_p_E[i][1].at(j)->Fill((*beta).Ex, ProtonGammaSumTempBg);
-												}
-												if (Ag96_470 == true){Ag96_EdT_470keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
-												if (Ag96_743 == true){Ag96_EdT_743keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
-												if (Ag96_1249 == true){Ag96_EdT_1249keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
-												if (Ag96_470 == true || Ag96_743 == true || Ag96_1249 == true){
-													Ag96_EdT_all3Peaks_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-												}
-													
-											}//beta energy and multi-cut
-
-
-
-										
-										}//end of beta veto application
-										
-
-									}//end of stopping layer if statement
-								}//end of particle cut if statement
-
-							}//end of isotope for loop
-						}//end of elements for loop
-					}//end of imp = decay dssd if
-				}//end of loop over correlated events
+								}//end of isotope for loop
+							}//end of elements for loop
+						}//end of imp = decay dssd if
+					}//end of loop over correlated events
+				}//end of equal energy cut
 			} //end of if beta events with positive energy
 
 		}//end of loop through beta events
@@ -905,10 +907,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsoDir->Append(summed_p_gamma_E_p_E[i][0].at(k));
 			IsoDir->Append(summed_beta_gamma_E_beta_E[i][0].at(k));
 
-			IsoDir->Append(beta_gamma_EdT_us[i][0].at(k));
+			
 			IsoDir->Append(summed_beta_gamma_EdT_us[i][0].at(k));
-			IsoDir->Append(bp_gamma_EdT_us[i][0].at(k));
-			IsoDir->Append(summed_bp_gamma_EdT_us[i][0].at(k));
+			IsoDir->Append(summed_beta_gamma_EdT_us[i][1].at(k));
 
 
 			//IsoDir->Append(implantVelocityimplantZ[i].at(k));
