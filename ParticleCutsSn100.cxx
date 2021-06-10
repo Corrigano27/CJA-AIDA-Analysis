@@ -152,6 +152,7 @@ TH2D *Ag96_EdT_470keVgammaGated;
 TH2D *Ag96_EdT_743keVgammaGated;
 TH2D *Ag96_EdT_1249keVgammaGated;
 TH2D *Ag96_EdT_all3Peaks_gammaGated;
+TH2D *Ag96_GammaT_betaT_all3Peaks;
 
 TH2D *Ag96_EdT_all3Peaks_Random_gammaGated;
 //95Ag specific
@@ -378,6 +379,8 @@ void DefineHistograms()
 	Ag95_EdT_77keVsummed_gammaGated = new TH2D("Ag95_77keVsummed","",600,-30000,30000,80,200,1000);
 
 	Ag95_EDiff_dT_2104keVsummed_gammaGated = new TH2D("Ag95_EDiff_dT_2104keVsummed_gammaGated","",200,-10000,10000,100,-600,600);
+
+	Ag96_GammaT_betaT_all3Peaks = new TH2D("Ag96_GammaT_betaT_all3Peaks","",2e2,-5000,5000,2e2,-10,30);
 
 	Tin101_bp_gamma_peak_corr = new TH1D("Tin101_bp_gamma_peak_corr","",1000, 0, 7000);
 	Tin101_summed_bp_gamma_peak_corr = new TH1D("Tin101_summed_bp_gamma_peak_corr","",1000, 0, 7000);
