@@ -180,8 +180,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												
 												}
 												if ((*beta).nx < 4 && (*beta).ny < 4 && (*beta).E<1500){
-													implantBeta[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
-											
+													if (abs((imp).X-(*beta).x) < (0.5*multix + 0.5*((imp).TFAST &0xFF) +1.0)){
+														implantBeta[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+													}
 												}//end of upper beta energy cut
 												//end of dssd if
 												//end of dssd for
