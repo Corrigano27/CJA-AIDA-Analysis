@@ -693,9 +693,11 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													if (Ag96_1249 == true){Ag96_EdT_1249keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
 													if (Ag96_470 == true || Ag96_743 == true || Ag96_1249 == true){
 														Ag96_EdT_all3Peaks_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+														Ag96_E_correlatedGamma->Fill((*beta).E);
 													}
 													if(Ag96_Random == true){
 														Ag96_EdT_all3Peaks_Random_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+														Ag96_E_randomGamma->Fill((*beta.E));
 													}
 														
 												}//beta energy and multi-cut
@@ -822,6 +824,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	Ag96_GammaT_betaT_all3Peaks->Write();
 
+	Ag96_E_randomGamma->Write();
+
+	Ag96_E_correlatedGamma->Write();
+	
 	std::string isoDirName;
 
 	for(int i = 0; i < numElements; i++){
