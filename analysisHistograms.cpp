@@ -946,6 +946,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			summed_p_gamma_E_p_E[i][0].at(k)->Add(summed_p_gamma_E_p_E[i][1].at(k),-1);
 			summed_beta_gamma_E_beta_E[i][0].at(k)->Add(summed_beta_gamma_E_beta_E[i][1].at(k),-1);
 
+			//corrected
 			IsoDir->Append(beta_gamma_EdT_s_corr[i].at(k));
 			IsoDir->Append(beta_gamma_EdT_ms_corr[i].at(k));
 			IsoDir->Append(beta_gamma_EdT_us_corr[i].at(k));
@@ -959,12 +960,25 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsoDir->Append(summed_bp_gamma_EdT_ms_corr[i].at(k));
 			IsoDir->Append(summed_bp_gamma_EdT_us_corr[i].at(k));
 
-			IsoDir->Append(summed_p_gamma_E_p_E[i][0].at(k));
-			IsoDir->Append(summed_beta_gamma_E_beta_E[i][0].at(k));
+			//bgrnd components
+			for (int j=0; j<4; j++){
+				IsoDir->Append(beta_gamma_EdT_us[i][j].at(k));
+				IsoDir->Append(beta_gamma_EdT_ms[i][j].at(k));
+				IsoDir->Append(beta_gamma_EdT_s[i][j].at(k));
+
+				if (j < 2){
+					IsoDir->Append(summed_beta_gamma_EdT_us[i][j].at(k));
+					IsoDir->Append(summed_beta_gamma_EdT_ms[i][j].at(k));
+					IsoDir->Append(summed_beta_gamma_EdT_s[i][j].at(k));
+				}
+			}
+
+			//IsoDir->Append(summed_p_gamma_E_p_E[i][0].at(k));
+			//IsoDir->Append(summed_beta_gamma_E_beta_E[i][0].at(k));
 
 			
-			IsoDir->Append(summed_beta_gamma_EdT_us[i][0].at(k));
-			IsoDir->Append(summed_beta_gamma_EdT_us[i][1].at(k));
+			//IsoDir->Append(summed_beta_gamma_EdT_us[i][0].at(k));
+			//IsoDir->Append(summed_beta_gamma_EdT_us[i][1].at(k));
 
 
 			//IsoDir->Append(implantVelocityimplantZ[i].at(k));
