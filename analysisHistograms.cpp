@@ -77,8 +77,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	bool In97gammaVeto;
 
-	bool Ag95gammaCheck;
-
 	bool Ag96_470;
 	bool Ag96_743;
 	bool Ag96_1249;
@@ -117,7 +115,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 						if ((*beta).z == (imp).Z){
 							gammaVeto = true;
 							In97gammaVeto = false;
-							Ag95gammaCheck = false;
 							Ag96_470 = false;
 							Ag96_743 = false;
 							Ag96_1249 = false;
@@ -420,11 +417,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																	gammaVeto = false;
 																}
 															}
-															if ((gamma).ID<16){
-																if ((*beta).E < 1000 && (gamma).EN < 1400){
-																	Ag95gammaCheck = true;
-																}	
-															}
 														}
 													}
 												}	
@@ -450,9 +442,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													GammaSumTempBg=0;
 													ProtonGammaSumTemp=0;
 													ProtonGammaSumTempBg=0;
-													if (Ag95gammaCheck == true){
-														Ag95_EdT_allpeaks_gammaGated ->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-													}
 													for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
 														if (((*beta).T-(imp).TIME > 0)){ //forward implant-decay events
 															if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
@@ -497,7 +486,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																			if ((gamma).EN > 400 && (gamma).EN < 490){
 																				Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
-													
+																			if (((gamma).EN > 145 && (gamma).EN < 200)||((gamma).EN > 800 && (gamma).EN < 1100)||((gamma).EN > 400 && (gamma).EN < 490)){
+																				Ag95_EdT_allpeaks_gammaGated ->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																			}
 																		}
 
 																		else{
@@ -604,6 +595,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																			if ((gamma).EN > 400 && (gamma).EN < 490){
 																				Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
+																			if (((gamma).EN > 145 && (gamma).EN < 200)||((gamma).EN > 800 && (gamma).EN < 1100)||((gamma).EN > 400 && (gamma).EN < 490)){
+																				Ag95_EdT_allpeaks_gammaGated ->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																			}
 																		}
 																		else{	
 																			//beta_gamma_3[i].at(j)->Fill((gamma.EN));
@@ -673,6 +667,32 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														summed_beta_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, GammaSumTemp);
 
 														summed_beta_gamma_E_beta_E[i][0].at(j)->Fill((*beta).E, GammaSumTemp);
+
+														if ((*beta).Ex<1000 && (*beta).Ey<1000 && elements[i] == "Ag"){
+
+															for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
+																if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
+																	if(((*beta).T-(gamma).TIME) < 20000){
+																		if ((gamma).ID<16){
+																			if (isotopeStart[i]+j == 95){
+																				if (((*beta).T - (imp).TIME)/1e6 > 10){
+																					if (((*beta).T - (imp).TIME)/1e6 < 90){
+																						Ag95_single_vs_summed->Fill(GammaSumTemp,(gamma).EN);
+																					}
+																				}
+																			}
+																			if (isotopeStart[i]+j == 96){
+																				if (((*beta).T - (imp).TIME)/1e3 > 0){
+																					if (((*beta).T - (imp).TIME)/1e3 < 500){
+																						Ag96_single_vs_summed->Fill(GammaSumTemp,(gamma).EN);
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
 													}
 													if(ProtonGammaSumTemp != 0){
 														summed_p_gamma_E_p_E[i][0].at(j)->Fill((*beta).Ex, ProtonGammaSumTemp);
@@ -811,6 +831,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	Ag95_EDiff_dT_2104keVsummed_gammaGated->Write();
 
 	Ag95_Implant_EdT_2104keVsummed_gammaGated->Write();
+
+	Ag95_single_vs_summed->Write();
+
+	Ag96_single_vs_summed->Write();
 
 	Ag96_EdT_470keVgammaGated->Write();
 
