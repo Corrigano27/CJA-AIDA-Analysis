@@ -158,6 +158,8 @@ TH2D *Ag96_EdT_all3Peaks_Random_gammaGated;
 
 TH1D *Ag96_E_randomGamma;
 TH1D *Ag96_E_correlatedGamma;
+
+TH2D *Ag96_single_vs_summed;
 //95Ag specific
 
 TH2D *Ag95_EdT_160keVgammaGated;
@@ -174,6 +176,8 @@ TH2D *Ag95_Implant_EdT_2104keVsummed_gammaGated;
 TH2D *Ag95_EdT_77keVsummed_gammaGated;
 
 TH2D *Ag95_EDiff_dT_2104keVsummed_gammaGated;
+
+TH2D *Ag95_single_vs_summed;
 
 //Ag94 specific
 TH1D *Ag94_1800_bp_DTASindy[4];
@@ -388,6 +392,10 @@ void DefineHistograms()
 	Ag96_E_correlatedGamma = new TH1D("Ag96_E_correlatedGamma","",200,0,1000);
 
 	Ag96_E_randomGamma = new TH1D("Ag96_E_randomGamma","",200,0,1000);
+
+	Ag95_single_vs_summed = new TH2D("Ag95_DTAS_single_vs_summed","",1000,0,10000,1000,0,7000);
+
+	Ag96_single_vs_summed = new TH2D("Ag96_DTAS_single_vs_summed","",1000,0,10000,1000,0,7000);
 
 	Tin101_bp_gamma_peak_corr = new TH1D("Tin101_bp_gamma_peak_corr","",1000, 0, 7000);
 	Tin101_summed_bp_gamma_peak_corr = new TH1D("Tin101_summed_bp_gamma_peak_corr","",1000, 0, 7000);
