@@ -160,6 +160,7 @@ TH1D *Ag96_E_randomGamma;
 TH1D *Ag96_E_correlatedGamma;
 
 TH2D *Ag96_single_vs_summed;
+TH2D *Ag96_gamma_gamma;
 //95Ag specific
 
 TH2D *Ag95_EdT_160keVgammaGated;
@@ -178,7 +179,9 @@ TH2D *Ag95_EdT_77keVsummed_gammaGated;
 TH2D *Ag95_EDiff_dT_2104keVsummed_gammaGated;
 
 TH2D *Ag95_single_vs_summed;
-
+TH2D *Ag95_gamma_gamma;
+TH2D *Ag95_single_vs_summed_shorter;
+TH2D *Ag95_gamma_gamma_shorter;
 //Ag94 specific
 TH1D *Ag94_1800_bp_DTASindy[4];
 TH1D *Ag94_1800_bp_DTASsummed[2];
@@ -393,9 +396,13 @@ void DefineHistograms()
 
 	Ag96_E_randomGamma = new TH1D("Ag96_E_randomGamma","",200,0,1000);
 
-	Ag95_single_vs_summed = new TH2D("Ag95_DTAS_single_vs_summed","",1000,0,10000,1000,0,7000);
+	Ag95_single_vs_summed = new TH2D("Ag95_DTAS_single_vs_summed","",400,0,4000,400,0,4000);
+	Ag95_single_vs_summed_shorter = new TH2D("Ag95_DTAS_single_vs_summed_shorter","",400,0,4000,400,0,4000);
+	Ag96_single_vs_summed = new TH2D("Ag96_DTAS_single_vs_summed","",400,0,4000,400,0,4000);
 
-	Ag96_single_vs_summed = new TH2D("Ag96_DTAS_single_vs_summed","",1000,0,10000,1000,0,7000);
+	Ag95_gamma_gamma = new TH2D("Ag95_gamma_gamma","",400,0,4000,400,0,4000);
+	Ag95_gamma_gamma_shorter = new TH2D("Ag95_gamma_gamma_shorter","",400,0,4000,400,0,4000);
+	Ag96_gamma_gamma = new TH2D("Ag96_gamma_gamma","",400,0,4000,400,0,4000);
 
 	Tin101_bp_gamma_peak_corr = new TH1D("Tin101_bp_gamma_peak_corr","",1000, 0, 7000);
 	Tin101_summed_bp_gamma_peak_corr = new TH1D("Tin101_summed_bp_gamma_peak_corr","",1000, 0, 7000);
