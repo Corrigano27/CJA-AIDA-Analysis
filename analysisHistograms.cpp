@@ -670,21 +670,55 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 														if ((*beta).Ex<1000 && (*beta).Ey<1000 && elements[i] == "Ag"){
 
-															for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
-																if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
-																	if(((*beta).T-(gamma).TIME) < 20000){
-																		if ((gamma).ID<16){
+															for ( int d=0; d<(*beta).vectorOfGamma.size(); d++ ){ //loop over gamma events
+																if (((*beta).T-(*beta).vectorOfGamma.at(d).TIME) > 10000){ //forward gammas
+																	if(((*beta).T-(*beta).vectorOfGamma.at(d).TIME) < 20000){
+																		if ((*beta).vectorOfGamma.at(d).ID<16){
 																			if (isotopeStart[i]+j == 95){
+																				if (((*beta).T - (imp).TIME)/1e6 > 0){
+																					if (((*beta).T - (imp).TIME)/1e6 < 5){
+																						Ag95_single_vs_summed_shorter->Fill(GammaSumTemp,(*beta).vectorOfGamma.at(d).EN);
+																						for ( int e=0; e<(*beta).vectorOfGamma.size(); e++ ){
+																							if ( e != d && (*beta).vectorOfGamma.at(e).ID<16){
+																								if (((*beta).T-(*beta).vectorOfGamma.at(e).TIME) > 10000){ //forward gammas
+																									if(((*beta).T-(*beta).vectorOfGamma.at(e).TIME) < 20000){
+																										Ag95_gamma_gamma_shorter->Fill((*beta).vectorOfGamma.at(d).EN, (*beta).vectorOfGamma.at(e).EN);
+																									}
+																								}
+																							}
+																						}
+
+																					}
+																				}
+
 																				if (((*beta).T - (imp).TIME)/1e6 > 10){
-																					if (((*beta).T - (imp).TIME)/1e6 < 90){
-																						Ag95_single_vs_summed->Fill(GammaSumTemp,(gamma).EN);
+																					if (((*beta).T - (imp).TIME)/1e6 < 300){
+																						Ag95_single_vs_summed->Fill(GammaSumTemp,(*beta).vectorOfGamma.at(d).EN);
+																						for ( int e=0; e<(*beta).vectorOfGamma.size(); e++ ){
+																							if ( e != d && (*beta).vectorOfGamma.at(e).ID<16){
+																								if (((*beta).T-(*beta).vectorOfGamma.at(e).TIME) > 10000){ //forward gammas
+																									if(((*beta).T-(*beta).vectorOfGamma.at(e).TIME) < 20000){
+																										Ag95_gamma_gamma->Fill((*beta).vectorOfGamma.at(d).EN, (*beta).vectorOfGamma.at(e).EN);
+																									}
+																								}
+																							}
+																						}
 																					}
 																				}
 																			}
 																			if (isotopeStart[i]+j == 96){
 																				if (((*beta).T - (imp).TIME)/1e3 > 0){
 																					if (((*beta).T - (imp).TIME)/1e3 < 500){
-																						Ag96_single_vs_summed->Fill(GammaSumTemp,(gamma).EN);
+																						Ag96_single_vs_summed->Fill(GammaSumTemp,(*beta).vectorOfGamma.at(d).EN);
+																						for ( int e=0; e<(*beta).vectorOfGamma.size(); e++ ){
+																							if ( e != d && (*beta).vectorOfGamma.at(e).ID<16){		
+																								if (((*beta).T-(*beta).vectorOfGamma.at(e).TIME) > 10000){ //forward gammas
+																									if(((*beta).T-(*beta).vectorOfGamma.at(e).TIME) < 20000){																	
+																										Ag96_gamma_gamma->Fill((*beta).vectorOfGamma.at(d).EN, (*beta).vectorOfGamma.at(e).EN);
+																									}
+																								}
+																							}
+																						}
 																					}
 																				}
 																			}
@@ -834,7 +868,15 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	Ag95_single_vs_summed->Write();
 
+	Ag95_single_vs_summed_shorter->Write();
+
 	Ag96_single_vs_summed->Write();
+
+	Ag95_gamma_gamma->Write();
+
+	Ag95_gamma_gamma_shorter->Write();
+
+	Ag96_gamma_gamma->Write();
 
 	Ag96_EdT_470keVgammaGated->Write();
 
@@ -985,7 +1027,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsoDir->Append(summed_bp_gamma_EdT_us_corr[i].at(k));
 
 			//bgrnd components
-			for (int j=0; j<4; j++){
+			/*for (int j=0; j<4; j++){
 				IsoDir->Append(beta_gamma_EdT_us[i][j].at(k));
 				IsoDir->Append(beta_gamma_EdT_ms[i][j].at(k));
 				IsoDir->Append(beta_gamma_EdT_s[i][j].at(k));
@@ -996,6 +1038,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 					IsoDir->Append(summed_beta_gamma_EdT_s[i][j].at(k));
 				}
 			}
+			*/
 
 			//IsoDir->Append(summed_p_gamma_E_p_E[i][0].at(k));
 			//IsoDir->Append(summed_beta_gamma_E_beta_E[i][0].at(k));
