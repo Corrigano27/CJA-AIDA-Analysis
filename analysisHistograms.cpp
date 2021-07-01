@@ -78,6 +78,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	bool In97gammaVeto;
 
+	bool Ag95_160;
+	bool Ag95_800_1000;
+	bool Ag95_440;
+
 	bool Ag96_470;
 	bool Ag96_743;
 	bool Ag96_1249;
@@ -116,6 +120,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 						if ((*beta).z == (imp).Z){
 							gammaVeto = true;
 							In97gammaVeto = false;
+							Ag95_160 = false;
+							Ag95_800_1000 = false;
+							Ag95_440 = false;
 							Ag96_470 = false;
 							Ag96_743 = false;
 							Ag96_1249 = false;
@@ -479,16 +486,19 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																				GammaSumTemp+=(gamma.EN);
 																			}
 																			if ((gamma).EN > 145 && (gamma).EN < 200){
-																				Ag95_EdT_160keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																				Ag95_160 = true;
+																				//Ag95_EdT_160keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
 																			if ((gamma).EN > 800 && (gamma).EN < 1200){
-																				Ag95_EdT_800_1000keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																				Ag95_800_1000 = true;
+																				//Ag95_EdT_800_1000keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
 																			if ((gamma).EN > 400 && (gamma).EN < 490){
-																				Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																				Ag95_440 = true;
+																				//Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
 																			if (((gamma).EN > 145 && (gamma).EN < 200)||((gamma).EN > 800 && (gamma).EN < 1100)||((gamma).EN > 400 && (gamma).EN < 490)){
-																				Ag95_EdT_allpeaks_gammaGated ->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																				//Ag95_EdT_allpeaks_gammaGated ->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
 																		}
 
@@ -588,16 +598,19 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																				GammaSumTempBg += (gamma.EN);
 																			}
 																			if ((gamma).EN > 145 && (gamma).EN < 200){
-																				Ag95_EdT_160keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																				Ag95_160 = true;
+																				//Ag95_EdT_160keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
-																			if ((gamma).EN > 800 && (gamma).EN < 1100){
-																				Ag95_EdT_800_1000keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																			if ((gamma).EN > 800 && (gamma).EN < 1200){
+																				Ag95_800_1000 = true;
+																				//Ag95_EdT_800_1000keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
 																			if ((gamma).EN > 400 && (gamma).EN < 490){
-																				Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																				Ag95_440 = true;
+																				//Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
 																			if (((gamma).EN > 145 && (gamma).EN < 200)||((gamma).EN > 800 && (gamma).EN < 1100)||((gamma).EN > 400 && (gamma).EN < 490)){
-																				Ag95_EdT_allpeaks_gammaGated ->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																				//Ag95_EdT_allpeaks_gammaGated ->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
 																		}
 																		else{	
@@ -743,6 +756,12 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													if(ProtonGammaSumTempBg != 0){
 														summed_p_gamma_E_p_E[i][1].at(j)->Fill((*beta).Ex, ProtonGammaSumTempBg);
 													}
+
+													if(Ag95_160 == true){Ag95_EdT_160keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
+													if(Ag95_440 == true){Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
+													if(Ag95_800_1000 == true){Ag95_EdT_800_1000keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
+													if(Ag95_160 == true || Ag95_440 == true || Ag95_800_1000 == true){Ag95_EdT_allpeaks_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
+
 													if (Ag96_470 == true){Ag96_EdT_470keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
 													if (Ag96_743 == true){Ag96_EdT_743keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
 													if (Ag96_1249 == true){Ag96_EdT_1249keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
