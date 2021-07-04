@@ -308,6 +308,18 @@ void SetImplantDSSD()
 	isotopeDSSDEnd[3].push_back(2);
 }
 
+double DTAS_SingleCalib(double E){
+	double Ecorr;
+	Ecorr = 0.99709*E - 32.10875;
+	return Ecorr;
+}
+
+double DTAS_SummedCalib(double E){
+	double Ecorr;
+	Ecorr = 1*E - 0;
+	return Ecorr;
+}
+
 //reads i cut objects from file
 void ReadParticleCuts(std::string cutFile)
 {
