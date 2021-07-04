@@ -88,6 +88,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	bool Ag96_Random;
 
+	double IndyGammaE;
+
 	double GammaSumTemp;
 	double GammaSumTempBg;
 
@@ -207,35 +209,36 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														Ag94_Peak_Counter = 0;
 														Ag94_Peak_CounterBg = 0;
 														for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
+															IndyGammaE = DTAS_SingleCalib(gamma.EN);
 															if (((*beta).T-(imp).TIME > 0)){ //forward implant-decay events
 																if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
 																	if (((*beta).T-(gamma).TIME) < 20000){
 																		if ((gamma).ID<16){		
 																			//bp_gamma_1[i].at(j)->Fill((gamma.EN));
-																			bp_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																			bp_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																			bp_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																			ProtonGammaSumTemp+=(gamma.EN);
+																			bp_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, IndyGammaE);
+																			bp_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, IndyGammaE);
+																			bp_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, IndyGammaE);
+																			ProtonGammaSumTemp+=(IndyGammaE);
 																			if (elements[i] == "Sn" && isotopeStart[i]+j == 101 && (*beta).z==1){
 																				if ((((*beta).T-(imp).TIME)/1e9 < 5)){
 																					if ((*beta).Ex>2150){
 																						if ((*beta).Ex<2400){
-																							Tin101_bp_gamma_peak[0]->Fill((gamma.EN));
-																							Sn101Counter_Pk += (gamma.EN);
+																							Tin101_bp_gamma_peak[0]->Fill(IndyGammaE);
+																							Sn101Counter_Pk += IndyGammaE;
 																							
 																						}
 																					}
 																					if ((*beta).Ex>2400){
-																						Tin101_bp_gamma_rest[0]->Fill((gamma.EN));
-																						Sn101Counter += (gamma.EN);
+																						Tin101_bp_gamma_rest[0]->Fill(IndyGammaE);
+																						Sn101Counter += IndyGammaE;
 																					}
 																				}
 																			}
 																			if (elements[i] == "Ag" && isotopeStart[i]+j == 94){
 																				if ((*beta).Ex>1711){
 																					if ((*beta).Ex<1940){
-																						Ag94_1800_bp_DTASindy[0]->Fill((gamma.EN));
-																						Ag94_Peak_Counter += (gamma.EN);
+																						Ag94_1800_bp_DTASindy[0]->Fill(IndyGammaE);
+																						Ag94_Peak_Counter += IndyGammaE;
 																					}
 																				}
 																			}
@@ -245,26 +248,26 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																if (((*beta).T-(gamma).TIME) > 20000){ //random gammas
 																	if(((*beta).T-(gamma).TIME) < 30000){
 																		if ((gamma).ID<16){		
-																			//bp_gamma_2[i].at(j)->Fill((gamma.EN));
-																			bp_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																			bp_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																			bp_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																			//bp_gamma_2[i].at(j)->Fill((IndyGammaE));
+																			bp_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (IndyGammaE));
+																			bp_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (IndyGammaE));
+																			bp_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (IndyGammaE));
 																			if (elements[i] == "Sn" && isotopeStart[i]+j == 101 && (*beta).z==1){
 																				if ((((*beta).T-(imp).TIME)/1e9 < 5)){
 																					if ((*beta).Ex>2150){
 																						if ((*beta).Ex<2400){
-																							Tin101_bp_gamma_peak[1]->Fill((gamma.EN));
+																							Tin101_bp_gamma_peak[1]->Fill((IndyGammaE));
 																						}
 																					}
 																					if ((*beta).Ex>2400){
-																						Tin101_bp_gamma_rest[1]->Fill((gamma.EN));
+																						Tin101_bp_gamma_rest[1]->Fill((IndyGammaE));
 																					}
 																				}
 																			}
 																			if (elements[i] == "Ag" && isotopeStart[i]+j == 94){
 																				if ((*beta).Ex>1711){
 																					if ((*beta).Ex<1940){
-																						Ag94_1800_bp_DTASindy[1]->Fill((gamma.EN));
+																						Ag94_1800_bp_DTASindy[1]->Fill((IndyGammaE));
 																					}
 																				}
 																			}
@@ -276,31 +279,31 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
 																	if(((*beta).T-(gamma).TIME) < 20000){
 																		if ((gamma).ID<16){		
-																			//bp_gamma_3[i].at(j)->Fill((gamma.EN));
-																			bp_gamma_EdT_s[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																			bp_gamma_EdT_ms[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																			bp_gamma_EdT_us[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																			ProtonGammaSumTempBg+=(gamma.EN);
+																			//bp_gamma_3[i].at(j)->Fill((IndyGammaE));
+																			bp_gamma_EdT_s[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (IndyGammaE));
+																			bp_gamma_EdT_ms[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (IndyGammaE));
+																			bp_gamma_EdT_us[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (IndyGammaE));
+																			ProtonGammaSumTempBg+=(IndyGammaE);
 
 																			if (elements[i] == "Sn" && isotopeStart[i]+j == 101 && (*beta).z==1){
 																				if ((((*beta).T-(imp).TIME)/1e9 > -5)){
 																					if ((*beta).Ex>2150){
 																						if ((*beta).Ex<2400){
-																							Tin101_bp_gamma_peak[2]->Fill((gamma.EN));
-																							Sn101CounterBg_Pk += (gamma.EN);
+																							Tin101_bp_gamma_peak[2]->Fill((IndyGammaE));
+																							Sn101CounterBg_Pk += (IndyGammaE);
 																						}
 																					}
 																					if ((*beta).Ex>2400){
-																						Tin101_bp_gamma_rest[2]->Fill((gamma.EN));
-																						Sn101CounterBg += (gamma.EN);
+																						Tin101_bp_gamma_rest[2]->Fill((IndyGammaE));
+																						Sn101CounterBg += (IndyGammaE);
 																					}
 																				}
 																			}
 																			if (elements[i] == "Ag" && isotopeStart[i]+j == 94){
 																				if ((*beta).Ex>1711){
 																					if ((*beta).Ex<1940){
-																						Ag94_1800_bp_DTASindy[2]->Fill((gamma.EN));
-																						Ag94_Peak_CounterBg += (gamma.EN);
+																						Ag94_1800_bp_DTASindy[2]->Fill((IndyGammaE));
+																						Ag94_Peak_CounterBg += (IndyGammaE);
 																					}
 																				}
 																			}
@@ -310,19 +313,19 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																if (((*beta).T-(gamma).TIME) > 20000){ //random gammas
 																	if(((*beta).T-(gamma).TIME) < 30000){
 																		if ((gamma).ID<16){		
-																			//bp_gamma_4[i].at(j)->Fill((gamma.EN));
-																			bp_gamma_EdT_s[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																			bp_gamma_EdT_ms[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																			bp_gamma_EdT_us[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																			//bp_gamma_4[i].at(j)->Fill((IndyGammaE));
+																			bp_gamma_EdT_s[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (IndyGammaE));
+																			bp_gamma_EdT_ms[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (IndyGammaE));
+																			bp_gamma_EdT_us[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (IndyGammaE));
 																			if (elements[i] == "Sn" && isotopeStart[i]+j == 101 && (*beta).z==1){
 																				if ((((*beta).T-(imp).TIME)/1e9 > -5)){
 																					if ((*beta).Ex>2150){
 																						if ((*beta).Ex<2400){
-																							Tin101_bp_gamma_peak[3]->Fill((gamma.EN));
+																							Tin101_bp_gamma_peak[3]->Fill((IndyGammaE));
 																						}
 																					}
 																					if ((*beta).Ex>2400){
-																						Tin101_bp_gamma_rest[3]->Fill((gamma.EN));
+																						Tin101_bp_gamma_rest[3]->Fill((IndyGammaE));
 																					}
 																				
 																				}
@@ -330,7 +333,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																			if (elements[i] == "Ag" && isotopeStart[i]+j == 94){
 																				if ((*beta).Ex>1711){
 																					if ((*beta).Ex<1940){
-																						Ag94_1800_bp_DTASindy[3]->Fill((gamma.EN));
+																						Ag94_1800_bp_DTASindy[3]->Fill((IndyGammaE));
 																					}
 																				}
 																			}
@@ -451,10 +454,11 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													ProtonGammaSumTemp=0;
 													ProtonGammaSumTempBg=0;
 													for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
+													IndyGammaE = DTAS_SingleCalib(gamma.EN);
 														if (((*beta).T-(imp).TIME > 0)){ //forward implant-decay events
 															if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
 																if(((*beta).T-(gamma).TIME) < 20000){
-																	//summed_beta_gamma_1[i].at(j)->Fill((gamma.EN));
+																	//summed_beta_gamma_1[i].at(j)->Fill((IndyGammaE));
 
 																	if ((gamma).ID == 777 && elements[i] == "Ag" && isotopeStart[i]+j == 95){
 																		if ((*beta).Ex<1000 && (*beta).Ey<1000){
@@ -480,10 +484,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 																		if (elements[i] == "Ag" && isotopeStart[i]+j == 95){
 																			if ((*beta).Ex<1000 && (*beta).Ey<1000){
-																				beta_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																				beta_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																				beta_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																				GammaSumTemp+=(gamma.EN);
+																				beta_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (IndyGammaE));
+																				beta_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (IndyGammaE));
+																				beta_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (IndyGammaE));
+																				GammaSumTemp+=(IndyGammaE);
 																			}
 																			if ((gamma).EN > 145 && (gamma).EN < 200){
 																				Ag95_160 = true;
@@ -497,19 +501,16 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																				Ag95_440 = true;
 																				//Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
-																			if (((gamma).EN > 145 && (gamma).EN < 200)||((gamma).EN > 800 && (gamma).EN < 1100)||((gamma).EN > 400 && (gamma).EN < 490)){
-																				//Ag95_EdT_allpeaks_gammaGated ->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-																			}
 																		}
 
 																		else{
-																			//beta_gamma_1[i].at(j)->Fill((gamma.EN));
-																			beta_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																			beta_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																			beta_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																			GammaSumTemp+=(gamma.EN);
+																			//beta_gamma_1[i].at(j)->Fill((IndyGammaE));
+																			beta_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (IndyGammaE));
+																			beta_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (IndyGammaE));
+																			beta_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (IndyGammaE));
+																			GammaSumTemp+=(IndyGammaE);
 																			if (multix==0 && multiy==0 && (*beta).Ex<1400 && (*beta).Ey<1400){
-																				ProtonGammaSumTemp+=(gamma.EN);
+																				ProtonGammaSumTemp+=(IndyGammaE);
 																			}
 																		}
 																		if (elements[i] == "Ag" && isotopeStart[i]+j == 96){
@@ -537,18 +538,18 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 																		if (elements[i] == "Ag" && isotopeStart[i]+j == 95){
 																			if ((*beta).Ex<1000 && (*beta).Ey<1000){
-																				beta_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																				beta_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																				beta_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																				beta_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (IndyGammaE));
+																				beta_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (IndyGammaE));
+																				beta_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (IndyGammaE));
 																			}
 
 																		}
 
 																		else{
-																			//beta_gamma_2[i].at(j)->Fill((gamma.EN));
-																			beta_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																			beta_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																			beta_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																			//beta_gamma_2[i].at(j)->Fill((IndyGammaE));
+																			beta_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (IndyGammaE));
+																			beta_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (IndyGammaE));
+																			beta_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (IndyGammaE));
 																		}
 																		if (elements[i] == "Ag" && isotopeStart[i]+j == 96){
 																			if ((*beta).Ex<1000 && (*beta).Ey<1000){
@@ -592,10 +593,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																		if (elements[i] == "Ag" && isotopeStart[i]+j == 95){
 
 																			if ((*beta).Ex<1000 && (*beta).Ey<1000){
-																				beta_gamma_EdT_s[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																				beta_gamma_EdT_ms[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																				beta_gamma_EdT_us[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																				GammaSumTempBg += (gamma.EN);
+																				beta_gamma_EdT_s[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (IndyGammaE));
+																				beta_gamma_EdT_ms[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (IndyGammaE));
+																				beta_gamma_EdT_us[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (IndyGammaE));
+																				GammaSumTempBg += (IndyGammaE);
 																			}
 																			if ((gamma).EN > 145 && (gamma).EN < 200){
 																				Ag95_160 = true;
@@ -609,18 +610,15 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																				Ag95_440 = true;
 																				//Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
-																			if (((gamma).EN > 145 && (gamma).EN < 200)||((gamma).EN > 800 && (gamma).EN < 1100)||((gamma).EN > 400 && (gamma).EN < 490)){
-																				//Ag95_EdT_allpeaks_gammaGated ->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-																			}
 																		}
 																		else{	
-																			//beta_gamma_3[i].at(j)->Fill((gamma.EN));
-																			beta_gamma_EdT_s[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																			beta_gamma_EdT_ms[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																			beta_gamma_EdT_us[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
-																			GammaSumTempBg += (gamma.EN);
+																			//beta_gamma_3[i].at(j)->Fill((IndyGammaE));
+																			beta_gamma_EdT_s[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (IndyGammaE));
+																			beta_gamma_EdT_ms[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (IndyGammaE));
+																			beta_gamma_EdT_us[i][2].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (IndyGammaE));
+																			GammaSumTempBg += (IndyGammaE);
 																			if (multix==0 && multiy==0 && (*beta).Ex<1400 && (*beta).Ey<1400){
-																				ProtonGammaSumTempBg+=(gamma.EN);
+																				ProtonGammaSumTempBg+=(IndyGammaE);
 																			}
 																		}
 																		if (elements[i] == "Ag" && isotopeStart[i]+j == 96){
@@ -649,16 +647,16 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																		if (elements[i] == "Ag" && isotopeStart[i]+j == 95){
 																			if ((*beta).Ex<1000 && (*beta).Ey<1000){
 
-																				beta_gamma_EdT_s[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																				beta_gamma_EdT_ms[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																				beta_gamma_EdT_us[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																				beta_gamma_EdT_s[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (IndyGammaE));
+																				beta_gamma_EdT_ms[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (IndyGammaE));
+																				beta_gamma_EdT_us[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (IndyGammaE));
 																			}
 																		}
 																		else{		
-																		//beta_gamma_4[i].at(j)->Fill((gamma.EN));
-																			beta_gamma_EdT_s[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (gamma.EN));
-																			beta_gamma_EdT_ms[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (gamma.EN));
-																			beta_gamma_EdT_us[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (gamma.EN));
+																		//beta_gamma_4[i].at(j)->Fill((IndyGammaE));
+																			beta_gamma_EdT_s[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (IndyGammaE));
+																			beta_gamma_EdT_ms[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (IndyGammaE));
+																			beta_gamma_EdT_us[i][3].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (IndyGammaE));
 																		}
 																		if (elements[i] == "Ag" && isotopeStart[i]+j == 96){
 																			if ((*beta).Ex<1000 && (*beta).Ey<1000){
@@ -691,12 +689,12 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																			if (isotopeStart[i]+j == 95){
 																				if (((*beta).T - (imp).TIME)/1e6 > 0){
 																					if (((*beta).T - (imp).TIME)/1e6 < 5){
-																						Ag95_single_vs_summed_shorter->Fill(GammaSumTemp,(*beta).vectorOfGamma.at(d).EN);
+																						Ag95_single_vs_summed_shorter->Fill(GammaSumTemp,DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN));
 																						for ( int e=0; e<(*beta).vectorOfGamma.size(); e++ ){
 																							if ( e != d && (*beta).vectorOfGamma.at(e).ID<16){
 																								if (((*beta).T-(*beta).vectorOfGamma.at(e).TIME) > 10000){ //forward gammas
 																									if(((*beta).T-(*beta).vectorOfGamma.at(e).TIME) < 20000){
-																										Ag95_gamma_gamma_shorter->Fill((*beta).vectorOfGamma.at(d).EN, (*beta).vectorOfGamma.at(e).EN);
+																										Ag95_gamma_gamma_shorter->Fill(DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN), DTAS_SingleCalib((*beta).vectorOfGamma.at(e).EN));
 																									}
 																								}
 																							}
@@ -707,12 +705,12 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 																				if (((*beta).T - (imp).TIME)/1e6 > 10){
 																					if (((*beta).T - (imp).TIME)/1e6 < 300){
-																						Ag95_single_vs_summed->Fill(GammaSumTemp,(*beta).vectorOfGamma.at(d).EN);
+																						Ag95_single_vs_summed->Fill(GammaSumTemp,DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN));
 																						for ( int e=0; e<(*beta).vectorOfGamma.size(); e++ ){
 																							if ( e != d && (*beta).vectorOfGamma.at(e).ID<16){
 																								if (((*beta).T-(*beta).vectorOfGamma.at(e).TIME) > 10000){ //forward gammas
 																									if(((*beta).T-(*beta).vectorOfGamma.at(e).TIME) < 20000){
-																										Ag95_gamma_gamma->Fill((*beta).vectorOfGamma.at(d).EN, (*beta).vectorOfGamma.at(e).EN);
+																										Ag95_gamma_gamma->Fill(DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN), DTAS_SingleCalib((*beta).vectorOfGamma.at(e).EN));
 																									}
 																								}
 																							}
@@ -723,12 +721,12 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																			if (isotopeStart[i]+j == 96){
 																				if (((*beta).T - (imp).TIME)/1e3 > 0){
 																					if (((*beta).T - (imp).TIME)/1e3 < 500){
-																						Ag96_single_vs_summed->Fill(GammaSumTemp,(*beta).vectorOfGamma.at(d).EN);
+																						Ag96_single_vs_summed->Fill(GammaSumTemp,DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN));
 																						for ( int e=0; e<(*beta).vectorOfGamma.size(); e++ ){
 																							if ( e != d && (*beta).vectorOfGamma.at(e).ID<16){		
 																								if (((*beta).T-(*beta).vectorOfGamma.at(e).TIME) > 10000){ //forward gammas
 																									if(((*beta).T-(*beta).vectorOfGamma.at(e).TIME) < 20000){																	
-																										Ag96_gamma_gamma->Fill((*beta).vectorOfGamma.at(d).EN, (*beta).vectorOfGamma.at(e).EN);
+																										Ag96_gamma_gamma->Fill(DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN), DTAS_SingleCalib((*beta).vectorOfGamma.at(e).EN));
 																									}
 																								}
 																							}
