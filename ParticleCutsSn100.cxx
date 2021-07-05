@@ -169,6 +169,8 @@ TH2D *Ag95_EdT_160_800_1000keVgammaGated;
 TH2D *Ag95_EdT_440keVgammaGated;
 TH2D *Ag95_EdT_allpeaks_gammaGated;
 
+TH2D *Ag95_EdT_randomcheck;
+
 TH2D *Ag95_EdT_2104keVsummed_gammaGated;
 TH2D *Ag95_EdT_2104keVsummed_gammaGated_back;
 TH2D *Ag95_EdT_2104keVsummed_gammaGated_11;
@@ -310,7 +312,7 @@ void SetImplantDSSD()
 
 double DTAS_SingleCalib(double E){
 	double Ecorr;
-	Ecorr = 0.99709*E - 32.10875;
+	Ecorr = 0.986*E - 20.2;
 	return Ecorr;
 }
 
@@ -392,6 +394,8 @@ void DefineHistograms()
 	Ag95_EdT_160_800_1000keVgammaGated = new TH2D("Ag95_EdT_160_800_1000keV","",200,-10000,10000,80,200,1000);
 	Ag95_EdT_440keVgammaGated = new TH2D("Ag95_EdT_440keV","",200,-10000,10000,80,200,1000);
 	Ag95_EdT_allpeaks_gammaGated = new TH2D("Ag95_EdT_allpeaks","",200,-10000,10000,80,200,1000);
+
+	Ag95_EdT_randomcheck = new TH2D("Ag95_EdT_randomcheck","",200,-10000,10000,80,200,1000);
 
 	Ag95_EdT_2104keVsummed_gammaGated = new TH2D("Ag95_2104keVsummed_front","",200,-10000,10000,80,200,1000);
 	Ag95_EdT_2104keVsummed_gammaGated_back = new TH2D("Ag95_2104keVsummed_back","",200,-10000,10000,80,200,1000);
