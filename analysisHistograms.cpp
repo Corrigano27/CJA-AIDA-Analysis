@@ -82,6 +82,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	bool Ag95_800_1000;
 	bool Ag95_440;
 
+	bool Ag95_randomCheck;
+
 	bool Ag96_470;
 	bool Ag96_743;
 	bool Ag96_1249;
@@ -125,6 +127,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 							Ag95_160 = false;
 							Ag95_800_1000 = false;
 							Ag95_440 = false;
+							Ag95_randomCheck = false;
 							Ag96_470 = false;
 							Ag96_743 = false;
 							Ag96_1249 = false;
@@ -501,6 +504,11 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																				Ag95_440 = true;
 																				//Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
+																			if ((gamma).EN > 615 && (gamma).EN < 695){
+																				Ag95_randomCheck = true;
+																				//Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																			}
+
 																		}
 
 																		else{
@@ -608,6 +616,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																			}
 																			if ((gamma).EN > 400 && (gamma).EN < 490){
 																				Ag95_440 = true;
+																				//Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																			}
+																			if ((gamma).EN > 615 && (gamma).EN < 695){
+																				Ag95_randomCheck = true;
 																				//Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
 																		}
@@ -758,7 +770,14 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													if(Ag95_160 == true){Ag95_EdT_160keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
 													if(Ag95_440 == true){Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
 													if(Ag95_800_1000 == true){Ag95_EdT_800_1000keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
-													if(Ag95_160 == true || Ag95_440 == true || Ag95_800_1000 == true){Ag95_EdT_allpeaks_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
+													if(Ag95_160 == true || Ag95_800_1000 == true){
+														if (GammaSumTemp > 2000){
+															if (GammaSumTemp < 2200){
+																Ag95_EdT_allpeaks_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+															}
+														}
+													}
+													if(Ag95_randomCheck == true){Ag95_EdT_randomcheck->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
 
 													if (Ag96_470 == true){Ag96_EdT_470keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
 													if (Ag96_743 == true){Ag96_EdT_743keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
@@ -864,6 +883,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	Ag95_EdT_160keVgammaGated->Write();
 	Ag95_EdT_800_1000keVgammaGated->Write();
 	Ag95_EdT_440keVgammaGated->Write();
+
+	Ag95_EdT_randomcheck->Write();
 
 	Ag95_EdT_160_800_1000keVgammaGated->Add(Ag95_EdT_160keVgammaGated, 1);
 	Ag95_EdT_160_800_1000keVgammaGated->Add(Ag95_EdT_800_1000keVgammaGated, 1);
