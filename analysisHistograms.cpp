@@ -754,7 +754,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																						if ((*beta).vectorOfGamma.size() > 1){
 																							if (d < 2){
 																								Ag96_subtraction = true;
-																								gammaSubtract += DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN));
+																								gammaSubtract += DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN);
 																							}
 																								
 																						}
