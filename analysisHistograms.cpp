@@ -81,12 +81,15 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	bool Ag95_160;
 	bool Ag95_800_1000;
 	bool Ag95_440;
+	bool Ag95_511;
 
 	bool Ag95_randomCheck;
 
 	bool Ag96_470;
 	bool Ag96_743;
 	bool Ag96_1249;
+
+	bool Ag96_subtraction;
 
 	bool Ag96_Random;
 
@@ -109,6 +112,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	double Ag94_Peak_Counter;
 	double Ag94_Peak_CounterBg;
 
+	double gammaSubtract;
+
 	uint8_t multix = 0;
 	uint8_t multiy = 0;
 	
@@ -127,11 +132,13 @@ int analysisHistograms(std::string iName, std::string cutFile){
 							Ag95_160 = false;
 							Ag95_800_1000 = false;
 							Ag95_440 = false;
+							Ag95_511 = false;
 							Ag95_randomCheck = false;
 							Ag96_470 = false;
 							Ag96_743 = false;
 							Ag96_1249 = false;
 							Ag96_Random = false;
+							Ag96_subtraction = false;
 							for (int i = 0; i < numElements; i++){
 								for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 									if (particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
@@ -501,11 +508,15 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																				Ag95_800_1000 = true;
 																				//Ag95_EdT_800_1000keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
-																			if (IndyGammaE > 415 && IndyGammaE < 435){
+																			if (IndyGammaE > 400 && IndyGammaE < 445){
 																				Ag95_440 = true;
 																				//Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
-																			if (IndyGammaE > 615 && IndyGammaE < 635){
+																			if (IndyGammaE > 480 && IndyGammaE < 525){
+																				Ag95_511 = true;
+																				//Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																			}
+																			if (IndyGammaE > 600 && IndyGammaE < 645){
 																				Ag95_randomCheck = true;
 																				//Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
@@ -615,11 +626,15 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																				Ag95_800_1000 = true;
 																				//Ag95_EdT_800_1000keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
-																			if (IndyGammaE > 415 && IndyGammaE < 435){
+																			if (IndyGammaE > 400 && IndyGammaE < 445){
 																				Ag95_440 = true;
 																				//Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
-																			if (IndyGammaE > 615 && IndyGammaE < 635){
+																			if (IndyGammaE > 480 && IndyGammaE < 525){
+																				Ag95_511 = true;
+																				//Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																			}
+																			if (IndyGammaE > 600 && IndyGammaE < 645){
 																				Ag95_randomCheck = true;
 																				//Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
@@ -686,6 +701,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			
 													}//end of gamma loop
 													//fill tallied histograms
+													gammaSubtract = 0;
 													if (GammaSumTemp != 0){
 														summed_beta_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, GammaSumTemp);
 														summed_beta_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, GammaSumTemp);
@@ -694,7 +710,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														summed_beta_gamma_E_beta_E[i][0].at(j)->Fill((*beta).E, GammaSumTemp);
 
 														if ((*beta).Ex<1000 && (*beta).Ey<1000 && elements[i] == "Ag"){
-
+															
 															for ( int d=0; d<(*beta).vectorOfGamma.size(); d++ ){ //loop over gamma events
 																if (((*beta).T-(*beta).vectorOfGamma.at(d).TIME) > 10000){ //forward gammas
 																	if(((*beta).T-(*beta).vectorOfGamma.at(d).TIME) < 20000){
@@ -735,6 +751,13 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																				if (((*beta).T - (imp).TIME)/1e3 > 0){
 																					if (((*beta).T - (imp).TIME)/1e3 < 500){
 																						Ag96_single_vs_summed->Fill(GammaSumTemp,DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN));
+																						if ((*beta).vectorOfGamma.size() > 1){
+																							if (d < 2){
+																								Ag96_subtraction = true;
+																								gammaSubtract += DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN));
+																							}
+																								
+																						}
 																						for ( int e=0; e<(*beta).vectorOfGamma.size(); e++ ){
 																							if ( e != d && (*beta).vectorOfGamma.at(e).ID<16){		
 																								if (((*beta).T-(*beta).vectorOfGamma.at(e).TIME) > 10000){ //forward gammas
@@ -751,6 +774,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																	}
 																}
 															}
+														}
+														if (Ag96_subtraction == true){
+															Ag96_sum_E1E2_diff->Fill(GammaSumTemp, GammaSumTemp-gammaSubtract);
 														}
 													}
 													if(ProtonGammaSumTemp != 0){
@@ -770,6 +796,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 													if(Ag95_160 == true){Ag95_EdT_160keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
 													if(Ag95_440 == true){Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
+													if(Ag95_511 == true){Ag95_EdT_511keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
 													if(Ag95_800_1000 == true){Ag95_EdT_800_1000keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
 													if(Ag95_160 == true && Ag95_800_1000 == true){
 														if (GammaSumTemp > 2000){
@@ -791,6 +818,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														Ag96_EdT_all3Peaks_Random_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 														Ag96_E_randomGamma->Fill((*beta).E);
 													}
+
+													
 														
 												}//beta energy and multi-cut
 
@@ -884,7 +913,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	Ag95_EdT_160keVgammaGated->Write();
 	Ag95_EdT_800_1000keVgammaGated->Write();
 	Ag95_EdT_440keVgammaGated->Write();
-
+	Ag95_EdT_511keVgammaGated->Write();
 	Ag95_EdT_randomcheck->Write();
 
 	Ag95_EdT_160_800_1000keVgammaGated->Add(Ag95_EdT_160keVgammaGated, 1);
@@ -917,6 +946,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	Ag95_gamma_gamma_shorter->Write();
 
 	Ag96_gamma_gamma->Write();
+
+	Ag96_sum_E1E2_diff->Write();
 
 	Ag96_EdT_470keVgammaGated->Write();
 
