@@ -161,12 +161,15 @@ TH1D *Ag96_E_correlatedGamma;
 
 TH2D *Ag96_single_vs_summed;
 TH2D *Ag96_gamma_gamma;
+
+TH2D *Ag96_sum_E1E2_diff;
 //95Ag specific
 
 TH2D *Ag95_EdT_160keVgammaGated;
 TH2D *Ag95_EdT_800_1000keVgammaGated;
 TH2D *Ag95_EdT_160_800_1000keVgammaGated;
 TH2D *Ag95_EdT_440keVgammaGated;
+TH2D *Ag95_EdT_511keVgammaGated;
 TH2D *Ag95_EdT_allpeaks_gammaGated;
 
 TH2D *Ag95_EdT_randomcheck;
@@ -389,10 +392,12 @@ void DefineHistograms()
 
 	Ag96_EdT_all3Peaks_Random_gammaGated = new TH2D("Ag96_EdT_Random_gammaGated","",1000,-5000,5000,80,200,1000);
 
+
 	Ag95_EdT_160keVgammaGated = new TH2D("Ag95_EdT_160keV","",200,-10000,10000,80,200,1000);
 	Ag95_EdT_800_1000keVgammaGated = new TH2D("Ag95_EdT_800_1000keV","",200,-10000,10000,80,200,1000);
 	Ag95_EdT_160_800_1000keVgammaGated = new TH2D("Ag95_EdT_160_800_1000keV","",200,-10000,10000,80,200,1000);
 	Ag95_EdT_440keVgammaGated = new TH2D("Ag95_EdT_440keV","",200,-10000,10000,80,200,1000);
+	Ag95_EdT_511keVgammaGated = new TH2D("Ag95_EdT_511keV","",200,-10000,10000,80,200,1000);
 	Ag95_EdT_allpeaks_gammaGated = new TH2D("Ag95_EdT_allpeaks","",200,-10000,10000,80,200,1000);
 
 	Ag95_EdT_randomcheck = new TH2D("Ag95_EdT_randomcheck","",200,-10000,10000,80,200,1000);
@@ -415,6 +420,8 @@ void DefineHistograms()
 	Ag95_single_vs_summed = new TH2D("Ag95_DTAS_single_vs_summed","",400,0,4000,400,0,4000);
 	Ag95_single_vs_summed_shorter = new TH2D("Ag95_DTAS_single_vs_summed_shorter","",400,0,4000,400,0,4000);
 	Ag96_single_vs_summed = new TH2D("Ag96_DTAS_single_vs_summed","",400,0,4000,400,0,4000);
+
+	Ag96_sum_E1E2_diff = new TH2D("Ag96_sum_E1E2_diff","",300,0,3000,300,0,3000);
 
 	Ag95_gamma_gamma = new TH2D("Ag95_gamma_gamma","",400,0,4000,400,0,4000);
 	Ag95_gamma_gamma_shorter = new TH2D("Ag95_gamma_gamma_shorter","",400,0,4000,400,0,4000);
