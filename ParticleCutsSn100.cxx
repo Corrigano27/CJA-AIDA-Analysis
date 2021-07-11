@@ -357,7 +357,7 @@ void DefineHistograms()
 
 	PID_implant = new TH2D("PID_implant", "", 1e3, 1.95, 2.35, 1e3, 39, 56);
 
-	Indium97_gammaveto_EdT = new TH2D("Indium97_gammaveto_EdT_ms","", 2000, -10, 10,700,0,7000);
+	Indium97_gammaveto_EdT = new TH2D("Indium97_gammaveto_EdT_ms","", 2000, -80, 80,700,0,7000);
 
 	//Sn101 & Ag95/94
 	for (int g = 0; g < 4; g++){
@@ -391,7 +391,6 @@ void DefineHistograms()
 	Ag96_EdT_all3Peaks_gammaGated = new TH2D("Ag96_EdT_all3Peaks_gammaGated","",1000,-5000,5000,80,200,1000);
 
 	Ag96_EdT_all3Peaks_Random_gammaGated = new TH2D("Ag96_EdT_Random_gammaGated","",1000,-5000,5000,80,200,1000);
-
 
 	Ag95_EdT_160keVgammaGated = new TH2D("Ag95_EdT_160keV","",200,-10000,10000,80,200,1000);
 	Ag95_EdT_800_1000keVgammaGated = new TH2D("Ag95_EdT_800_1000keV","",200,-10000,10000,80,200,1000);
@@ -618,7 +617,7 @@ void DefineHistograms()
 			EdTAll_NoMultiGate[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_NoMultigate_ms";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 200, -1000, 1000, 700, 0, 7000);
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 20000, -1000, 1000, 700, 0, 7000);
 			EdTAll_ms[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_NoMultigate_us";
@@ -667,7 +666,7 @@ void DefineHistograms()
 			summed_beta_gamma_EdT_s_corr[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_beta_gamma_EdT_ms_corr";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 100, 0, 1000, 1000, 0, 10000);
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 10000, 0, 1000, 1000, 0, 10000);
 			summed_beta_gamma_EdT_ms_corr[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_beta_gamma_EdT_us_corr";
