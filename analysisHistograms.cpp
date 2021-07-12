@@ -751,18 +751,25 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																				if (((*beta).T - (imp).TIME)/1e3 > 0){
 																					if (((*beta).T - (imp).TIME)/1e3 < 500){
 																						Ag96_single_vs_summed->Fill(GammaSumTemp,DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN));
-																						if ((*beta).vectorOfGamma.size() > 1){
-																							if (d < 2){
-																								Ag96_subtraction = true;
-																								gammaSubtract += DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN);
-																							}
-																								
-																						}
 																						for ( int e=0; e<(*beta).vectorOfGamma.size(); e++ ){
 																							if ( e != d && (*beta).vectorOfGamma.at(e).ID<16){		
 																								if (((*beta).T-(*beta).vectorOfGamma.at(e).TIME) > 10000){ //forward gammas
 																									if(((*beta).T-(*beta).vectorOfGamma.at(e).TIME) < 20000){																	
 																										Ag96_gamma_gamma->Fill(DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN), DTAS_SingleCalib((*beta).vectorOfGamma.at(e).EN));
+																										gammaSubtract = DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN) + DTAS_SingleCalib((*beta).vectorOfGamma.at(e).EN);
+																										if (GammaSumTemp != 0){
+																											if (DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN)>430 && DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN)<490){
+																												if (DTAS_SingleCalib((*beta).vectorOfGamma.at(e).EN)>700 && DTAS_SingleCalib((*beta).vectorOfGamma.at(e).EN)<806){
+																													Ag96_sum_E1E2_diff_470_740->Fill(GammaSumTemp - gammaSubtract + 100);
+																												}
+																											}
+																											if (DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN)>700 && DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN)<770){
+																												if (DTAS_SingleCalib((*beta).vectorOfGamma.at(e).EN)>1176 && DTAS_SingleCalib((*beta).vectorOfGamma.at(e).EN)<1319){
+																													Ag96_sum_E1E2_diff_740_1249->Fill(GammaSumTemp - gammaSubtract + 100);
+																												}
+																											}
+																										}
+																										
 																									}
 																								}
 																							}
@@ -774,9 +781,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																	}
 																}
 															}
-														}
-														if (Ag96_subtraction == true){
-															Ag96_sum_E1E2_diff->Fill(GammaSumTemp, GammaSumTemp-gammaSubtract);
 														}
 													}
 													if(ProtonGammaSumTemp != 0){
@@ -947,7 +951,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	Ag96_gamma_gamma->Write();
 
-	Ag96_sum_E1E2_diff->Write();
+	Ag96_sum_E1E2_diff_470_740->Write();
+
+	Ag96_sum_E1E2_diff_740_1249->Write();
 
 	Ag96_EdT_470keVgammaGated->Write();
 
