@@ -89,6 +89,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	bool Ag96_743;
 	bool Ag96_1249;
 
+	bool Ag96_isomer;
 	bool Ag96_subtraction;
 
 	bool Ag96_Random;
@@ -139,6 +140,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 							Ag96_1249 = false;
 							Ag96_Random = false;
 							Ag96_subtraction = false;
+							Ag96_isomer = false;
 							for (int i = 0; i < numElements; i++){
 								for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 									if (particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
@@ -535,6 +537,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																		}
 																		if (elements[i] == "Ag" && isotopeStart[i]+j == 96){
 																			if ((*beta).Ex<1000 && (*beta).Ey<1000){
+																				Ag96_isomer = true;
 																				if (IndyGammaE > 450 && IndyGammaE < 500){
 																					Ag96_470 = true;
 																				}
@@ -651,6 +654,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																		}
 																		if (elements[i] == "Ag" && isotopeStart[i]+j == 96){
 																			if ((*beta).Ex<1000 && (*beta).Ey<1000){
+																				Ag96_isomer = true;
 																				if (IndyGammaE > 450 && IndyGammaE < 500){
 																					Ag96_470 = true;
 																				}
@@ -818,12 +822,19 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														Ag96_EdT_all3Peaks_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 														Ag96_E_correlatedGamma->Fill((*beta).E);
 													}
+													if (Ag96_470 == true && Ag96_743 == true && Ag96_1249 == true){
+														Ag96_EdT_2461keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+													}
 													if(Ag96_Random == true){
 														Ag96_EdT_all3Peaks_Random_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 														Ag96_E_randomGamma->Fill((*beta).E);
 													}
 
-													
+													if(Ag96_isomer == true){
+														if ((GammaSumTemp>0 && GammaSumTemp<946) || (GammaSumTemp>1053 && GammaSumTemp<1171) || (GammaSumTemp>1284 && GammaSumTemp<1628) || (GammaSumTemp>1773 && GammaSumTemp<1914) || (GammaSumTemp>2042 && GammaSumTemp<2319)){
+															Ag96_EdT_summed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+														} 
+													}
 														
 												}//beta energy and multi-cut
 
@@ -971,6 +982,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	Ag96_E_correlatedGamma->Write();
 
+	Ag96_EdT_2461keVgammaGated->Write();
+
+	Ag96_EdT_summed_gammaGated->Write();
+
 	std::string isoDirName;
 
 	for(int i = 0; i < numElements; i++){
@@ -1104,18 +1119,18 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsoDir->Append(summed_bp_gamma_EdT_us_corr[i].at(k));
 
 			//bgrnd components
-			/*for (int j=0; j<4; j++){
-				IsoDir->Append(beta_gamma_EdT_us[i][j].at(k));
-				IsoDir->Append(beta_gamma_EdT_ms[i][j].at(k));
-				IsoDir->Append(beta_gamma_EdT_s[i][j].at(k));
+			for (int j=0; j<4; j++){
+				//IsoDir->Append(beta_gamma_EdT_us[i][j].at(k));
+				//IsoDir->Append(beta_gamma_EdT_ms[i][j].at(k));
+				//IsoDir->Append(beta_gamma_EdT_s[i][j].at(k));
 
 				if (j < 2){
 					IsoDir->Append(summed_beta_gamma_EdT_us[i][j].at(k));
 					IsoDir->Append(summed_beta_gamma_EdT_ms[i][j].at(k));
-					IsoDir->Append(summed_beta_gamma_EdT_s[i][j].at(k));
+					//IsoDir->Append(summed_beta_gamma_EdT_s[i][j].at(k));
 				}
 			}
-			*/
+			
 
 			//IsoDir->Append(summed_p_gamma_E_p_E[i][0].at(k));
 			//IsoDir->Append(summed_beta_gamma_E_beta_E[i][0].at(k));
