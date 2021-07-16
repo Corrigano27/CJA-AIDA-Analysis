@@ -16,9 +16,10 @@
 #include <fstream>
 
 //data2tree file select
-#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
-//#include "/home/corrigan/DTAS_Merger/merger/MergerSoft/data2Tree.cxx"
+//#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
+#include "/home/corrigan/DTAS_Merger/merger/MergerSoft/data2Tree.cxx"
 #include "ParticleCutsSn100.cxx"
+#include "analysisHistograms.hpp"
 
 int analysisHistograms(std::string iName, std::string cutFile){
 
@@ -69,54 +70,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	TTreeReaderValue <ancData2TTree>   ancillary(aReader, "ancillary.");
 
 	std::cout << "Tree reader set up" << std::endl;
-
-	//boolean variable for beta vetoes
-
-	bool betaVeto;
-
-	bool gammaVeto;
-
-	bool In97gammaVeto;
-
-	bool Ag95_160;
-	bool Ag95_800_1000;
-	bool Ag95_440;
-	bool Ag95_511;
-
-	bool Ag95_randomCheck;
-
-	bool Ag96_470;
-	bool Ag96_743;
-	bool Ag96_1249;
-
-	bool Ag96_isomer;
-	bool Ag96_subtraction;
-
-	bool Ag96_Random;
-
-	double IndyGammaE;
-
-	double GammaSumTemp;
-	double GammaSumTempBg;
-
-	double GammaSumPCount;
-	double GammaSumPCountBg;
-
-	double ProtonGammaSumTemp;
-	double ProtonGammaSumTempBg;
-
-	double Sn101Counter_Pk;
-	double Sn101CounterBg_Pk;
-	double Sn101Counter;
-	double Sn101CounterBg;
-
-	double Ag94_Peak_Counter;
-	double Ag94_Peak_CounterBg;
-
-	double gammaSubtract;
-
-	uint8_t multix = 0;
-	uint8_t multiy = 0;
 	
 	//Files read, histograms filled
 	while (aReader.Next()){
@@ -822,9 +775,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														Ag96_EdT_all3Peaks_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 														Ag96_E_correlatedGamma->Fill((*beta).E);
 													}
-													if (Ag96_470 == true && Ag96_743 == true && Ag96_1249 == true){
-														Ag96_EdT_2461keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-													}
 													if(Ag96_Random == true){
 														Ag96_EdT_all3Peaks_Random_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 														Ag96_E_randomGamma->Fill((*beta).E);
@@ -833,7 +783,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													if(Ag96_isomer == true){
 														if ((GammaSumTemp>0 && GammaSumTemp<946) || (GammaSumTemp>1053 && GammaSumTemp<1171) || (GammaSumTemp>1284 && GammaSumTemp<1628) || (GammaSumTemp>1773 && GammaSumTemp<1914) || (GammaSumTemp>2042 && GammaSumTemp<2319)){
 															Ag96_EdT_summed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-														} 
+														}
+														if (GammaSumTemp>2400 && GammaSumTemp<2550){
+															Ag96_EdT_2461keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+														}
 													}
 														
 												}//beta energy and multi-cut
