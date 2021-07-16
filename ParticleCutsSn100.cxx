@@ -14,23 +14,23 @@
 #include "TTreeReader.h"
 #include "TTreeReaderValue.h"
 
-int numElements = 4;
+const int numElements = 7;
 
 //string declarations;
 std::string particleCut; //PID cuts from file
 
-std::string elements[4]; //isotope elements
+std::string elements[numElements]; //isotope elements
 
 
 //vectors of isotope mass numbers
-int isotopeStart[4];
-int isotopeEnd[4];
+int isotopeStart[numElements];
+int isotopeEnd[numElements];
 
-std::vector<int> isotopeDSSDStart[4];
-std::vector<int> isotopeDSSDEnd[4];
+std::vector<int> isotopeDSSDStart[numElements];
+std::vector<int> isotopeDSSDEnd[numElements];
 
 //graphical cuts for isotopes
-TCutG *particleCuts[4][8]; //indices denote elements and isotopes
+TCutG *particleCuts[numElements][8]; //indices denote elements and isotopes
 
 //directories
 std::vector<TDirectory *> ElementDir;
@@ -44,97 +44,97 @@ TDirectory *ZDir;
 
 //histogram vectors
 //decays
-std::vector<TH1D *> implantBeta[4][6];
-std::vector<TH1D *> implantBeta1p[4][6];
-std::vector<TH1D *> implant1p[4][6];
-std::vector<TH1D *> decayEnergy[4][6];
-std::vector<TH1D *> delayed1pEnergy[4][6];
-std::vector<TH1D *> delayed1pEnergyX[4][6];
+std::vector<TH1D *> implantBeta[numElements][6];
+std::vector<TH1D *> implantBeta1p[numElements][6];
+std::vector<TH1D *> implant1p[numElements][6];
+std::vector<TH1D *> decayEnergy[numElements][6];
+std::vector<TH1D *> delayed1pEnergy[numElements][6];
+std::vector<TH1D *> delayed1pEnergyX[numElements][6];
 
-std::vector<TH1D *> delayed1pEnergyX_0_1_ms[4][6];
-std::vector<TH1D *> delayed1pEnergyX_0_100_ms[4][6];
-std::vector<TH1D *> delayed1pEnergyX_0_1_s[4][6];
+std::vector<TH1D *> delayed1pEnergyX_0_1_ms[numElements][6];
+std::vector<TH1D *> delayed1pEnergyX_0_100_ms[numElements][6];
+std::vector<TH1D *> delayed1pEnergyX_0_1_s[numElements][6];
 
-std::vector<TH1D *> delayed1pEnergyY[4][6];
-std::vector<TH1D *> delayed1pEnergyRandom[4][6];
-std::vector<TH1D *> delayed1pEnergyAll[4][6];
-std::vector<TH2D *> EdT[4][6];
-std::vector<TH2D *> implantVelocityimplantZ[4];
-std::vector<TH2D *> implantVelocityimplantE[4][6];
+std::vector<TH1D *> delayed1pEnergyY[numElements][6];
+std::vector<TH1D *> delayed1pEnergyRandom[numElements][6];
+std::vector<TH1D *> delayed1pEnergyAll[numElements][6];
+std::vector<TH2D *> EdT[numElements][6];
+std::vector<TH2D *> implantVelocityimplantZ[numElements];
+std::vector<TH2D *> implantVelocityimplantE[numElements][6];
 
-std::vector<TH2D *> EnergyXChannel[4][6];
-std::vector<TH2D *> EnergyYChannel[4][6];
-std::vector<TH2D *> ExEy[4][6];
-std::vector<TH1D *> ExEyDiff[4][6];
+std::vector<TH2D *> EnergyXChannel[numElements][6];
+std::vector<TH2D *> EnergyYChannel[numElements][6];
+std::vector<TH2D *> ExEy[numElements][6];
+std::vector<TH1D *> ExEyDiff[numElements][6];
 
-std::vector<TH1D *> implantBetaAll[4];
-std::vector<TH1D *> implantBeta1pAll[4];
-std::vector<TH1D *> implant1pAll[4];
-std::vector<TH1D *> decayEnergyAll[4];
-std::vector<TH1D *> delayed1pEnergy_AllDSSD[4];
+std::vector<TH1D *> implantBetaAll[numElements];
+std::vector<TH1D *> implantBeta1pAll[numElements];
+std::vector<TH1D *> implant1pAll[numElements];
+std::vector<TH1D *> decayEnergyAll[numElements];
+std::vector<TH1D *> delayed1pEnergy_AllDSSD[numElements];
 
-std::vector<TH1D *> delayed1pEnergyRandom_AllDSSD[4];
-std::vector<TH1D *> delayed1pEnergyAll_AllDSSD[4];
-std::vector<TH2D *> EdTAll_NoMultiGate[4];
-std::vector<TH2D *> EdTAll_ms[4];
-std::vector<TH2D *> EdTAll_us[4];
-std::vector<TH2D *> EdTAll11[4];
-std::vector<TH2D *> EdTAll12[4];
-std::vector<TH2D *> EdTAll21[4];
-std::vector<TH2D *> EdTAll22[4];
-std::vector<TH1D *> implantEAll[4];
-std::vector<TH2D *> implantVelocityimplantEAll[4];
+std::vector<TH1D *> delayed1pEnergyRandom_AllDSSD[numElements];
+std::vector<TH1D *> delayed1pEnergyAll_AllDSSD[numElements];
+std::vector<TH2D *> EdTAll_NoMultiGate[numElements];
+std::vector<TH2D *> EdTAll_ms[numElements];
+std::vector<TH2D *> EdTAll_us[numElements];
+std::vector<TH2D *> EdTAll11[numElements];
+std::vector<TH2D *> EdTAll12[numElements];
+std::vector<TH2D *> EdTAll21[numElements];
+std::vector<TH2D *> EdTAll22[numElements];
+std::vector<TH1D *> implantEAll[numElements];
+std::vector<TH2D *> implantVelocityimplantEAll[numElements];
 
 //all DSSD, gated on 511 summed spectra
-std::vector<TH2D *> ExEyAll_gammaloop[4];
-std::vector<TH2D *> EdT_gammagate[4];
-std::vector<TH2D *> EdT_gammagate_longer[4];
-std::vector<TH2D *> ExEy_gammagate[4];
-std::vector<TH2D *> NxNy_gammagate[4];
-std::vector<TH2D *> clustersize_gammagate[4];
-std::vector<TH1D *> EDiff_gammagate[4];
+std::vector<TH2D *> ExEyAll_gammaloop[numElements];
+std::vector<TH2D *> EdT_gammagate[numElements];
+std::vector<TH2D *> EdT_gammagate_longer[numElements];
+std::vector<TH2D *> ExEy_gammagate[numElements];
+std::vector<TH2D *> NxNy_gammagate[numElements];
+std::vector<TH2D *> clustersize_gammagate[numElements];
+std::vector<TH1D *> EDiff_gammagate[numElements];
 
 //correcting beta-gamma singles
-std::vector<TH2D *> beta_gamma_EdT_s[4][4];
-std::vector<TH2D *> beta_gamma_EdT_ms[4][4];
-std::vector<TH2D *> beta_gamma_EdT_us[4][4];
+std::vector<TH2D *> beta_gamma_EdT_s[numElements][4];
+std::vector<TH2D *> beta_gamma_EdT_ms[numElements][4];
+std::vector<TH2D *> beta_gamma_EdT_us[numElements][4];
 
-std::vector<TH2D *> beta_gamma_EdT_s_corr[4];
-std::vector<TH2D *> beta_gamma_EdT_ms_corr[4];
-std::vector<TH2D *> beta_gamma_EdT_us_corr[4];
+std::vector<TH2D *> beta_gamma_EdT_s_corr[numElements];
+std::vector<TH2D *> beta_gamma_EdT_ms_corr[numElements];
+std::vector<TH2D *> beta_gamma_EdT_us_corr[numElements];
 
 //correcting beta-gamma summed
-std::vector<TH2D *> summed_beta_gamma_EdT_s[4][2];
-std::vector<TH2D *> summed_beta_gamma_EdT_ms[4][2];
-std::vector<TH2D *> summed_beta_gamma_EdT_us[4][2];
+std::vector<TH2D *> summed_beta_gamma_EdT_s[numElements][2];
+std::vector<TH2D *> summed_beta_gamma_EdT_ms[numElements][2];
+std::vector<TH2D *> summed_beta_gamma_EdT_us[numElements][2];
 
-std::vector<TH2D *> summed_beta_gamma_EdT_s_corr[4];
-std::vector<TH2D *> summed_beta_gamma_EdT_ms_corr[4];
-std::vector<TH2D *> summed_beta_gamma_EdT_us_corr[4];
+std::vector<TH2D *> summed_beta_gamma_EdT_s_corr[numElements];
+std::vector<TH2D *> summed_beta_gamma_EdT_ms_corr[numElements];
+std::vector<TH2D *> summed_beta_gamma_EdT_us_corr[numElements];
 
-std::vector<TH2D *> summed_beta_gamma_E_beta_E[4][2];
+std::vector<TH2D *> summed_beta_gamma_E_beta_E[numElements][2];
 
 
 //correcting bp-gamma singles
-std::vector<TH2D *> bp_gamma_EdT_s[4][4];
-std::vector<TH2D *> bp_gamma_EdT_ms[4][4];
-std::vector<TH2D *> bp_gamma_EdT_us[4][4];
+std::vector<TH2D *> bp_gamma_EdT_s[numElements][4];
+std::vector<TH2D *> bp_gamma_EdT_ms[numElements][4];
+std::vector<TH2D *> bp_gamma_EdT_us[numElements][4];
 
-std::vector<TH2D *> bp_gamma_EdT_s_corr[4];
-std::vector<TH2D *> bp_gamma_EdT_ms_corr[4];
-std::vector<TH2D *> bp_gamma_EdT_us_corr[4];
+std::vector<TH2D *> bp_gamma_EdT_s_corr[numElements];
+std::vector<TH2D *> bp_gamma_EdT_ms_corr[numElements];
+std::vector<TH2D *> bp_gamma_EdT_us_corr[numElements];
 
 
 //correcting bp-gamma summed
-std::vector<TH2D *> summed_bp_gamma_EdT_s[4][2];
-std::vector<TH2D *> summed_bp_gamma_EdT_ms[4][2];
-std::vector<TH2D *> summed_bp_gamma_EdT_us[4][2];
+std::vector<TH2D *> summed_bp_gamma_EdT_s[numElements][2];
+std::vector<TH2D *> summed_bp_gamma_EdT_ms[numElements][2];
+std::vector<TH2D *> summed_bp_gamma_EdT_us[numElements][2];
 
-std::vector<TH2D *> summed_bp_gamma_EdT_s_corr[4];
-std::vector<TH2D *> summed_bp_gamma_EdT_ms_corr[4];
-std::vector<TH2D *> summed_bp_gamma_EdT_us_corr[4];
+std::vector<TH2D *> summed_bp_gamma_EdT_s_corr[numElements];
+std::vector<TH2D *> summed_bp_gamma_EdT_ms_corr[numElements];
+std::vector<TH2D *> summed_bp_gamma_EdT_us_corr[numElements];
 
-std::vector<TH2D *> summed_p_gamma_E_p_E[4][2];
+std::vector<TH2D *> summed_p_gamma_E_p_E[numElements][2];
 
 
 //Sn101 specific
@@ -197,20 +197,20 @@ TH1D *Ag94_1800_bp_DTASsummed[2];
 
 //end of gammas
 
-std::vector<TH2D *> EnergyXChannelAll[4];
-std::vector<TH2D *> EnergyYChannelAll[4];
-std::vector<TH2D *> ExEyAll[4];
-std::vector<TH1D *> ExEyDiffAll[4];
+std::vector<TH2D *> EnergyXChannelAll[numElements];
+std::vector<TH2D *> EnergyYChannelAll[numElements];
+std::vector<TH2D *> ExEyAll[numElements];
+std::vector<TH1D *> ExEyDiffAll[numElements];
 
-std::vector<TH2D *> implantVelocityAOQ[4][6];
-std::vector<TH2D *> implantVelocityAOQ_AllDSSD[4];
+std::vector<TH2D *> implantVelocityAOQ[numElements][6];
+std::vector<TH2D *> implantVelocityAOQ_AllDSSD[numElements];
 
-std::vector<TH2D *> implantEnergyAOQ[4][6];
-std::vector<TH2D *> implantEnergyAOQ_AllDSSD[4];
+std::vector<TH2D *> implantEnergyAOQ[numElements][6];
+std::vector<TH2D *> implantEnergyAOQ_AllDSSD[numElements];
 
 //implants
-std::vector<TH1D *> implantZ[4];
-std::vector<TH1D *> implantE[4][6];
+std::vector<TH1D *> implantZ[numElements];
+std::vector<TH1D *> implantE[numElements][6];
 
 
 //template histograms
@@ -246,6 +246,19 @@ void SetParticles()
 	elements[3] = "Sn";
 	isotopeStart[3] = 99;
 	isotopeEnd[3] = 101;
+
+	elements[4] = "Pd";
+	isotopeStart[4] = 93;
+	isotopeEnd[4] = 99;
+
+	elements[5] = "Rh";
+	isotopeStart[5] = 92;
+	isotopeEnd[5] = 98;
+
+	elements[6] = "Ru";
+	isotopeStart[6] = 91;
+	isotopeEnd[6] = 97;
+
 }
 
 //Set DSSD layers of expected implantation for each isotope
@@ -315,6 +328,72 @@ void SetImplantDSSD()
 
 	isotopeDSSDStart[3].push_back(1);
 	isotopeDSSDEnd[3].push_back(2);
+
+	//Pd isotopes 93-99
+	isotopeDSSDStart[4].push_back(2);
+	isotopeDSSDEnd[4].push_back(3);
+
+	isotopeDSSDStart[4].push_back(1);
+	isotopeDSSDEnd[4].push_back(3);
+
+	isotopeDSSDStart[4].push_back(1);
+	isotopeDSSDEnd[4].push_back(2);
+
+	isotopeDSSDStart[4].push_back(1);
+	isotopeDSSDEnd[4].push_back(2);
+
+	isotopeDSSDStart[4].push_back(1);
+	isotopeDSSDEnd[4].push_back(2);
+
+	isotopeDSSDStart[4].push_back(1);
+	isotopeDSSDEnd[4].push_back(2);
+
+	isotopeDSSDStart[4].push_back(1);
+	isotopeDSSDEnd[4].push_back(2);
+
+	//Rh isotopes 92-98
+	isotopeDSSDStart[5].push_back(2);
+	isotopeDSSDEnd[5].push_back(3);
+
+	isotopeDSSDStart[5].push_back(2);
+	isotopeDSSDEnd[5].push_back(3);
+
+	isotopeDSSDStart[5].push_back(1);
+	isotopeDSSDEnd[5].push_back(2);
+
+	isotopeDSSDStart[5].push_back(1);
+	isotopeDSSDEnd[5].push_back(2);
+
+	isotopeDSSDStart[5].push_back(1);
+	isotopeDSSDEnd[5].push_back(2);
+
+	isotopeDSSDStart[5].push_back(1);
+	isotopeDSSDEnd[5].push_back(2);
+
+	isotopeDSSDStart[5].push_back(1);
+	isotopeDSSDEnd[5].push_back(2);
+
+	//Ru isotopes 91-97
+	isotopeDSSDStart[6].push_back(2);
+	isotopeDSSDEnd[6].push_back(3);
+
+	isotopeDSSDStart[6].push_back(1);
+	isotopeDSSDEnd[6].push_back(3);
+
+	isotopeDSSDStart[6].push_back(1);
+	isotopeDSSDEnd[6].push_back(2);
+
+	isotopeDSSDStart[6].push_back(1);
+	isotopeDSSDEnd[6].push_back(2);
+
+	isotopeDSSDStart[6].push_back(1);
+	isotopeDSSDEnd[6].push_back(2);
+
+	isotopeDSSDStart[6].push_back(1);
+	isotopeDSSDEnd[6].push_back(2);
+
+	isotopeDSSDStart[6].push_back(1);
+	isotopeDSSDEnd[6].push_back(2);
 }
 
 double DTAS_SingleCalib(double E){
