@@ -25,11 +25,11 @@ bool Ag96_Random;
 
 double IndyGammaE;
 double GammaSumTemp;
-double GammaSumTempBg;
+//double GammaSumTempBg;
 double GammaSumPCount;
 double GammaSumPCountBg;
 double ProtonGammaSumTemp;
-double ProtonGammaSumTempBg;
+//double ProtonGammaSumTempBg;
 double Sn101Counter_Pk;
 double Sn101CounterBg_Pk;
 double Sn101Counter;
