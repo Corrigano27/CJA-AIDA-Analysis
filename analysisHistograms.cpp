@@ -16,8 +16,8 @@
 #include <fstream>
 
 //data2tree file select
-#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
-//#include "/home/corrigan/DTAS_Merger/merger/MergerSoft/data2Tree.cxx"
+//#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
+#include "/home/corrigan/DTAS_Merger/merger/MergerSoft/data2Tree.cxx"
 #include "ParticleCutsSn100.cxx"
 #include "analysisHistograms.hpp"
 
@@ -317,9 +317,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 															//summed_p_gamma_E_p_E[i][0].at(j)->Fill((*beta).Ex, ProtonGammaSumTemp);
 														
 			
-															summed_bp_gamma_EdT_s[i][0].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, ProtonGammaSumTemp);
-															summed_bp_gamma_EdT_ms[i][0].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, ProtonGammaSumTemp);
-															summed_bp_gamma_EdT_us[i][0].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, ProtonGammaSumTemp);
+															//summed_bp_gamma_EdT_s[i][0].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, ProtonGammaSumTemp);
+															//summed_bp_gamma_EdT_ms[i][0].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, ProtonGammaSumTemp);
+															//summed_bp_gamma_EdT_us[i][0].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, ProtonGammaSumTemp);
 
 															//summed_p_gamma_E_p_E[i][1].at(j)->Fill((*beta).Ex, ProtonGammaSumTempBg);
 
@@ -746,13 +746,13 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														//summed_p_gamma_E_p_E[i][0].at(j)->Fill((*beta).Ex, ProtonGammaSumTemp);
 													//}
 
-													if (GammaSumTemp != 0){
+													/*if (GammaSumTemp != 0){
 														summed_beta_gamma_EdT_s[i][0].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, GammaSumTemp);
 														summed_beta_gamma_EdT_ms[i][0].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, GammaSumTemp);
 														summed_beta_gamma_EdT_us[i][0].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, GammaSumTemp);
 
 														//summed_beta_gamma_E_beta_E[i][1].at(j)->Fill((*beta).E, GammaSumTempBg);
-													}
+													}*/
 													//if(ProtonGammaSumTempBg != 0){
 														//summed_p_gamma_E_p_E[i][1].at(j)->Fill((*beta).Ex, ProtonGammaSumTempBg);
 													//}
