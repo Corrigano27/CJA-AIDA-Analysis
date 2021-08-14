@@ -430,7 +430,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 																	if ((gamma).ID == 777 && elements[i] == "Ag" && isotopeStart[i]+j == 95){
 																		if ((*beta).Ex<1000 && (*beta).Ey<1000){
-																			if (IndyGammaE > 1950 && IndyGammaE < 2186){
+																			if (IndyGammaE > 1950 && IndyGammaE < 2200){
 																				Ag95_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																				Ag95_EdT_2104keVsummed_gammaGated_back->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ey);
 
@@ -549,7 +549,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 																	if ((gamma).ID == 777 && elements[i] == "Ag" && isotopeStart[i]+j == 95){
 																		if ((*beta).Ex<1000 && (*beta).Ey<1000){
-																			if (IndyGammaE > 2 && IndyGammaE < 2200){
+																			if (IndyGammaE > 1950 && IndyGammaE < 2200){
 																				Ag95_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																				Ag95_EdT_2104keVsummed_gammaGated_back->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ey);
 
