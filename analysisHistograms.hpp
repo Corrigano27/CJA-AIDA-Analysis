@@ -16,12 +16,12 @@ bool Ag95_440;
 bool Ag95_511;
 bool Ag95_randomCheck;
 
-bool Ag96_470;
+/*bool Ag96_470;
 bool Ag96_743;
 bool Ag96_1249;
 bool Ag96_isomer;
 bool Ag96_subtraction;
-bool Ag96_Random;
+bool Ag96_Random;*/
 
 double IndyGammaE;
 double GammaSumTemp;
