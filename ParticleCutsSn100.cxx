@@ -588,15 +588,15 @@ void DefineHistograms()
 
 				}
 				if (g < 2){
-					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_NoMultiGate_s_corr";
+					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_NoMultiGate_s_corr" + std::to_string(g);
 					implantBetaHis2D = new TH2D(hisName.c_str(), "", 1e2, 0, 10, 700, 0, 7000);
 					EdTAll_NoMultiGate_corr[i][g].push_back(implantBetaHis2D);
 
-					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_NoMultiGate_ms_corr";
+					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_NoMultiGate_ms_corr" + std::to_string(g);
 					implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, 0, 1000, 700, 0, 7000);
 					EdTAll_ms_corr[i][g].push_back(implantBetaHis2D);
 
-					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_NoMultiGate_us_corr";
+					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_NoMultiGate_us_corr" + std::to_string(g);
 					implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, 0, 20000, 700, 0, 7000);
 					EdTAll_us_corr[i][g].push_back(implantBetaHis2D);
 
