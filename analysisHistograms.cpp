@@ -1079,6 +1079,11 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			//summed_beta_gamma_E_beta_E[i][0].at(k)->Add(summed_beta_gamma_E_beta_E[i][1].at(k),-1);
 
 			//corrected
+			IsoDir->Append(EdTAll_NoMultiGate_corr[i][0].at(k));
+			IsoDir->Append(EdTAll_ms_corr[i][0].at(k));
+			IsoDir->Append(EdTAll_us_corr[i][0].at(k));
+
+
 			IsoDir->Append(beta_gamma_EdT_s_corr[i].at(k));
 			IsoDir->Append(beta_gamma_EdT_ms_corr[i].at(k));
 			IsoDir->Append(beta_gamma_EdT_us_corr[i].at(k));
