@@ -551,30 +551,30 @@ void DefineHistograms()
 				implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, 0, 20000, 700, 0, 7000);
 				bp_gamma_EdT_us[i][g].push_back(implantBetaHis2D);
 
-				if (g < 1){
+				if (g < 2){
 
 					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_beta_gamma_EdT_s_" + std::to_string(g);
-					implantBetaHis2D = new TH2D(hisName.c_str(), "", 2e2, -10, 10, 700, 0, 10000);
+					implantBetaHis2D = new TH2D(hisName.c_str(), "", 1e2, 0, 10, 500, 0, 10000);
 					summed_beta_gamma_EdT_s[i][g].push_back(implantBetaHis2D);
 
 					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_beta_gamma_EdT_ms_" + std::to_string(g);
-					implantBetaHis2D = new TH2D(hisName.c_str(), "", 4000, -1000, 1000, 700, 0, 10000);
+					implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, 0, 1000, 500, 0, 10000);
 					summed_beta_gamma_EdT_ms[i][g].push_back(implantBetaHis2D);
 
 					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_beta_gamma_EdT_us_" + std::to_string(g);
-					implantBetaHis2D = new TH2D(hisName.c_str(), "", 4000, -20000, 20000, 700, 0, 10000);
+					implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, 0, 20000, 500, 0, 10000);
 					summed_beta_gamma_EdT_us[i][g].push_back(implantBetaHis2D);
 
 					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_bp_gamma_EdT_s_" + std::to_string(g);
-					implantBetaHis2D = new TH2D(hisName.c_str(), "", 2e2, -10, 10, 700, 0, 10000);
+					implantBetaHis2D = new TH2D(hisName.c_str(), "", 1e2, 0, 10, 500, 0, 10000);
 					summed_bp_gamma_EdT_s[i][g].push_back(implantBetaHis2D);
 
 					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_bp_gamma_EdT_ms_" + std::to_string(g);
-					implantBetaHis2D = new TH2D(hisName.c_str(), "", 400, -1000, 1000, 700, 0, 10000);
+					implantBetaHis2D = new TH2D(hisName.c_str(), "", 200, 0, 1000, 500, 0, 10000);
 					summed_bp_gamma_EdT_ms[i][g].push_back(implantBetaHis2D);
 
 					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_bp_gamma_EdT_us_" + std::to_string(g);
-					implantBetaHis2D = new TH2D(hisName.c_str(), "", 4000, -20000, 20000, 700, 0, 10000);
+					implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, 0, 20000, 500, 0, 10000);
 					summed_bp_gamma_EdT_us[i][g].push_back(implantBetaHis2D);
 
 					/*hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_p_gamma_E_p_E_" + std::to_string(g);
@@ -586,8 +586,6 @@ void DefineHistograms()
 					summed_beta_gamma_E_beta_E[i][g].push_back(implantBetaHis2D);
 					*/
 
-				}
-				if (g < 2){
 					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_NoMultiGate_s_corr" + std::to_string(g);
 					implantBetaHis2D = new TH2D(hisName.c_str(), "", 1e2, 0, 10, 700, 0, 7000);
 					EdTAll_NoMultiGate_corr[i][g].push_back(implantBetaHis2D);
@@ -596,7 +594,7 @@ void DefineHistograms()
 					implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, 0, 1000, 700, 0, 7000);
 					EdTAll_ms_corr[i][g].push_back(implantBetaHis2D);
 
-					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_NoMultiGate_us_corr" + std::to_string(g);
+					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_NoMultiGate_us_corr" + ;
 					implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, 0, 20000, 700, 0, 7000);
 					EdTAll_us_corr[i][g].push_back(implantBetaHis2D);
 
@@ -762,15 +760,15 @@ void DefineHistograms()
 			beta_gamma_EdT_us_corr[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_beta_gamma_EdT_s_corr";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 1e2, 0, 10, 700, 0, 10000);
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 1e2, 0, 10, 500, 0, 10000);
 			summed_beta_gamma_EdT_s_corr[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_beta_gamma_EdT_ms_corr";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, 0, 1000, 700, 0, 10000);
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, 0, 1000, 500, 0, 10000);
 			summed_beta_gamma_EdT_ms_corr[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_beta_gamma_EdT_us_corr";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, 0, 20000, 700, 0, 10000);
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, 0, 20000, 500, 0, 10000);
 			summed_beta_gamma_EdT_us_corr[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "bp_gamma_EdT_s_corr";
@@ -786,15 +784,15 @@ void DefineHistograms()
 			bp_gamma_EdT_us_corr[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_bp_gamma_EdT_s_corr";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 1e2, 0, 10, 1000, 0, 10000);
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 1e2, 0, 10, 500, 0, 10000);
 			summed_bp_gamma_EdT_s_corr[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_bp_gamma_EdT_ms_corr";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 200, 0, 1000, 1000, 0, 10000);
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 200, 0, 1000, 500, 0, 10000);
 			summed_bp_gamma_EdT_ms_corr[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_bp_gamma_EdT_us_corr";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, 0, 20000, 1000, 0, 10000);
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, 0, 20000, 500, 0, 10000);
 			summed_bp_gamma_EdT_us_corr[i].push_back(implantBetaHis2D);
 			
 //////////////////////////////////////***gamma-gated histos****////////////////////////////////////////
