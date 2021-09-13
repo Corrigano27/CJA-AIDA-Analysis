@@ -109,9 +109,9 @@ std::vector<TH2D *> beta_gamma_EdT_ms_corr[numElements];
 std::vector<TH2D *> beta_gamma_EdT_us_corr[numElements];
 
 //correcting beta-gamma summed
-std::vector<TH2D *> summed_beta_gamma_EdT_s[numElements][1];
-std::vector<TH2D *> summed_beta_gamma_EdT_ms[numElements][1];
-std::vector<TH2D *> summed_beta_gamma_EdT_us[numElements][1];
+std::vector<TH2D *> summed_beta_gamma_EdT_s[numElements][2];
+std::vector<TH2D *> summed_beta_gamma_EdT_ms[numElements][2];
+std::vector<TH2D *> summed_beta_gamma_EdT_us[numElements][2];
 
 //std::vector<TH2D *> summed_beta_gamma_EdT_s_corr[numElements];
 //std::vector<TH2D *> summed_beta_gamma_EdT_ms_corr[numElements];
@@ -131,9 +131,9 @@ std::vector<TH2D *> bp_gamma_EdT_us_corr[numElements];
 
 
 //correcting bp-gamma summed
-std::vector<TH2D *> summed_bp_gamma_EdT_s[numElements][1];
-std::vector<TH2D *> summed_bp_gamma_EdT_ms[numElements][1];
-std::vector<TH2D *> summed_bp_gamma_EdT_us[numElements][1];
+std::vector<TH2D *> summed_bp_gamma_EdT_s[numElements][2];
+std::vector<TH2D *> summed_bp_gamma_EdT_ms[numElements][2];
+std::vector<TH2D *> summed_bp_gamma_EdT_us[numElements][2];
 
 //std::vector<TH2D *> summed_bp_gamma_EdT_s_corr[numElements];
 //std::vector<TH2D *> summed_bp_gamma_EdT_ms_corr[numElements];
