@@ -676,9 +676,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													//fill tallied histograms
 													gammaSubtract = 0;
 													if (GammaSumTemp != 0){
-														summed_beta_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, GammaSumTemp);
-														summed_beta_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, GammaSumTemp);
-														summed_beta_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, GammaSumTemp);
+														summed_beta_gamma_EdT_s[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, GammaSumTemp);
+														summed_beta_gamma_EdT_ms[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, GammaSumTemp);
+														summed_beta_gamma_EdT_us[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, GammaSumTemp);
 
 														//summed_beta_gamma_E_beta_E[i][0].at(j)->Fill((*beta).E, GammaSumTemp);
 
@@ -1056,21 +1056,13 @@ int analysisHistograms(std::string iName, std::string cutFile){
 				//IsoDir->Append(summed_bp_gamma_EdT_s[i][g].at(k));
 
 			}
-			summed_beta_gamma_EdT_s_corr[i].at(k)->Add(summed_beta_gamma_EdT_s[i][0].at(k),1);
-			summed_beta_gamma_EdT_ms_corr[i].at(k)->Add(summed_beta_gamma_EdT_ms[i][0].at(k),1);
-			summed_beta_gamma_EdT_us_corr[i].at(k)->Add(summed_beta_gamma_EdT_us[i][0].at(k),1);
+			summed_beta_gamma_EdT_s[i][0].at(k)->Add(summed_beta_gamma_EdT_s[i][1].at(k),-1);
+			summed_beta_gamma_EdT_ms[i][0].at(k)->Add(summed_beta_gamma_EdT_ms[i][1].at(k),-1);
+			summed_beta_gamma_EdT_us[i][0].at(k)->Add(summed_beta_gamma_EdT_us[i][1].at(k),-1);
 
-			summed_beta_gamma_EdT_s_corr[i].at(k)->Add(summed_beta_gamma_EdT_s[i][1].at(k),-1);
-			summed_beta_gamma_EdT_ms_corr[i].at(k)->Add(summed_beta_gamma_EdT_ms[i][1].at(k),-1);
-			summed_beta_gamma_EdT_us_corr[i].at(k)->Add(summed_beta_gamma_EdT_us[i][1].at(k),-1);
-
-			summed_bp_gamma_EdT_s_corr[i].at(k)->Add(summed_bp_gamma_EdT_s[i][0].at(k),1);
-			summed_bp_gamma_EdT_ms_corr[i].at(k)->Add(summed_bp_gamma_EdT_ms[i][0].at(k),1);
-			summed_bp_gamma_EdT_us_corr[i].at(k)->Add(summed_bp_gamma_EdT_us[i][0].at(k),1);
-
-			summed_bp_gamma_EdT_s_corr[i].at(k)->Add(summed_bp_gamma_EdT_s[i][1].at(k),-1);
-			summed_bp_gamma_EdT_ms_corr[i].at(k)->Add(summed_bp_gamma_EdT_ms[i][1].at(k),-1);
-			summed_bp_gamma_EdT_us_corr[i].at(k)->Add(summed_bp_gamma_EdT_us[i][1].at(k),-1);
+			summed_bp_gamma_EdT_s[i][0].at(k)->Add(summed_bp_gamma_EdT_s[i][1].at(k),-1);
+			summed_bp_gamma_EdT_ms[i][0].at(k)->Add(summed_bp_gamma_EdT_ms[i][1].at(k),-1);
+			summed_bp_gamma_EdT_us[i][0].at(k)->Add(summed_bp_gamma_EdT_us[i][1].at(k),-1);
 
 			EdTAll_NoMultiGate_corr[i][0].at(k)->Add(EdTAll_NoMultiGate_corr[i][1].at(k),-1);
 			EdTAll_ms_corr[i][0].at(k)->Add(EdTAll_ms_corr[i][1].at(k),-1);
@@ -1084,7 +1076,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsoDir->Append(EdTAll_us_corr[i][0].at(k));
 
 
-			IsoDir->Append(beta_gamma_EdT_s_corr[i].at(k));
+			/*IsoDir->Append(beta_gamma_EdT_s_corr[i].at(k));
 			IsoDir->Append(beta_gamma_EdT_ms_corr[i].at(k));
 			IsoDir->Append(beta_gamma_EdT_us_corr[i].at(k));
 			IsoDir->Append(summed_beta_gamma_EdT_s_corr[i].at(k));
@@ -1095,7 +1087,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsoDir->Append(bp_gamma_EdT_us_corr[i].at(k));
 			IsoDir->Append(summed_bp_gamma_EdT_s_corr[i].at(k));
 			IsoDir->Append(summed_bp_gamma_EdT_ms_corr[i].at(k));
-			IsoDir->Append(summed_bp_gamma_EdT_us_corr[i].at(k));
+			IsoDir->Append(summed_bp_gamma_EdT_us_corr[i].at(k));*/
 
 			
 
@@ -1110,6 +1102,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 					IsoDir->Append(summed_beta_gamma_EdT_us[i][j].at(k));
 					IsoDir->Append(summed_beta_gamma_EdT_ms[i][j].at(k));
 					IsoDir->Append(summed_beta_gamma_EdT_s[i][j].at(k));
+					IsoDir->Append(summed_bp_gamma_EdT_us[i][j].at(k));
+					IsoDir->Append(summed_bp_gamma_EdT_ms[i][j].at(k));
+					IsoDir->Append(summed_bp_gamma_EdT_s[i][j].at(k));
 				}
 			}
 			
