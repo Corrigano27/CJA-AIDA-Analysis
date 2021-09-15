@@ -159,7 +159,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												//end of dssd if
 												//end of dssd for
 												decayEnergyAll[i].at(j)->Fill((*beta).E);
-												if (multix == 0 && multiy == 0){
+												if (multix == 0 && multiy == 0){ //beta-delayed protons
 													if ((*beta).Ex>1400 && (*beta).Ey>1400){
 														if (((*beta).T-(imp).TIME > 0)){
 															delayed1pEnergy_AllDSSD[i].at(j)->Fill((*beta).E);
@@ -317,9 +317,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 															//summed_p_gamma_E_p_E[i][0].at(j)->Fill((*beta).Ex, ProtonGammaSumTemp);
 														
 			
-															//summed_bp_gamma_EdT_s[i][0].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, ProtonGammaSumTemp);
-															//summed_bp_gamma_EdT_ms[i][0].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, ProtonGammaSumTemp);
-															//summed_bp_gamma_EdT_us[i][0].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, ProtonGammaSumTemp);
+															summed_bp_gamma_EdT_s[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, ProtonGammaSumTemp);
+															summed_bp_gamma_EdT_ms[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, ProtonGammaSumTemp);
+															summed_bp_gamma_EdT_us[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, ProtonGammaSumTemp);
 
 															//summed_p_gamma_E_p_E[i][1].at(j)->Fill((*beta).Ex, ProtonGammaSumTempBg);
 
@@ -761,9 +761,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													//}
 
 													if (GammaSumTemp != 0){
-														summed_beta_gamma_EdT_s[i][0].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, GammaSumTemp);
-														summed_beta_gamma_EdT_ms[i][0].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, GammaSumTemp);
-														summed_beta_gamma_EdT_us[i][0].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, GammaSumTemp);
+														summed_beta_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, GammaSumTemp);
+														summed_beta_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, GammaSumTemp);
+														summed_beta_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, GammaSumTemp);
 
 														//summed_beta_gamma_E_beta_E[i][1].at(j)->Fill((*beta).E, GammaSumTempBg);
 													}
@@ -1056,13 +1056,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 				//IsoDir->Append(summed_bp_gamma_EdT_s[i][g].at(k));
 
 			}
-			summed_beta_gamma_EdT_s[i][0].at(k)->Add(summed_beta_gamma_EdT_s[i][1].at(k),-1);
-			summed_beta_gamma_EdT_ms[i][0].at(k)->Add(summed_beta_gamma_EdT_ms[i][1].at(k),-1);
-			summed_beta_gamma_EdT_us[i][0].at(k)->Add(summed_beta_gamma_EdT_us[i][1].at(k),-1);
-
-			summed_bp_gamma_EdT_s[i][0].at(k)->Add(summed_bp_gamma_EdT_s[i][1].at(k),-1);
-			summed_bp_gamma_EdT_ms[i][0].at(k)->Add(summed_bp_gamma_EdT_ms[i][1].at(k),-1);
-			summed_bp_gamma_EdT_us[i][0].at(k)->Add(summed_bp_gamma_EdT_us[i][1].at(k),-1);
 
 			EdTAll_NoMultiGate_corr[i][0].at(k)->Add(EdTAll_NoMultiGate_corr[i][1].at(k),-1);
 			EdTAll_ms_corr[i][0].at(k)->Add(EdTAll_ms_corr[i][1].at(k),-1);
@@ -1098,7 +1091,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 				//IsoDir->Append(beta_gamma_EdT_ms[i][j].at(k));
 				//IsoDir->Append(beta_gamma_EdT_s[i][j].at(k));
 
-				if (j < 1){
+				if (j < 2){
 					IsoDir->Append(summed_beta_gamma_EdT_us[i][j].at(k));
 					IsoDir->Append(summed_beta_gamma_EdT_ms[i][j].at(k));
 					IsoDir->Append(summed_beta_gamma_EdT_s[i][j].at(k));
