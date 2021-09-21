@@ -75,7 +75,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	while (aReader.Next()){
 
 		if ((*beta).T){
-			if ((*beta).Ey >= 200.0 && (*beta).Ex>=200.0){
+			if ((*beta).Ey >= 0.0 && (*beta).Ex>=0.0){
 				if (abs((*beta).Ex-(*beta).Ey)<120){
 					multix = (*beta).TFast & 0xFF;
 					multiy = ((*beta).TFast >> 8) & 0xFF;
