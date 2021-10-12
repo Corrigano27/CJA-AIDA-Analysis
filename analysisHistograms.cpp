@@ -370,19 +370,20 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												EdTAll_us[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 												EdTAll_ms[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
 
-												if ((*beta).T - (imp).TIME > 0){
-													EdTAll_NoMultiGate_corr[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-													EdTAll_ms_corr[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
-													EdTAll_us_corr[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-												}
+												if ((*beta).nx<4 && (*beta).ny<4){
+													if ((*beta).T - (imp).TIME > 0){
+														EdTAll_NoMultiGate_corr[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
+														EdTAll_ms_corr[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
+														EdTAll_us_corr[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+													}
 
-												if ((*beta).T - (imp).TIME < 0){
-													EdTAll_NoMultiGate_corr[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-													EdTAll_ms_corr[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
-													EdTAll_us_corr[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-												}
+													if ((*beta).T - (imp).TIME < 0){
+														EdTAll_NoMultiGate_corr[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
+														EdTAll_ms_corr[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
+														EdTAll_us_corr[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+													}
 												
-
+												}
 												//ExEyAll[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
 
 												//DTAS 511/1022 coincidence check
@@ -430,7 +431,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												}
 
 												if ((*beta).Ex<1500 && (*beta).Ey<1500){
-													implantBetaAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+													if ((*beta).nx<4 && (*beta).ny<4){
+														implantBetaAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+													}
 													GammaSumTemp=0;
 													//GammaSumTempBg=0;
 													ProtonGammaSumTemp=0;
