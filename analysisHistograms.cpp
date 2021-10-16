@@ -126,7 +126,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												decayEnergy[i][DSSD].at(j)->Fill((*beta).E);
 												//ExEyDiff[i][DSSD].at(j)->Fill((*beta).Ex - (*beta).Ey);
 
-												if (multix == 0 && multiy == 0){
+												if (multix < 2 && multiy < 2){
 													EdT[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 													
 													if ((*beta).Ex>1400 && (*beta).Ey>1400){
