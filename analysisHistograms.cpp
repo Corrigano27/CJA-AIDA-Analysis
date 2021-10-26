@@ -106,14 +106,14 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												//AIDA Plastic veto (beta)
 												if ((*beta).T - anc.TIME < 20e3 && (anc.ID == 34)){
 													if ((*beta).T - anc.TIME > 10e3 && (anc.ID == 34)){
-														//betaVeto = true;
+														betaVeto = true;
 													}
 												}
 
 												//F11 veto (beta)
 												if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33)){
 													if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33)){
-														//betaVeto = true;
+														betaVeto = true;
 													}
 												}
 													
@@ -126,8 +126,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												decayEnergy[i][DSSD].at(j)->Fill((*beta).E);
 												//ExEyDiff[i][DSSD].at(j)->Fill((*beta).Ex - (*beta).Ey);
 
-												if (multix < 2 && multiy < 2){
-													EdT[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
+												if (multix == 0 && multiy == 0){
+													EdT[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
 													
 													if ((*beta).Ex>1400 && (*beta).Ey>1400){
 														if (((*beta).T-(imp).TIME > 0)){
