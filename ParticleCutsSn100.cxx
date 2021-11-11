@@ -48,7 +48,7 @@ std::vector<TH1D *> implantBeta[numElements][6];
 std::vector<TH1D *> implantBeta1p[numElements][6];
 std::vector<TH1D *> implant1p[numElements][6];
 std::vector<TH1D *> decayEnergy[numElements][6];
-//std::vector<TH1D *> delayed1pEnergy[numElements][6];
+std::vector<TH1D *> delayed1pEnergy[numElements][6];
 std::vector<TH1D *> delayed1pEnergyX[numElements][6];
 
 //std::vector<TH1D *> delayed1pEnergyX_0_1_ms[numElements][6];
@@ -79,17 +79,20 @@ std::vector<TH1D *> delayed1pEnergy_AllDSSD[numElements];
 std::vector<TH1D *> delayed1pEnergyRandom_AllDSSD[numElements];
 std::vector<TH1D *> delayed1pEnergyAll_AllDSSD[numElements];
 std::vector<TH2D *> EdTAll_NoMultiGate[numElements];
-std::vector<TH2D *> EdTAll_NoMultiGate_[numElements];
-std::vector<TH2D *> EdTAll_NoMultiGate_corr[numElements][2];
+//std::vector<TH2D *> EdTAll_NoMultiGate_corr[numElements][2];
 std::vector<TH2D *> EdTAll_ms[numElements];
-std::vector<TH2D *> EdTAll_ms_corr[numElements][2];
+//std::vector<TH2D *> EdTAll_ms_corr[numElements][2];
 std::vector<TH2D *> EdTAll_us[numElements];
-std::vector<TH2D *> EdTAll_us_corr[numElements][2];
+//std::vector<TH2D *> EdTAll_us_corr[numElements][2];
 std::vector<TH2D *> EdTAll11[numElements];
 std::vector<TH2D *> EdTAll12[numElements];
 std::vector<TH2D *> EdTAll21[numElements];
 std::vector<TH2D *> EdTAll22[numElements];
-std::vector<TH1D *> implantEAll[numElements];
+std::vector<TH2D *> ExEy11[numElements];
+std::vector<TH2D *> ExEy12[numElements];
+std::vector<TH2D *> ExEy21[numElements];
+std::vector<TH2D *> ExEy22[numElements];
+//std::vector<TH1D *> implantEAll[numElements];
 std::vector<TH2D *> implantVelocityimplantEAll[numElements];
 
 //all DSSD, gated on 511 summed spectra
@@ -144,9 +147,11 @@ std::vector<TH1D *> EDiff_gammagate[numElements];
 
 //std::vector<TH2D *> summed_p_gamma_E_p_E[numElements][2];
 
+TH1D *globalEnergy;
 
+TH1D *isotopeSumEnergy;
 //Sn101 specific
-TH1D *Tin101_bp_gamma_peak[4];
+/*TH1D *Tin101_bp_gamma_peak[4];
 TH1D *Tin101_bp_gamma_peak_corr;
 TH1D *Tin101_bp_gamma_rest[4];
 TH1D *Tin101_bp_gamma_rest_corr;
@@ -155,7 +160,7 @@ TH1D *Tin101_summed_bp_gamma_peak_corr;
 TH1D *Tin101_summed_bp_gamma_rest[2];
 TH1D *Tin101_summed_bp_gamma_rest_corr;
 
-/*//96Ag specific
+//96Ag specific
 TH2D *Ag96_EdT_470keVgammaGated;
 TH2D *Ag96_EdT_743keVgammaGated;
 TH2D *Ag96_EdT_1249keVgammaGated;
@@ -175,7 +180,7 @@ TH1D *Ag96_sum_E1E2_diff_740_1249;
 
 TH2D *Ag96_EdT_2461keVgammaGated;
 TH2D *Ag96_EdT_summed_gammaGated;
-*/
+
 //95Ag specific
 
 TH2D *Ag95_EdT_160keVgammaGated;
@@ -203,6 +208,7 @@ TH2D *Ag95_gamma_gamma_shorter;
 //Ag94 specific
 TH1D *Ag94_1800_bp_DTASindy[4];
 TH1D *Ag94_1800_bp_DTASsummed[2];
+*/
 
 //end of gammas
 
@@ -219,7 +225,7 @@ std::vector<TH2D *> implantEnergyAOQ_AllDSSD[numElements];
 
 //implants
 std::vector<TH1D *> implantZ[numElements];
-std::vector<TH1D *> implantE[numElements][6];
+//std::vector<TH1D *> implantE[numElements][6];
 
 
 //template histograms
@@ -228,7 +234,7 @@ TH1D *implantBetaHis;
 TH2D *implantBetaHis2D;
 
 //pid
-//TH2D *PID;
+TH2D *PID;
 
 //TH2D *PID_noise;
 
@@ -442,9 +448,14 @@ void DefineHistograms()
 	//std::string Ag95histName;
 
 	PID_implant = new TH2D("PID_implant", "", 1e3, 1.95, 2.35, 1e3, 39, 56);
+	PID = new TH2D("PID_correlated", "", 1e3, 1.95, 2.35, 1e3, 39, 56);
+
+	globalEnergy = new TH1D("globalEnergy","",700,0,7000);
+	isotopeSumEnergy = = new TH1D("globalEnergy","",700,0,7000);
 
 	Indium97_gammaveto_EdT = new TH2D("Indium97_gammaveto_EdT_ms","", 2000, -80, 80,700,0,7000);
 
+	/*
 	//Sn101 & Ag95/94
 	for (int g = 0; g < 4; g++){
 			
@@ -520,6 +531,7 @@ void DefineHistograms()
 	Tin101_bp_gamma_rest_corr = new TH1D("Tin101_bp_gamma_rest_corr","",700, 0, 7000);
 	Tin101_summed_bp_gamma_rest_corr = new TH1D("Tin101_summed_bp_gamma_rest_corr","",700, 0, 7000);
 
+	*/
 
 	for (int i = 0; i < numElements; i++)
 	{
@@ -528,9 +540,9 @@ void DefineHistograms()
 		{
 		//EdT_gamma_histograms
 			//singles
-			for (int g = 0; g < 4; g++){
+			/*for (int g = 0; g < 4; g++){
 			
-				/*hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "beta_gamma_EdT_s_" + std::to_string(g);
+				/hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "beta_gamma_EdT_s_" + std::to_string(g);
 				implantBetaHis2D = new TH2D(hisName.c_str(), "", 1e2, 0, 10, 700, 0, 7000);
 				beta_gamma_EdT_s[i][g].push_back(implantBetaHis2D);
 
@@ -553,10 +565,10 @@ void DefineHistograms()
 				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "bp_gamma_EdT_us_" + std::to_string(g);
 				implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, 0, 20000, 700, 0, 7000);
 				bp_gamma_EdT_us[i][g].push_back(implantBetaHis2D);
-				*/
+				
 				if (g < 2){
 
-					/*
+					
 					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_beta_gamma_EdT_s_" + std::to_string(g);
 					implantBetaHis2D = new TH2D(hisName.c_str(), "", 1e2, 0, 10, 500, 0, 10000);
 					summed_beta_gamma_EdT_s[i][g].push_back(implantBetaHis2D);
@@ -589,7 +601,7 @@ void DefineHistograms()
 					implantBetaHis2D = new TH2D(hisName.c_str(), "", 700, 0, 7000, 1000, 0, 10000);
 					summed_beta_gamma_E_beta_E[i][g].push_back(implantBetaHis2D);
 					
-				*/
+				
 
 					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_NoMultiGate_s_corr" + std::to_string(g);
 					implantBetaHis2D = new TH2D(hisName.c_str(), "", 1e2, 0, 10, 700, 0, 7000);
@@ -606,6 +618,7 @@ void DefineHistograms()
 				}
 
 			}
+			*/
 
 			//use dssd arrays here
 			for (int z = 0; z < 6; z++)
@@ -627,9 +640,9 @@ void DefineHistograms()
 				implantBetaHis = new TH1D(hisName.c_str(), "", 350, 0, 7000);
 				decayEnergy[i][z].push_back(implantBetaHis);
 
-				//hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "Delayed1pEnergy_DSSD" + std::to_string(z);
-				//implantBetaHis = new TH1D(hisName.c_str(), "", 350, 0, 7000);
-				//delayed1pEnergy[i][z].push_back(implantBetaHis);
+				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "Delayed1pEnergy_DSSD" + std::to_string(z);
+				implantBetaHis = new TH1D(hisName.c_str(), "", 350, 0, 7000);
+				delayed1pEnergy[i][z].push_back(implantBetaHis);
 
 				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "Delayed1pEnergyX_DSSD" + std::to_string(z);
 				implantBetaHis = new TH1D(hisName.c_str(), "", 350, 0, 7000);
@@ -643,17 +656,17 @@ void DefineHistograms()
 				//implantBetaHis = new TH1D(hisName.c_str(), "", 1000, -500, 500);
 				//ExEyDiff[i][z].push_back(implantBetaHis);
 
-				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "Delayed1pEnergyTotal_DSSD" + std::to_string(z);
-				implantBetaHis = new TH1D(hisName.c_str(), "", 350, 0, 7000);
-				delayed1pEnergyAll[i][z].push_back(implantBetaHis);
+				//hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "Delayed1pEnergyTotal_DSSD" + std::to_string(z);
+				//implantBetaHis = new TH1D(hisName.c_str(), "", 350, 0, 7000);
+				//delayed1pEnergyAll[i][z].push_back(implantBetaHis);
 
-				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "Delayed1pEnergyRandom_DSSD" + std::to_string(z);
-				implantBetaHis = new TH1D(hisName.c_str(), "", 350, 0, 7000);
-				delayed1pEnergyRandom[i][z].push_back(implantBetaHis);
+				//hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "Delayed1pEnergyRandom_DSSD" + std::to_string(z);
+				//implantBetaHis = new TH1D(hisName.c_str(), "", 350, 0, 7000);
+				//delayed1pEnergyRandom[i][z].push_back(implantBetaHis);
 
-				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ImplantE_DSSD" + std::to_string(z);
-				implantBetaHis = new TH1D(hisName.c_str(), "", 350, 0, 7000);
-				implantE[i][z].push_back(implantBetaHis);
+				//hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ImplantE_DSSD" + std::to_string(z);
+				//implantBetaHis = new TH1D(hisName.c_str(), "", 350, 0, 7000);
+				//implantE[i][z].push_back(implantBetaHis);
 
 				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_DSSD" + std::to_string(z);
 				implantBetaHis2D = new TH2D(hisName.c_str(), "", 2e2, -10, 10, 700, 0, 7000);
@@ -719,9 +732,9 @@ void DefineHistograms()
 			implantBetaHis = new TH1D(hisName.c_str(), "", 350, 0, 7000);
 			delayed1pEnergyRandom_AllDSSD[i].push_back(implantBetaHis);
 
-			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ImplantE_AllDSSD";
-			implantBetaHis = new TH1D(hisName.c_str(), "", 350, 0, 7000);
-			implantEAll[i].push_back(implantBetaHis);
+			//hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ImplantE_AllDSSD";
+			//implantBetaHis = new TH1D(hisName.c_str(), "", 350, 0, 7000);
+			//implantEAll[i].push_back(implantBetaHis);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_NoMultiGate_s";
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 2e2, -10, 10, 700, 0, 7000);
@@ -750,6 +763,26 @@ void DefineHistograms()
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_22_s";
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 2e2, -10, 10, 700, 0, 7000);
 			EdTAll22[i].push_back(implantBetaHis2D);
+
+			//Cluster position checks
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ExEy_AllDSSD_11_s";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "",700, 0, 7000, 700, 0, 7000);
+			ExEy11[i].push_back(implantBetaHis2D);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ExEy_AllDSSD_12_s";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 700, 0, 7000, 700, 0, 7000);
+			ExEy12[i].push_back(implantBetaHis2D);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ExEy_AllDSSD_21_s";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 700, 0, 7000, 700, 0, 7000);
+			ExEy21[i].push_back(implantBetaHis2D);
+
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ExEy_AllDSSD_22_s";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 700, 0, 7000, 700, 0, 7000);
+			ExEy22[i].push_back(implantBetaHis2D);
+
+			//////////////////////////
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ImplantVelocityimplantE_AllDSSD";
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 100, 0.6, 0.65, 280, 0, 7000);
