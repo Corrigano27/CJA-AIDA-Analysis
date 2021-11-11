@@ -177,22 +177,22 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													}//end of lower beta-p energy cut
 												}//end of beta-p multiplicity cut
 
-												std::cout<<"Out of range at exey histos"<<std::endl;
+												
 												if ((*beta).nx == 1 && (*beta).ny == 1){
 													EdTAll11[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-													ExEy11[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
+													//ExEy11[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
 												}
 												if ((*beta).nx == 1 && (*beta).ny == 2){
 													EdTAll12[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-													ExEy12[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
+													//ExEy12[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
 												}
 												if ((*beta).nx == 2 && (*beta).ny == 1){
 													EdTAll21[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-													ExEy21[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
+													//ExEy21[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
 												}
 												if ((*beta).nx == 2 && (*beta).ny == 2){
 													EdTAll22[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-													ExEy22[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
+													//ExEy22[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
 												}		
 												EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
 												EdTAll_us[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
@@ -326,112 +326,18 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsoDir->Append(EdTAll21[i].at(k));
 			IsoDir->Append(EdTAll22[i].at(k));
 
-			IsoDir->Append(ExEy11[i].at(k));
+			/*IsoDir->Append(ExEy11[i].at(k));
 			IsoDir->Append(ExEy12[i].at(k));
 			IsoDir->Append(ExEy21[i].at(k));
-			IsoDir->Append(ExEy22[i].at(k));
+			IsoDir->Append(ExEy22[i].at(k));*/
 
 			IsoDir->Append(implantVelocityAOQ_AllDSSD[i].at(k));
 			IsoDir->Append(implantZ[i].at(k));
 			IsoDir->Append(implantEnergyAOQ_AllDSSD[i].at(k));
 
-			/*IsoDir->Append(ExEyAll[i].at(k));
-			//IsoDir->Append(ExEyAll_gammaloop[i].at(k));
-			IsoDir->Append(EdT_gammagate[i].at(k));
-			IsoDir->Append(EdT_gammagate_longer[i].at(k));
-			IsoDir->Append(EDiff_gammagate[i].at(k));
-			IsoDir->Append(ExEy_gammagate[i].at(k));
-			IsoDir->Append(NxNy_gammagate[i].at(k));
-			IsoDir->Append(clustersize_gammagate[i].at(k));*/
-
 			
 
-			//gamma spectra correction
-			/*for(int g = 0; g < 4; g++){
-				if (g == 0 || g == 3){
-					beta_gamma_EdT_s_corr[i].at(k)->Add(beta_gamma_EdT_s[i][g].at(k),1);
-					beta_gamma_EdT_ms_corr[i].at(k)->Add(beta_gamma_EdT_ms[i][g].at(k),1);
-					beta_gamma_EdT_us_corr[i].at(k)->Add(beta_gamma_EdT_us[i][g].at(k),1);
-					//summed_beta_gamma_EdT_s_corr[i].at(k)->Add(summed_beta_gamma_EdT_s[i][g].at(k),1);
-					//summed_beta_gamma_EdT_ms_corr[i].at(k)->Add(summed_beta_gamma_EdT_ms[i][g].at(k),1);
-					//summed_beta_gamma_EdT_us_corr[i].at(k)->Add(summed_beta_gamma_EdT_us[i][g].at(k),1);
-					bp_gamma_EdT_s_corr[i].at(k)->Add(bp_gamma_EdT_s[i][g].at(k),1);
-					bp_gamma_EdT_ms_corr[i].at(k)->Add(bp_gamma_EdT_ms[i][g].at(k),1);
-					bp_gamma_EdT_us_corr[i].at(k)->Add(bp_gamma_EdT_us[i][g].at(k),1);
-					//summed_bp_gamma_EdT_s_corr[i].at(k)->Add(summed_bp_gamma_EdT_s[i][g].at(k),1);
-					//summed_bp_gamma_EdT_ms_corr[i].at(k)->Add(summed_bp_gamma_EdT_ms[i][g].at(k),1);
-					//summed_bp_gamma_EdT_us_corr[i].at(k)->Add(summed_bp_gamma_EdT_us[i][g].at(k),1);
-				}
-
-				if (g == 1 || g == 2){
-					beta_gamma_EdT_s_corr[i].at(k)->Add(beta_gamma_EdT_s[i][g].at(k),-1);
-					beta_gamma_EdT_ms_corr[i].at(k)->Add(beta_gamma_EdT_ms[i][g].at(k),-1);
-					beta_gamma_EdT_us_corr[i].at(k)->Add(beta_gamma_EdT_us[i][g].at(k),-1);
-					//summed_beta_gamma_EdT_s_corr[i].at(k)->Add(summed_beta_gamma_EdT_s[i][g].at(k),-1);
-					//summed_beta_gamma_EdT_ms_corr[i].at(k)->Add(summed_beta_gamma_EdT_ms[i][g].at(k),-1);
-					//summed_beta_gamma_EdT_us_corr[i].at(k)->Add(summed_beta_gamma_EdT_us[i][g].at(k),-1);
-					bp_gamma_EdT_s_corr[i].at(k)->Add(bp_gamma_EdT_s[i][g].at(k),-1);
-					bp_gamma_EdT_ms_corr[i].at(k)->Add(bp_gamma_EdT_ms[i][g].at(k),-1);
-					bp_gamma_EdT_us_corr[i].at(k)->Add(bp_gamma_EdT_us[i][g].at(k),-1);
-					//summed_bp_gamma_EdT_s_corr[i].at(k)->Add(summed_bp_gamma_EdT_s[i][g].at(k),-1);
-					//summed_bp_gamma_EdT_ms_corr[i].at(k)->Add(summed_bp_gamma_EdT_ms[i][g].at(k),-1);
-					//summed_bp_gamma_EdT_us_corr[i].at(k)->Add(summed_bp_gamma_EdT_us[i][g].at(k),-1);
-				}
-
-				//IsoDir->Append(summed_beta_gamma_EdT_s[i][g].at(k));
-				//IsoDir->Append(summed_bp_gamma_EdT_s[i][g].at(k));
-
-			}*/
-
 			
-			//summed_p_gamma_E_p_E[i][0].at(k)->Add(summed_p_gamma_E_p_E[i][1].at(k),-1);
-			//summed_beta_gamma_E_beta_E[i][0].at(k)->Add(summed_beta_gamma_E_beta_E[i][1].at(k),-1);
-
-			//corrected
-
-
-			//IsoDir->Append(beta_gamma_EdT_s_corr[i].at(k));
-			//IsoDir->Append(beta_gamma_EdT_ms_corr[i].at(k));
-			//IsoDir->Append(beta_gamma_EdT_us_corr[i].at(k));
-			//IsoDir->Append(summed_beta_gamma_EdT_s_corr[i].at(k));
-			//IsoDir->Append(summed_beta_gamma_EdT_ms_corr[i].at(k));
-			//IsoDir->Append(summed_beta_gamma_EdT_us_corr[i].at(k));
-			//IsoDir->Append(bp_gamma_EdT_s_corr[i].at(k));
-			//IsoDir->Append(bp_gamma_EdT_ms_corr[i].at(k));
-			//IsoDir->Append(bp_gamma_EdT_us_corr[i].at(k));
-			//IsoDir->Append(summed_bp_gamma_EdT_s_corr[i].at(k));
-			//IsoDir->Append(summed_bp_gamma_EdT_ms_corr[i].at(k));
-			//IsoDir->Append(summed_bp_gamma_EdT_us_corr[i].at(k));
-
-			
-
-
-			//bgrnd components
-			/*for (int j=0; j<4; j++){
-				//IsoDir->Append(beta_gamma_EdT_us[i][j].at(k));
-				//IsoDir->Append(beta_gamma_EdT_ms[i][j].at(k));
-				//IsoDir->Append(beta_gamma_EdT_s[i][j].at(k));
-
-				if (j < 2){
-					IsoDir->Append(summed_beta_gamma_EdT_us[i][j].at(k));
-					IsoDir->Append(summed_beta_gamma_EdT_ms[i][j].at(k));
-					IsoDir->Append(summed_beta_gamma_EdT_s[i][j].at(k));
-					IsoDir->Append(summed_bp_gamma_EdT_us[i][j].at(k));
-					IsoDir->Append(summed_bp_gamma_EdT_ms[i][j].at(k));
-					IsoDir->Append(summed_bp_gamma_EdT_s[i][j].at(k));
-				}
-			}*/
-			
-
-			//IsoDir->Append(summed_p_gamma_E_p_E[i][0].at(k));
-			//IsoDir->Append(summed_beta_gamma_E_beta_E[i][0].at(k));
-
-			
-			//IsoDir->Append(summed_beta_gamma_EdT_us[i][0].at(k));
-			//IsoDir->Append(summed_beta_gamma_EdT_us[i][1].at(k));
-
-
-			//IsoDir->Append(implantVelocityimplantZ[i].at(k));
 			
 		}//isotope_loop?
 	}
