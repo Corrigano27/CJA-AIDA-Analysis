@@ -451,7 +451,7 @@ void DefineHistograms()
 	PID = new TH2D("PID_correlated", "", 1e3, 1.95, 2.35, 1e3, 39, 56);
 
 	globalEnergy = new TH1D("globalEnergy","",700,0,7000);
-	isotopeSumEnergy = new TH1D("globalEnergy","",700,0,7000);
+	isotopeSumEnergy = new TH1D("isotopeSumEnergy","",700,0,7000);
 
 	Indium97_gammaveto_EdT = new TH2D("Indium97_gammaveto_EdT_ms","", 2000, -80, 80,700,0,7000);
 
