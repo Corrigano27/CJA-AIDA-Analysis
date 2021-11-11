@@ -150,7 +150,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												//end of dssd for
 												isotopeSumEnergy->Fill((*beta).E);
 												decayEnergyAll[i].at(j)->Fill((*beta).E);
-												if (multix >= 0 && multiy >= 0){ //beta-delayed protons
+												if (multix < 5 && multiy < 5){ //beta-delayed protons
 													if ((*beta).Ex>1500 && (*beta).Ey>1500){
 														if (((*beta).T-(imp).TIME > 0)){
 															delayed1pEnergy_AllDSSD[i].at(j)->Fill((*beta).E);
@@ -180,19 +180,19 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												
 												if ((*beta).nx == 1 && (*beta).ny == 1){
 													EdTAll11[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-													//ExEy11[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
+													ExEy11[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
 												}
 												if ((*beta).nx == 1 && (*beta).ny == 2){
 													EdTAll12[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-													//ExEy12[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
+													ExEy12[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
 												}
 												if ((*beta).nx == 2 && (*beta).ny == 1){
 													EdTAll21[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-													//ExEy21[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
+													ExEy21[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
 												}
 												if ((*beta).nx == 2 && (*beta).ny == 2){
 													EdTAll22[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-													//ExEy22[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
+													ExEy22[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
 												}		
 												EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
 												EdTAll_us[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
@@ -326,14 +326,15 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsoDir->Append(EdTAll21[i].at(k));
 			IsoDir->Append(EdTAll22[i].at(k));
 
-			/*IsoDir->Append(ExEy11[i].at(k));
+			IsoDir->Append(ExEy11[i].at(k));
 			IsoDir->Append(ExEy12[i].at(k));
 			IsoDir->Append(ExEy21[i].at(k));
-			IsoDir->Append(ExEy22[i].at(k));*/
+			IsoDir->Append(ExEy22[i].at(k));
 
 			IsoDir->Append(implantVelocityAOQ_AllDSSD[i].at(k));
 			IsoDir->Append(implantZ[i].at(k));
 			IsoDir->Append(implantEnergyAOQ_AllDSSD[i].at(k));
+
 
 			
 
