@@ -162,7 +162,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														if (((*beta).T-(imp).TIME > 0)){
 															delayed1pEnergy_AllDSSD[i].at(j)->Fill((*beta).E);
 														}
-														PID->Fill((imp).aoq, (imp).zet);
+														PID->Fill((imp).AOQ, (imp).ZET);
 														//beta-p gamma loop
 														//ProtonGammaSumTemp = 0;
 														//ProtonGammaSumTempBg = 0;
