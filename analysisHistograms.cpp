@@ -82,13 +82,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 					for ( auto imp:(*beta).vectorOfImp ){ //if non-element gated histos needed, do here
 						if ((*beta).z == (imp).Z){
 							gammaVeto = true;
-							//In97gammaVeto = false;
-							/*Ag96_470 = false;
-							Ag96_743 = false;
-							Ag96_1249 = false;
-							Ag96_Random = false;
-							Ag96_subtraction = false;
-							Ag96_isomer = false;*/
 							for (int i = 0; i < numElements; i++){
 								for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 									if (particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
@@ -184,6 +177,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													}//end of lower beta-p energy cut
 												}//end of beta-p multiplicity cut
 
+												std::cout<<"Out of range at exey histos"<<std::endl;
 												if ((*beta).nx == 1 && (*beta).ny == 1){
 													EdTAll11[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
 													ExEy11[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
@@ -280,36 +274,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	globalEnergy->Write();
 
 	isotopeSumEnergy->Write();
-
-	//Indium97_gammaveto_EdT->Write();
-
-	/*Ag96_single_vs_summed->Write();
-
-	Ag96_gamma_gamma->Write();
-
-	Ag96_sum_E1E2_diff_470_740->Write();
-
-	Ag96_sum_E1E2_diff_740_1249->Write();
-
-	Ag96_EdT_470keVgammaGated->Write();
-
-	Ag96_EdT_743keVgammaGated->Write();
-
-	Ag96_EdT_1249keVgammaGated->Write();
-
-	Ag96_EdT_all3Peaks_gammaGated->Write();
-
-	Ag96_EdT_all3Peaks_Random_gammaGated->Write();
-
-	Ag96_GammaT_betaT_all3Peaks->Write();
-
-	Ag96_E_randomGamma->Write();
-
-	Ag96_E_correlatedGamma->Write();
-
-	Ag96_EdT_2461keVgammaGated->Write();
-
-	Ag96_EdT_summed_gammaGated->Write();*/
 
 	std::string isoDirName;
 
