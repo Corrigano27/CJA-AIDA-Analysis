@@ -115,9 +115,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												//ExEyDiff[i][DSSD].at(j)->Fill((*beta).Ex - (*beta).Ey);
 
 												if (multix >= 0 && multiy >= 0){
-													//EdT[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
-													//EdT_ms[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
-													//EdT_us[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+													EdT[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
+													EdT_ms[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
+													EdT_us[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 													
 													if ((*beta).Ex>1500 && (*beta).Ey>1500){
 														if (((*beta).T-(imp).TIME > 0)){
@@ -292,7 +292,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 			for(int z = 0; z < 6; z++){
 
-				IsoDir->Append(decayEnergy[i][z].at(k));
+				/*IsoDir->Append(decayEnergy[i][z].at(k));
 				//IsoDir->Append(delayed1pEnergy[i][z].at(k));
 				IsoDir->Append(delayed1pEnergyX[i][z].at(k));
 				//IsoDir->Append(delayed1pEnergyY[i][z].at(k));
@@ -334,6 +334,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsoDir->Append(implantVelocityAOQ_AllDSSD[i].at(k));
 			IsoDir->Append(implantZ[i].at(k));
 			IsoDir->Append(implantEnergyAOQ_AllDSSD[i].at(k));
+			*/
 
 
 			
