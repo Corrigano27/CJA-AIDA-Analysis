@@ -115,14 +115,14 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												//ExEyDiff[i][DSSD].at(j)->Fill((*beta).Ex - (*beta).Ey);
 
 												if (multix >= 0 && multiy >= 0){
-													EdT[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
-													EdT_ms[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
-													EdT_us[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
+													//EdT[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
+													//EdT_ms[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
+													//EdT_us[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 													
 													if ((*beta).Ex>1500 && (*beta).Ey>1500){
 														if (((*beta).T-(imp).TIME > 0)){
 															//delayed1pEnergy[i][DSSD].at(j)->Fill((*beta).E);
-															//delayed1pEnergyX[i][DSSD].at(j)->Fill((*beta).Ex);
+															delayed1pEnergyX[i][DSSD].at(j)->Fill((*beta).Ex);
 															//delayed1pEnergyY[i][DSSD].at(j)->Fill((*beta).Ey);
 															
 															//ExEy[i][z].at(j)->Fill((*beta).Ex, (*beta).Ey);
