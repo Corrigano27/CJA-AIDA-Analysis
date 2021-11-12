@@ -290,9 +290,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsotopeDir.push_back(IsoDir);
 			//isotope-directory
 
-			for(int z = 0; z < 6; z++){
+			/*for(int z = 0; z < 6; z++){
 
-				/*IsoDir->Append(decayEnergy[i][z].at(k));
+				IsoDir->Append(decayEnergy[i][z].at(k));
 				//IsoDir->Append(delayed1pEnergy[i][z].at(k));
 				IsoDir->Append(delayed1pEnergyX[i][z].at(k));
 				//IsoDir->Append(delayed1pEnergyY[i][z].at(k));
