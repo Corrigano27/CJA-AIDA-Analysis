@@ -89,10 +89,10 @@ std::vector<TH2D *> EdTAll11[numElements];
 std::vector<TH2D *> EdTAll12[numElements];
 std::vector<TH2D *> EdTAll21[numElements];
 std::vector<TH2D *> EdTAll22[numElements];
-std::vector<TH2D *> ExEy11[numElements];
-std::vector<TH2D *> ExEy12[numElements];
-std::vector<TH2D *> ExEy21[numElements];
-std::vector<TH2D *> ExEy22[numElements];
+std::vector<TH2D *> NxEx[numElements];
+std::vector<TH2D *> NyEy[numElements];
+//std::vector<TH2D *> ExEy21[numElements];
+//std::vector<TH2D *> ExEy22[numElements];
 std::vector<TH1D *> implantEAll[numElements];
 std::vector<TH2D *> implantVelocityimplantEAll[numElements];
 
@@ -502,21 +502,13 @@ void DefineHistograms()
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 2e2, -10, 10, 700, 0, 7000);
 			EdTAll22[i].push_back(implantBetaHis2D);
 
-			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ExEy_AllDSSD_11_s";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "",700, 0, 7000, 700, 0, 7000);
-			ExEy11[i].push_back(implantBetaHis2D);
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "NxEx_AllDSSD_11_s";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "",7, 0, 6, 700, 0, 7000);
+			NxEx[i].push_back(implantBetaHis2D);
 
-			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ExEy_AllDSSD_12_s";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 700, 0, 7000, 700, 0, 7000);
-			ExEy12[i].push_back(implantBetaHis2D);
-
-			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ExEy_AllDSSD_21_s";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 700, 0, 7000, 700, 0, 7000);
-			ExEy21[i].push_back(implantBetaHis2D);
-			
-			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ExEy_AllDSSD_22_s";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 700, 0, 7000, 700, 0, 7000);
-			ExEy22[i].push_back(implantBetaHis2D);
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "NyEy_AllDSSD_12_s";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 7, 0, 6, 700, 0, 7000);
+			NyEy[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ImplantVelocityimplantE_AllDSSD";
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 100, 0.6, 0.65, 280, 0, 7000);
