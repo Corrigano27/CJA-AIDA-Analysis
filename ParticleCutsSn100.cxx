@@ -95,12 +95,7 @@ std::vector<TH2D *> NyEy[numElements];
 //std::vector<TH2D *> ExEy22[numElements];
 std::vector<TH1D *> implantEAll[numElements];
 std::vector<TH2D *> implantVelocityimplantEAll[numElements];
-
-
 //Sn101 specific
-
-
-
 //95Ag specific
 
 
@@ -357,10 +352,10 @@ void DefineHistograms()
 	globalEnergy = new TH1D("globalEnergy","",700,0,7000);
 	isotopeSumEnergy = new TH1D("isotopeSumEnergy","",700,0,7000);
 
-	F11_L = new TH1D("F11_L",100,0,10000);
-	F11_R = new TH1D("F11_R",100,0,10000);
+	F11_L = new TH1D("F11_L","",100,0,10000);
+	F11_R = new TH1D("F11_R","",100,0,10000);
 
-	AIDA_PL = new TH1D("F11_R",100,0,10000);
+	AIDA_PL = new TH1D("F11_R","",100,0,10000);
 
 	//Sn101 & Ag95/94
 	
