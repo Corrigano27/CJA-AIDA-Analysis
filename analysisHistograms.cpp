@@ -95,13 +95,24 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												
 											for (auto anc:(*beta).vectorOfAnc){
 												//AIDA Plastic veto (beta)
-												if ((*beta).T - anc.TIME < 20e3 && (anc.ID == 34)){
-													if ((*beta).T - anc.TIME > 10e3 && (anc.ID == 34)){
-														betaVeto = true;
+												if (anc.ID == 34){
+													if ((*beta).E > 1500){
+														AIDA_PL->Fill(anc.TIME/1e9);
+													}												
+													if ((*beta).T - anc.TIME < 20e3){
+														if ((*beta).T - anc.TIME > 10e3){
+															betaVeto = true;
+														}
 													}
 												}
 
 												//F11 veto (beta)
+												if (anc.ID == 32 && (*beta).E>1500){
+													F11_L->Fill(anc.TIME/1e9);
+												}
+												if (anc.ID == 33 && (*beta).E>1500){
+													F11_R->Fill(anc.TIME/1e9);
+												}
 												if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33)){
 													if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33)){
 														betaVeto = true;
@@ -301,6 +312,12 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	globalEnergy->Write();
 
 	isotopeSumEnergy->Write();
+
+	F11_L->Write();
+
+	F11_R->Write();
+
+	AIDA_PL->Write();
 	
 
 	std::string isoDirName;
