@@ -130,6 +130,12 @@ TH2D *implantBetaHis2D;
 //pid
 TH2D *PID;
 
+TH1D *F11_L;
+
+TH1D *F11_R;
+
+TH1D *AIDA_PL;
+
 //TH2D *PID_noise;
 
 TH2D *PID_implant;
@@ -350,6 +356,11 @@ void DefineHistograms()
 
 	globalEnergy = new TH1D("globalEnergy","",700,0,7000);
 	isotopeSumEnergy = new TH1D("isotopeSumEnergy","",700,0,7000);
+
+	F11_L = new TH1D("F11_L",100,0,10000);
+	F11_R = new TH1D("F11_R",100,0,10000);
+
+	AIDA_PL = new TH1D("F11_R",100,0,10000);
 
 	//Sn101 & Ag95/94
 	
