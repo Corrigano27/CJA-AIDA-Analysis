@@ -355,7 +355,7 @@ void DefineHistograms()
 	F11_L = new TH1D("F11_L","",100,0,10000);
 	F11_R = new TH1D("F11_R","",100,0,10000);
 
-	AIDA_PL = new TH1D("F11_R","",100,0,10000);
+	AIDA_PL = new TH1D("AIDA_PL","",100,0,10000);
 
 	//Sn101 & Ag95/94
 	
