@@ -83,6 +83,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 						if ((*beta).z == (imp).Z){
 							globalEnergy->Fill((*beta).E);
 							if ((*beta).Ex>1500 && (*beta).Ey>1500){
+								protons->Fill((*beta).T);
 								PID->Fill((imp).AOQ, (imp).ZET);
 							}
 							for (int i = 0; i < numElements; i++){
@@ -96,7 +97,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											for (auto anc:(*beta).vectorOfAnc){
 												//AIDA Plastic veto (beta)
 												if (anc.ID == 34){
-													if ((*beta).E > 1500){
+													if ((*beta).E > 0){
 														AIDA_PL->Fill(anc.TIME/1e9);
 													}												
 													if ((*beta).T - anc.TIME < 20e3){
@@ -107,10 +108,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												}
 
 												//F11 veto (beta)
-												if (anc.ID == 32 && (*beta).E>1500){
+												if (anc.ID == 32){
 													F11_L->Fill(anc.TIME/1e9);
 												}
-												if (anc.ID == 33 && (*beta).E>1500){
+												if (anc.ID == 33){
 													F11_R->Fill(anc.TIME/1e9);
 												}
 												if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33)){
@@ -209,7 +210,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												EdTAll_us[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 												EdTAll_ms[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
 
-												if ((*beta).nx<4 && (*beta).ny<4){
+												/*if ((*beta).nx<4 && (*beta).ny<4){
 													if ((*beta).T - (imp).TIME > 0){
 														EdTAll_NoMultiGate_corr[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
 														EdTAll_ms_corr[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
@@ -222,7 +223,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														EdTAll_us_corr[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 													}
 												
-												}
+												*/}
 												//ExEyAll[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
 
 												//DTAS 511/1022 coincidence check
@@ -313,6 +314,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	isotopeSumEnergy->Write();
 
+	protons->Write();
+
 	F11_L->Write();
 
 	F11_R->Write();
@@ -382,16 +385,16 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsoDir->Append(implantZ[i].at(k));
 			IsoDir->Append(implantEnergyAOQ_AllDSSD[i].at(k));
 
-			EdTAll_NoMultiGate_corr[i][0].at(k)->Add(EdTAll_NoMultiGate_corr[i][1].at(k),-1);
-			EdTAll_ms_corr[i][0].at(k)->Add(EdTAll_ms_corr[i][1].at(k),-1);
-			EdTAll_us_corr[i][0].at(k)->Add(EdTAll_us_corr[i][1].at(k),-1);
+			//EdTAll_NoMultiGate_corr[i][0].at(k)->Add(EdTAll_NoMultiGate_corr[i][1].at(k),-1);
+			//EdTAll_ms_corr[i][0].at(k)->Add(EdTAll_ms_corr[i][1].at(k),-1);
+			//EdTAll_us_corr[i][0].at(k)->Add(EdTAll_us_corr[i][1].at(k),-1);
 			//summed_p_gamma_E_p_E[i][0].at(k)->Add(summed_p_gamma_E_p_E[i][1].at(k),-1);
 			//summed_beta_gamma_E_beta_E[i][0].at(k)->Add(summed_beta_gamma_E_beta_E[i][1].at(k),-1);
 
 			//corrected
-			IsoDir->Append(EdTAll_NoMultiGate_corr[i][0].at(k));
-			IsoDir->Append(EdTAll_ms_corr[i][0].at(k));
-			IsoDir->Append(EdTAll_us_corr[i][0].at(k));
+			//IsoDir->Append(EdTAll_NoMultiGate_corr[i][0].at(k));
+			//IsoDir->Append(EdTAll_ms_corr[i][0].at(k));
+			//IsoDir->Append(EdTAll_us_corr[i][0].at(k));
 
 
 			
