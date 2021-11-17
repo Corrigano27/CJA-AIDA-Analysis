@@ -80,11 +80,11 @@ std::vector<TH1D *> delayed1pEnergyRandom_AllDSSD[numElements];
 std::vector<TH1D *> delayed1pEnergyAll_AllDSSD[numElements];
 std::vector<TH2D *> EdTAll_NoMultiGate[numElements];
 std::vector<TH2D *> EdTAll_NoMultiGate_[numElements];
-std::vector<TH2D *> EdTAll_NoMultiGate_corr[numElements][2];
+//std::vector<TH2D *> EdTAll_NoMultiGate_corr[numElements][2];
 std::vector<TH2D *> EdTAll_ms[numElements];
-std::vector<TH2D *> EdTAll_ms_corr[numElements][2];
+//std::vector<TH2D *> EdTAll_ms_corr[numElements][2];
 std::vector<TH2D *> EdTAll_us[numElements];
-std::vector<TH2D *> EdTAll_us_corr[numElements][2];
+//std::vector<TH2D *> EdTAll_us_corr[numElements][2];
 std::vector<TH2D *> EdTAll11[numElements];
 std::vector<TH2D *> EdTAll12[numElements];
 std::vector<TH2D *> EdTAll21[numElements];
@@ -130,6 +130,8 @@ TH1D *F11_L;
 TH1D *F11_R;
 
 TH1D *AIDA_PL;
+
+TH1D *protons;
 
 //TH2D *PID_noise;
 
@@ -357,6 +359,8 @@ void DefineHistograms()
 
 	AIDA_PL = new TH1D("AIDA_PL","",100,0,10000);
 
+	protons = new TH1D("protons","",100,0,10000)
+
 	//Sn101 & Ag95/94
 	
 
@@ -369,7 +373,7 @@ void DefineHistograms()
 			//singles
 			for (int g = 0; g < 4; g++){
 			
-				if (g < 2){
+				/*if (g < 2){
 
 					hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_NoMultiGate_s_corr" + std::to_string(g);
 					implantBetaHis2D = new TH2D(hisName.c_str(), "", 1e2, 0, 10, 700, 0, 7000);
@@ -383,7 +387,7 @@ void DefineHistograms()
 					implantBetaHis2D = new TH2D(hisName.c_str(), "", 2000, 0, 20000, 700, 0, 7000);
 					EdTAll_us_corr[i][g].push_back(implantBetaHis2D);
 
-				}
+				}*/
 
 			}
 
