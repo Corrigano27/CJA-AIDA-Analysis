@@ -359,7 +359,7 @@ void DefineHistograms()
 
 	AIDA_PL = new TH1D("AIDA_PL","",100,0,10000);
 
-	protons = new TH1D("protons","",100,0,10000)
+	protons = new TH1D("protons","",100,0,10000);
 
 	//Sn101 & Ag95/94
 	
