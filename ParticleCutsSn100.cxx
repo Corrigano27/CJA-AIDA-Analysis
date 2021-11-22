@@ -125,9 +125,9 @@ TH2D *implantBetaHis2D;
 //pid
 TH2D *PID;
 
-TH1D *F11_L;
+TH2D *F11_L;
 
-TH1D *F11_R;
+TH2D *F11_R;
 
 TH1D *AIDA_PL;
 
@@ -354,8 +354,8 @@ void DefineHistograms()
 	globalEnergy = new TH1D("globalEnergy","",700,0,7000);
 	isotopeSumEnergy = new TH1D("isotopeSumEnergy","",700,0,7000);
 
-	F11_L = new TH1D("F11_L","",100,0,10000);
-	F11_R = new TH1D("F11_R","",100,0,10000);
+	F11_L = new TH2D("F11_L","",200,-500e3,500e3,160,0,80);
+	F11_R = new TH2D("F11_R","",200,-500e3,500e3,160,0,80);
 
 	AIDA_PL = new TH1D("AIDA_PL","",100,0,10000);
 
@@ -513,11 +513,11 @@ void DefineHistograms()
 			EdTAll22[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "NxEx_AllDSSD_11_s";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "",7, 0, 6, 700, 0, 7000);
+			implantBetaHis2D = new TH2D(hisName.c_str(), "",6, 0, 6, 700, 0, 7000);
 			NxEx[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "NyEy_AllDSSD_12_s";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 7, 0, 6, 700, 0, 7000);
+			implantBetaHis2D = new TH2D(hisName.c_str(), "",6, 0, 6, 700, 0, 7000);
 			NyEy[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "ImplantVelocityimplantE_AllDSSD";
