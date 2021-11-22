@@ -83,7 +83,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 						if ((*beta).z == (imp).Z){
 							globalEnergy->Fill((*beta).E);
 							if ((*beta).Ex>1500 && (*beta).Ey>1500){
-								protons->Fill((*beta).T);
+								protons->Fill((*beta).T/1e9);
 								PID->Fill((imp).AOQ, (imp).ZET);
 							}
 							for (int i = 0; i < numElements; i++){
@@ -108,15 +108,19 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												}
 
 												//F11 veto (beta)
-												if (anc.ID == 32){
-													F11_L->Fill(anc.TIME/1e9);
-												}
-												if (anc.ID == 33){
-													F11_R->Fill(anc.TIME/1e9);
-												}
-												if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33)){
-													if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33)){
-														betaVeto = true;
+												if (anc.EN > 20){
+													if (anc.ID == 32){
+														F11_L->Fill((*beta).T-anc.TIME, anc.EN);
+													}
+													if (anc.ID == 33){
+														F11_R->Fill((*beta).T-anc.TIME, anc.EN);
+													}
+													if (anc.EN > 20){
+														if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33)){
+															if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33)){
+																betaVeto = true;
+															}
+														}
 													}
 												}
 													
