@@ -8,6 +8,13 @@
     
 bool betaVeto;
 
+bool isProton;
+
+int CounterA = 0;
+int CounterB = 0;
+int CounterC = 0;
+int CounterD = 0;;
+
 /*bool Ag96_470;
 bool Ag96_743;
 bool Ag96_1249;
