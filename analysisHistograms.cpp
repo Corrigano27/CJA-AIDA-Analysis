@@ -80,16 +80,25 @@ int analysisHistograms(std::string iName, std::string cutFile){
 					multix = (*beta).TFast & 0xFF;
 					multiy = ((*beta).TFast >> 8) & 0xFF;
 					for ( auto imp:(*beta).vectorOfImp ){ //if non-element gated histos needed, do here
+						isProton = false;
 						if ((*beta).z == (imp).Z){
 							globalEnergy->Fill((*beta).E);
 							if ((*beta).Ex>1500 && (*beta).Ey>1500){
+								isProton = true;
 								protons->Fill((*beta).T/1e9);
 								PID->Fill((imp).AOQ, (imp).ZET);
+								counterA += 1;
 							}
 							for (int i = 0; i < numElements; i++){
 								for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 									if (particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
+										if (isProton == true){
+												counterB += 1;
+											}
 										if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){// use these statements for the dssd loop later on
+											if (isProton == true){
+												counterC += 1;
+											}
 											//start applying vetoes here
 											betaVeto = false;
 											//initialise veto as false, then set true when conditions are met. Fill histograms when false
@@ -99,7 +108,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												if (anc.ID == 34){
 													if ((*beta).E > 0){
 														AIDA_PL->Fill(anc.TIME/1e9);
-													}												
+													}	
 													if ((*beta).T - anc.TIME < 20e3){
 														if ((*beta).T - anc.TIME > 10e3){
 															betaVeto = true;
@@ -127,6 +136,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											}
 											
 											if (betaVeto == false){
+												if (isProton == true){
+													counterD += 1;
+												}
 												//use below to have variable dssd - will need to introduce further dssd vectors
 												//if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){
 												int DSSD = ((*beta).z);
@@ -279,7 +291,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 		}//end of loop through beta events
 
-		if ((*implant).T){
+		if ((*implant).T){ //implant dssd cut here!!!
 			for ( auto pid:(*implant).vectorOfPid ){
 				PID_implant->Fill((*implant).aoq, (*implant).zet);
 				int iDSSD = (*implant).z;
@@ -309,6 +321,14 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	ofile->cd();
 
 	std::cout << "Writing to file" << std::endl;
+
+	std::cout << "initial counter = " << counterA <<std::endl;
+
+	std::cout << "PID cut counter = " << counterB <<std::endl;
+
+	std::cout << "Implant DSSD cut counter = " << counterC <<std::endl;
+
+	std::cout << "veto cut counter = " << counterD <<std::endl;
 
 	PID_implant->Write();
 
