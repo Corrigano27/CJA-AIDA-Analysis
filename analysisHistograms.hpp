@@ -10,10 +10,15 @@ bool betaVeto;
 
 bool isProton;
 
+bool plasticVeto;
+bool f11Veto;
+
 int counterA = 0;
 int counterB = 0;
 int counterC = 0;
-int counterD = 0;;
+int counterD = 0;
+int counterE = 0;
+int counterF = 0;
 
 /*bool Ag96_470;
 bool Ag96_743;
