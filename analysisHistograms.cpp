@@ -73,18 +73,26 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	
 	//Files read, histograms filled
 	while (aReader.Next()){
-
+		isProton = false;
 		if ((*beta).T){
 			if ((*beta).Ey >= 0.0 && (*beta).Ex>=0.0){
+				if ((*beta).Ey > 1500 && (*beta).Ex>1500){
+					isProton = true;
+					counterG +=1;
+				}
 				if (abs((*beta).Ex-(*beta).Ey)<120){
+					if (isProton == true){
+						counterH +=1;
+					}
 					multix = (*beta).TFast & 0xFF;
 					multiy = ((*beta).TFast >> 8) & 0xFF;
 					for ( auto imp:(*beta).vectorOfImp ){ //if non-element gated histos needed, do here
-						isProton = false;
+						if (isProton == true){
+							counterI +=1;
+						}
 						if ((*beta).z == (imp).Z){
 							globalEnergy->Fill((*beta).E);
-							if ((*beta).Ex>1500 && (*beta).Ey>1500){
-								isProton = true;
+							if (isProton == true){
 								protons->Fill((*beta).T/1e9);
 								PID->Fill((imp).AOQ, (imp).ZET);
 								counterA += 1;
@@ -126,7 +134,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												if (anc.ID == 33){
 													F11_R->Fill((*beta).T-anc.TIME, anc.EN);
 												}
-												if (anc.EN > 0){
+												if (anc.EN > 20){
 													if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33)){
 														if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33)){
 															betaVeto = true;
@@ -333,7 +341,13 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	std::cout << "Writing to file" << std::endl;
 
-	std::cout << "initial counter = " << counterA <<std::endl;
+	std::cout << "all protons = " << counterG << std::endl;
+
+	std::cout << "after equal energy cut = " << counterH << std::endl;
+
+	std::cout << "initial counter after implant loop = " << counterI <<std::endl;
+
+	std::cout << "initial counter after single layer requirment" << counterA <<std::endl;
 
 	std::cout << "PID cut counter = " << counterB <<std::endl;
 
