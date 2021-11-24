@@ -341,7 +341,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	std::cout << "survives plastic veto = " << counterE <<std::endl;
 
-	std::cout << "survives f11 veto = " << counter <<std::endl;
+	std::cout << "survives f11 veto = " << counterF <<std::endl;
 
 	std::cout << "total veto cut counter = " << counterD <<std::endl;
 
