@@ -19,6 +19,9 @@ int counterC = 0;
 int counterD = 0;
 int counterE = 0;
 int counterF = 0;
+int counterG = 0;
+int counterH = 0;
+int counterI = 0;
 
 /*bool Ag96_470;
 bool Ag96_743;
