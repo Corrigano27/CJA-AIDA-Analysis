@@ -101,6 +101,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											}
 											//start applying vetoes here
 											betaVeto = false;
+											f11Veto = false;
+											plasticVeto = false;
 											//initialise veto as false, then set true when conditions are met. Fill histograms when false
 												
 											for (auto anc:(*beta).vectorOfAnc){
@@ -112,6 +114,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													if ((*beta).T - anc.TIME < 20e3){
 														if ((*beta).T - anc.TIME > 10e3){
 															betaVeto = true;
+															plasticVeto = true;
 														}
 													}
 												}
@@ -128,13 +131,23 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33)){
 															if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33)){
 																betaVeto = true;
+																f11Veto = true;
 															}
 														}
 													}
 												}
 													
 											}
-											
+											if (isProton == true){
+												if (plasticVeto == false){
+													counterE += 1;
+												}
+												if (f11Veto == false){
+													counterF += 1;
+												}
+												
+											}
+
 											if (betaVeto == false){
 												if (isProton == true){
 													counterD += 1;
@@ -328,7 +341,11 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	std::cout << "Implant DSSD cut counter = " << counterC <<std::endl;
 
-	std::cout << "veto cut counter = " << counterD <<std::endl;
+	std::cout << "survives plastic veto = " << counterE <<std::endl;
+
+	std::cout << "survives f11 veto = " << counterF <<std::endl;
+
+	std::cout << "total veto cut counter = " << counterD <<std::endl;
 
 	PID_implant->Write();
 
