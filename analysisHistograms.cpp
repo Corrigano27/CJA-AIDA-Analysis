@@ -108,9 +108,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											for (auto anc:(*beta).vectorOfAnc){
 												//AIDA Plastic veto (beta)
 												if (anc.ID == 34){
-													if ((*beta).E > 0){
-														AIDA_PL->Fill(anc.TIME/1e9);
-													}	
+													
+													AIDA_PL->Fill(anc.TIME/1e9);
+													
 													if ((*beta).T - anc.TIME < 20e3){
 														if ((*beta).T - anc.TIME > 10e3){
 															betaVeto = true;
@@ -120,7 +120,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												}
 
 												//F11 veto (beta)
-												if (anc.EN > 20){
+												if (anc.EN > 0){
 													if (anc.ID == 32){
 														F11_L->Fill((*beta).T-anc.TIME, anc.EN);
 													}
