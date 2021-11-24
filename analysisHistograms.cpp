@@ -108,9 +108,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											for (auto anc:(*beta).vectorOfAnc){
 												//AIDA Plastic veto (beta)
 												if (anc.ID == 34){
-													
-													AIDA_PL->Fill(anc.TIME/1e9);
-													
+													if ((*beta).E > 0){
+														AIDA_PL->Fill(anc.TIME/1e9);
+													}	
 													if ((*beta).T - anc.TIME < 20e3){
 														if ((*beta).T - anc.TIME > 10e3){
 															betaVeto = true;
@@ -120,19 +120,17 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												}
 
 												//F11 veto (beta)
+												if (anc.ID == 32){
+													F11_L->Fill((*beta).T-anc.TIME, anc.EN);
+												}
+												if (anc.ID == 33){
+													F11_R->Fill((*beta).T-anc.TIME, anc.EN);
+												}
 												if (anc.EN > 0){
-													if (anc.ID == 32){
-														F11_L->Fill((*beta).T-anc.TIME, anc.EN);
-													}
-													if (anc.ID == 33){
-														F11_R->Fill((*beta).T-anc.TIME, anc.EN);
-													}
-													if (anc.EN > 20){
-														if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33)){
-															if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33)){
-																betaVeto = true;
-																f11Veto = true;
-															}
+													if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33)){
+														if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33)){
+															betaVeto = true;
+															f11Veto = true;
 														}
 													}
 												}
@@ -343,7 +341,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	std::cout << "survives plastic veto = " << counterE <<std::endl;
 
-	std::cout << "survives f11 veto = " << counterF <<std::endl;
+	std::cout << "survives f11 veto = " << counter <<std::endl;
 
 	std::cout << "total veto cut counter = " << counterD <<std::endl;
 
