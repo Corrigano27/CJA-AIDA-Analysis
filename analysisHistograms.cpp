@@ -134,7 +134,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												if (anc.ID == 33){
 													F11_R->Fill((*beta).T-anc.TIME, anc.EN);
 												}
-												if (anc.EN > 0){
+												if (anc.EN > 20){
 													if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33)){
 														if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33)){
 															betaVeto = true;
