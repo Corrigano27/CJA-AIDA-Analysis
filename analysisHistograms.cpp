@@ -80,7 +80,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 					isProton = true;
 					counterG +=1;
 				}
-				if (abs((*beta).Ex-(*beta).Ey)<150){
+				if (abs((*beta).Ex-(*beta).Ey)<200){
 					if (isProton == true){
 						counterH +=1;
 					}
