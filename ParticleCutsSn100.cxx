@@ -90,7 +90,7 @@ std::vector<TH2D *> EdTAll12[numElements];
 std::vector<TH2D *> EdTAll21[numElements];
 std::vector<TH2D *> EdTAll22[numElements];
 
-std::vector<TH2D *> betaP_T_implantV[numelements];
+std::vector<TH2D *> betaP_T_implantV[numElements];
 
 std::vector<TH2D *> NxEx[numElements];
 std::vector<TH2D *> NyEy[numElements];
