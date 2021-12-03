@@ -80,7 +80,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 					isProton = true;
 					counterG +=1;
 				}
-				if (abs((*beta).Ex-(*beta).Ey)<300){
+				if (abs((*beta).Ex-(*beta).Ey)<=300){
 					if (isProton == true){
 						counterH +=1;
 					}
@@ -101,8 +101,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 								for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 									if (particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
 										if (isProton == true){
-												counterB += 1;
-											}
+											counterB += 1;
+										}
 										if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){// use these statements for the dssd loop later on
 											if (isProton == true){
 												counterC += 1;
@@ -172,6 +172,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													EdT_us[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 													
 													if ((*beta).Ex>1500 && (*beta).Ey>1500){
+
+														for ( auto pid:(*beta).vectorOfPid ){
+															betaP_T_implantV->Fill(((*beta).T-(imp).TIME)/1.0e9, pid.VELOCITY);
+														}
 
 														NxEx[i].at(j)->Fill(multix, (*beta).Ex);
 														NyEy[i].at(j)->Fill(multiy, (*beta).Ey);
@@ -282,14 +286,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													//if(ProtonGammaSumTemp != 0){
 														//summed_p_gamma_E_p_E[i][0].at(j)->Fill((*beta).Ex, ProtonGammaSumTemp);
 													//}
-
-													
-
-													
-
-													
-													
-														
+		
 												}//beta energy and multi-cut
 
 
@@ -318,14 +315,17 @@ int analysisHistograms(std::string iName, std::string cutFile){
 					for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){	
 						if (particleCuts[i][j]->IsInside((*implant).aoq, (*implant).zet)){
 							implantZ[i].at(j)->Fill((*implant).z);
-							implantVelocityimplantZ[i].at(j)->Fill((pid).VELOCITY, (*implant).z);
-							implantEAll[i].at(j)->Fill((*implant).E);
-							implantVelocityAOQ_AllDSSD[i].at(j)->Fill((*implant).aoq,(pid).VELOCITY);
-							implantEnergyAOQ_AllDSSD[i].at(j)->Fill((*implant).aoq,(*implant).E);
-							implantE[i][iDSSD].at(j)->Fill((*implant).E);
-							implantVelocityimplantE[i][iDSSD].at(j)->Fill((pid).VELOCITY, (*implant).E);
-							implantVelocityAOQ[i][iDSSD].at(j)->Fill((*implant).aoq,(pid).VELOCITY);
-							implantEnergyAOQ[i][iDSSD].at(j)->Fill((*implant).aoq,(*implant).E);
+							if (iDSSD >= isotopeDSSDStart[i].at(j) && iDSSD <= isotopeDSSDEnd[i].at(j)){// use these statements for the dssd loop later on
+
+								implantVelocityimplantZ[i].at(j)->Fill((pid).VELOCITY, (*implant).z);
+								implantEAll[i].at(j)->Fill((*implant).E);
+								implantVelocityAOQ_AllDSSD[i].at(j)->Fill((*implant).aoq,(pid).VELOCITY);
+								implantEnergyAOQ_AllDSSD[i].at(j)->Fill((*implant).aoq,(*implant).E);
+								implantE[i][iDSSD].at(j)->Fill((*implant).E);
+								implantVelocityimplantE[i][iDSSD].at(j)->Fill((pid).VELOCITY, (*implant).E);
+								implantVelocityAOQ[i][iDSSD].at(j)->Fill((*implant).aoq,(pid).VELOCITY);
+								implantEnergyAOQ[i][iDSSD].at(j)->Fill((*implant).aoq,(*implant).E);
+							}
 														
 						}
 					}
@@ -437,6 +437,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsoDir->Append(implantVelocityAOQ_AllDSSD[i].at(k));
 			IsoDir->Append(implantZ[i].at(k));
 			IsoDir->Append(implantEnergyAOQ_AllDSSD[i].at(k));
+			IsoDir->Append(betaP_T_implantV[i].at(k));
 
 			//EdTAll_NoMultiGate_corr[i][0].at(k)->Add(EdTAll_NoMultiGate_corr[i][1].at(k),-1);
 			//EdTAll_ms_corr[i][0].at(k)->Add(EdTAll_ms_corr[i][1].at(k),-1);
