@@ -16,8 +16,8 @@
 #include <fstream>
 
 //data2tree file select
-#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
-//#include "/home/corrigan/DTAS_Merger/merger/MergerSoft/data2Tree.cxx"
+//#include "/Disk/ds-sopa-personal/s1333561/PhD/MergerSoftware/data2Tree.cxx"
+#include "/home/corrigan/DTAS_Merger/merger/MergerSoft/data2Tree.cxx"
 #include "ParticleCutsSn100.cxx"
 #include "analysisHistograms.hpp"
 
@@ -174,7 +174,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													if ((*beta).Ex>1500 && (*beta).Ey>1500){
 
 														for ( auto pid:(*beta).vectorOfPid ){
-															betaP_T_implantV->Fill(((*beta).T-(imp).TIME)/1.0e9, pid.VELOCITY);
+															betaP_T_implantV[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, pid.VELOCITY);
 														}
 
 														NxEx[i].at(j)->Fill(multix, (*beta).Ex);
