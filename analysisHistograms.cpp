@@ -213,7 +213,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												if (multix == 0 && multiy == 0){ //beta-delayed protons
 													if ((*beta).Ex>1500 && (*beta).Ey>1500){
 														if (((*beta).T-(imp).TIME > 0)){
-															delayed1pEnergy_AllDSSD[i].at(j)->Fill((*beta).E);
+															delayed1pEnergy_AllDSSD[i].at(j)->Fill((*beta).Ex);
 														}
 														//beta-p gamma loop
 																	
@@ -222,10 +222,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														implantBeta1pAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
 
 														if ((*beta).T-(imp).TIME < 0){
-															delayed1pEnergyRandom_AllDSSD[i].at(j)->Fill((*beta).E);
+															delayed1pEnergyRandom_AllDSSD[i].at(j)->Fill((*beta).Ex);
 														}
-
-														delayed1pEnergyAll_AllDSSD[i].at(j)->Fill((*beta).E);
+														//random+bg energy spectrum
+														delayed1pEnergyAll_AllDSSD[i].at(j)->Fill((*beta).Ex);
 													}//end of lower beta-p energy cut
 												}//end of beta-p multiplicity cut
 
@@ -244,7 +244,11 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												if (multix == 1 && multiy == 1){
 													EdTAll22[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
 													//ExEy22[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
-												}		
+												}
+												if (multix < 3 && multiy < 3){
+													EdTAll_max_33[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
+													//ExEy22[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
+												}	
 												EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
 												EdTAll_us[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 												EdTAll_ms[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
@@ -428,6 +432,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsoDir->Append(EdTAll12[i].at(k));
 			IsoDir->Append(EdTAll21[i].at(k));
 			IsoDir->Append(EdTAll22[i].at(k));
+			IsoDir->Append(EdTAll_max_33[i].at(k));
 			//IsoDir->Append(ExEy11[i].at(k));
 			//IsoDir->Append(ExEy12[i].at(k));
 			//IsoDir->Append(ExEy21[i].at(k));
