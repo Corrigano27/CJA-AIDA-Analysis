@@ -245,10 +245,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													EdTAll22[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
 													//ExEy22[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
 												}
-												if (multix < 3 && multiy < 3){
-													EdTAll_max_33[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-													//ExEy22[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
-												}	
+												E_Emax[i].at(j)->Fill((*beta).Ex, (*beta).E);
+												//ExEy22[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
+													
 												EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
 												EdTAll_us[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 												EdTAll_ms[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
@@ -432,7 +431,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsoDir->Append(EdTAll12[i].at(k));
 			IsoDir->Append(EdTAll21[i].at(k));
 			IsoDir->Append(EdTAll22[i].at(k));
-			IsoDir->Append(EdTAll_max_33[i].at(k));
+			IsoDir->Append(E_Emax[i].at(k));
 			//IsoDir->Append(ExEy11[i].at(k));
 			//IsoDir->Append(ExEy12[i].at(k));
 			//IsoDir->Append(ExEy21[i].at(k));
