@@ -89,7 +89,7 @@ std::vector<TH2D *> EdTAll11[numElements];
 std::vector<TH2D *> EdTAll12[numElements];
 std::vector<TH2D *> EdTAll21[numElements];
 std::vector<TH2D *> EdTAll22[numElements];
-std::vector<TH2D *> EdTAll_max_33[numElements];
+std::vector<TH2D *> E_Emax[numElements];
 
 std::vector<TH2D *> betaP_T_implantV[numElements];
 
@@ -515,9 +515,9 @@ void DefineHistograms()
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 2e2, -10, 10, 700, 0, 7000);
 			EdTAll22[i].push_back(implantBetaHis2D);
 
-			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "EdT_AllDSSD_<44_s";
-			implantBetaHis2D = new TH2D(hisName.c_str(), "", 2e2, -10, 10, 700, 0, 7000);
-			EdTAll_max_33[i].push_back(implantBetaHis2D);
+			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "E vs EMax";
+			implantBetaHis2D = new TH2D(hisName.c_str(), "", 700, 0, 7000, 700, 0, 7000);
+			E_Emax[i].push_back(implantBetaHis2D);
 
 			hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "betaP_T_implantV";
 			implantBetaHis2D = new TH2D(hisName.c_str(), "", 2e2, -10, 10, 100, 0.6, 0.7);
