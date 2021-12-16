@@ -171,7 +171,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													EdT_ms[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
 													EdT_us[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
 													
-													if ((*beta).Ex>1500 && (*beta).Ey>1500){
+													if ((*beta).E>1500){
 
 														for ( auto pid:(*beta).vectorOfPid ){
 															betaP_T_implantV[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, pid.VELOCITY);
