@@ -80,7 +80,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 					isProton = true;
 					counterG +=1;
 				}
-				if (abs((*beta).Ex-(*beta).Ey)<=300){
+				if (abs((*beta).Ex-(*beta).Ey)>=0){
 					if (isProton == true){
 						counterH +=1;
 					}
@@ -210,8 +210,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												//end of dssd if
 												//end of dssd for
 												decayEnergyAll[i].at(j)->Fill((*beta).E);
-												if (multix == 0 && multiy == 0){ //beta-delayed protons
-													if ((*beta).Ex>1500 && (*beta).Ey>1500){
+												if (multix >= 0 && multiy >= 0){ //beta-delayed protons
+													if ((*beta).E>1500){
 														if (((*beta).T-(imp).TIME > 0)){
 															delayed1pEnergy_AllDSSD[i].at(j)->Fill((*beta).Ex);
 														}
@@ -277,7 +277,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												//beta - DTAS correlations
 												
 
-												if ((*beta).Ex<1500 && (*beta).Ey<1500){
+												if ((*beta).E<1500){
 													if ((*beta).nx<4 && (*beta).ny<4){
 														implantBetaAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
 													}
