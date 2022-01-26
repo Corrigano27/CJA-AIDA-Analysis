@@ -195,10 +195,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														implantBeta1p[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
 
 														if ((*beta).T-(imp).TIME < 0){
-															delayed1pEnergyRandom[i][DSSD].at(j)->Fill((*beta).E);
+															delayed1pEnergyRandom[i][DSSD].at(j)->Fill((*beta).Ex);
 														}
 
-														delayed1pEnergyAll[i][DSSD].at(j)->Fill((*beta).E);
+														delayed1pEnergyAll[i][DSSD].at(j)->Fill((*beta).Ex);
 													}//end of lower beta-p energy cut
 												
 												}
@@ -230,7 +230,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												}//end of beta-p multiplicity cut
 
 												if (multix == 0 && multiy == 0){
-													EdTAll11[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
+													EdTAll11[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
 													//ExEy11[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
 												}
 												if (multix == 0 && multiy == 1){
