@@ -7,28 +7,34 @@
 #include <fstream>
     
 bool betaVeto;
+bool gammaVeto;
+bool In97gammaVeto;
 
-bool isProton;
+bool Ag95_160;
+bool Ag95_800_1000;
+bool Ag95_440;
+bool Ag95_511;
+bool Ag95_randomCheck;
 
-bool plasticVeto;
-bool f11Veto;
-
-int counterA = 0;
-int counterB = 0;
-int counterC = 0;
-int counterD = 0;
-int counterE = 0;
-int counterF = 0;
-int counterG = 0;
-int counterH = 0;
-int counterI = 0;
-
-/*bool Ag96_470;
+bool Ag96_470;
 bool Ag96_743;
 bool Ag96_1249;
 bool Ag96_isomer;
 bool Ag96_subtraction;
-bool Ag96_Random;*/
+bool Ag96_Random;
+
+double IndyGammaE;
+double GammaSumTemp;
+double GammaSumTempBg;
+double GammaSumPCount;
+double GammaSumPCountBg;
+double ProtonGammaSumTemp;
+double ProtonGammaSumTempBg;
+double Sn101Counter_Pk;
+double Sn101CounterBg_Pk;
+double Sn101Counter;
+double Sn101CounterBg;
+double gammaSubtract;
 
 uint8_t multix = 0;
 uint8_t multiy = 0;
