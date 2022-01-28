@@ -66,230 +66,294 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	TTreeReaderValue <brData2TTree>    bigrips  (aReader, "bigrips.");
 	TTreeReaderValue <impData2TTree>   implant  (aReader, "implantation.");
 	TTreeReaderValue <betaData2TTree>  beta     (aReader, "beta.");
-	//TTreeReaderValue <gammaData2TTree> gamma    (aReader, "gamma.");
+	TTreeReaderValue <gammaData2TTree> gamma    (aReader, "gamma.");
 	TTreeReaderValue <ancData2TTree>   ancillary(aReader, "ancillary.");
 
 	std::cout << "Tree reader set up" << std::endl;
 	
 	//Files read, histograms filled
 	while (aReader.Next()){
-		isProton = false;
+
 		if ((*beta).T){
 			if ((*beta).Ey >= 0.0 && (*beta).Ex>=0.0){
-				if ((*beta).Ey > 1500 && (*beta).Ex>1500){
-					isProton = true;
-					counterG +=1;
-				}
 				if (abs((*beta).Ex-(*beta).Ey)>=0){
-					if (isProton == true){
-						counterH +=1;
-					}
 					multix = (*beta).TFast & 0xFF;
 					multiy = ((*beta).TFast >> 8) & 0xFF;
 					for ( auto imp:(*beta).vectorOfImp ){ //if non-element gated histos needed, do here
-						if (isProton == true){
-							counterI +=1;
-						}
 						if ((*beta).z == (imp).Z){
-							globalEnergy->Fill((*beta).E);
-							if (isProton == true){
-								protons->Fill((*beta).T/1e9);
-								PID->Fill((imp).AOQ, (imp).ZET);
-								counterA += 1;
-							}
+							gammaVeto = true;
+							In97gammaVeto = false;
+							Ag95_160 = false;
+							Ag95_800_1000 = false;
+							Ag95_440 = false;
+							Ag95_511 = false;
+							Ag95_randomCheck = false;
 							for (int i = 0; i < numElements; i++){
 								for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 									if (particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
-										if (isProton == true){
-											counterB += 1;
-										}
 										if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){// use these statements for the dssd loop later on
-											if (isProton == true){
-												counterC += 1;
-											}
 											//start applying vetoes here
 											betaVeto = false;
-											f11Veto = false;
-											plasticVeto = false;
 											//initialise veto as false, then set true when conditions are met. Fill histograms when false
 												
 											for (auto anc:(*beta).vectorOfAnc){
 												//AIDA Plastic veto (beta)
-												if (anc.ID == 34){
-													if ((*beta).E > 0){
-														AIDA_PL->Fill(anc.TIME/1e9);
-													}	
-													if ((*beta).T - anc.TIME < 20e3){
-														if ((*beta).T - anc.TIME > 10e3){
-															betaVeto = true;
-															plasticVeto = true;
-														}
+												if ((*beta).T - anc.TIME < 20e3 && (anc.ID == 34)){
+													if ((*beta).T - anc.TIME > 10e3 && (anc.ID == 34)){
+														betaVeto = true;
 													}
 												}
 
 												//F11 veto (beta)
-												if (anc.ID == 32){
-													F11_L->Fill((*beta).T-anc.TIME, anc.EN);
-												}
-												if (anc.ID == 33){
-													F11_R->Fill((*beta).T-anc.TIME, anc.EN);
-												}
-												if (anc.EN > 20){
-													if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33)){
-														if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33)){
-															betaVeto = true;
-															f11Veto = true;
-														}
+												if((*beta).T - anc.TIME < 40e3 && (anc.ID == 32 || anc.ID == 33)){
+													if((*beta).T - anc.TIME > 0 && (anc.ID == 32 || anc.ID == 33)){
+														betaVeto = true;
 													}
 												}
 													
 											}
-											if (isProton == true){
-												if (plasticVeto == false){
-													counterE += 1;
-												}
-												if (f11Veto == false){
-													counterF += 1;
-												}
-												
-											}
-
+											
 											if (betaVeto == false){
-												if (isProton == true){
-													counterD += 1;
-												}
 												//use below to have variable dssd - will need to introduce further dssd vectors
 												//if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){
 												int DSSD = ((*beta).z);
-												decayEnergy[i][DSSD].at(j)->Fill((*beta).E);
-												//ExEyDiff[i][DSSD].at(j)->Fill((*beta).Ex - (*beta).Ey);
-												isotopeSumEnergy->Fill((*beta).E);
-
-												if (multix >= 0 && multiy >= 0){
-
-													EdT[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).E);
-													EdT_ms[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).E);
-													EdT_us[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).E);
-													
-													if ((*beta).E>1500){
-
-														for ( auto pid:(*beta).vectorOfPid ){
-															betaP_T_implantV[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, pid.VELOCITY);
-														}
-
-														NxEx[i].at(j)->Fill(multix, (*beta).Ex);
-														NyEy[i].at(j)->Fill(multiy, (*beta).Ey);
-														
-
-														if (((*beta).T-(imp).TIME > 0)){
-															//delayed1pEnergy[i][DSSD].at(j)->Fill((*beta).E);
-															delayed1pEnergyX[i][DSSD].at(j)->Fill((*beta).Ex);
-															//delayed1pEnergyY[i][DSSD].at(j)->Fill((*beta).Ey);
-															
-															//ExEy[i][z].at(j)->Fill((*beta).Ex, (*beta).Ey);
-															//EnergyXChannel[i][z].at(j)->Fill((*beta).x, (*beta).E);
-															//EnergyYChannel[i][z].at(j)->Fill((*beta).y, (*beta).E);
-
-														}
-
-														implantBeta1p[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
-
-														if ((*beta).T-(imp).TIME < 0){
-															delayed1pEnergyRandom[i][DSSD].at(j)->Fill((*beta).Ex);
-														}
-
-														delayed1pEnergyAll[i][DSSD].at(j)->Fill((*beta).Ex);
-													}//end of lower beta-p energy cut
-												
-												}
-												if ((*beta).nx < 4 && (*beta).ny < 4 && (*beta).E<1500){
-													if (abs((imp).X-(*beta).x) < (0.5*multix + 0.5*((imp).TFAST &0xFF) +1.0)){
-														implantBeta[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
-													}
-												}//end of upper beta energy cut
+												//if ((*beta).nx < 4 && (*beta).ny < 4 && (*beta).E<1500){
+													//if (abs((imp).X-(*beta).x) < (0.5*multix + 0.5*((imp).TFAST &0xFF) +1.0)){
+														//implantBeta[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+													//}
+												//}//end of upper beta energy cut
 												//end of dssd if
 												//end of dssd for
 												decayEnergyAll[i].at(j)->Fill((*beta).E);
-												if (multix >= 0 && multiy >= 0){ //beta-delayed protons
-													if ((*beta).E>1500){
-														if (((*beta).T-(imp).TIME > 0)){
-															delayed1pEnergy_AllDSSD[i].at(j)->Fill((*beta).Ex);
-														}
+												if (multix >=0 && multiy >= 0){ //beta-delayed protons
+													if ((*beta).Ex>1100){ //beta-delayed protons
 														//beta-p gamma loop
-																	
-											
+														ProtonGammaSumTemp = 0;
+														ProtonGammaSumTempBg = 0;
+										
+														for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
+															IndyGammaE = DTAS_SingleCalib(gamma.EN);													
+															if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
+																if (((*beta).T-(gamma).TIME) < 20000){
+																	if ((gamma).ID<16){		
+																		//bp_gamma_1[i].at(j)->Fill((gamma.EN));
+																		bp_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, IndyGammaE);
+																		bp_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, IndyGammaE);
+																		bp_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, IndyGammaE);
+																		ProtonGammaSumTemp+=(IndyGammaE);
+																		
+																	}
+																}
+															}
+															if (((*beta).T-(gamma).TIME) > 20000){ //random gammas
+																if(((*beta).T-(gamma).TIME) < 30000){
+																	if ((gamma).ID<16){		
+																		//bp_gamma_2[i].at(j)->Fill((IndyGammaE));
+																		bp_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (IndyGammaE));
+																		bp_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (IndyGammaE));
+																		bp_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (IndyGammaE));
+																		ProtonGammaSumTempBg+=(IndyGammaE);
+																	}
+																}
+															}	
+															
+															
+														}// end gamma loop
+														
+														if (ProtonGammaSumTemp != 0){
+															summed_bp_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, ProtonGammaSumTemp);
+															summed_bp_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, ProtonGammaSumTemp);
+															summed_bp_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, ProtonGammaSumTemp);
+														}
+
+														if (ProtonGammaSumTempBg != 0){
+															summed_bp_gamma_EdT_s[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, ProtonGammaSumTempBg);
+															summed_bp_gamma_EdT_ms[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, ProtonGammaSumTempBg);
+															summed_bp_gamma_EdT_us[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, ProtonGammaSumTempBg);
+
+														}
+														
 
 														implantBeta1pAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
 
-														if ((*beta).T-(imp).TIME < 0){
-															delayed1pEnergyRandom_AllDSSD[i].at(j)->Fill((*beta).Ex);
-														}
-														//random+bg energy spectrum
-														delayed1pEnergyAll_AllDSSD[i].at(j)->Fill((*beta).Ex);
+														delayed1pEnergyAll_AllDSSD[i].at(j)->Fill((*beta).E);
 													}//end of lower beta-p energy cut
 												}//end of beta-p multiplicity cut
-
-												if (multix == 0 && multiy == 0){
-													EdTAll11[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-													//ExEy11[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
-												}
-												if (multix == 0 && multiy == 1){
-													EdTAll12[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-													//ExEy12[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
-												}
-												if (multix == 1 && multiy == 0){
-													EdTAll21[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-													//ExEy21[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
-												}
-												if (multix == 1 && multiy == 1){
-													EdTAll22[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-													//ExEy22[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
-												}
-												E_Emax[i].at(j)->Fill((*beta).Ex, (*beta).E);
-												//ExEy22[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
-													
+	
 												EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
 												EdTAll_us[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 												EdTAll_ms[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
 
-												/*if ((*beta).nx<4 && (*beta).ny<4){
-													if ((*beta).T - (imp).TIME > 0){
-														EdTAll_NoMultiGate_corr[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-														EdTAll_ms_corr[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
-														EdTAll_us_corr[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-													}
-
-													if ((*beta).T - (imp).TIME < 0){
-														EdTAll_NoMultiGate_corr[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-														EdTAll_ms_corr[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
-														EdTAll_us_corr[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-													}
-												
-												}*/
 												//ExEyAll[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
 
 												//DTAS 511/1022 coincidence check
-												//gammaVeto = true;
 												//gamma gated spectra
-													
-												
 
 												//beta - DTAS correlations
 												
+												///////BETAS//////////
 
-												if ((*beta).E<1500){
-													if ((*beta).nx<4 && (*beta).ny<4){
+												if ((*beta).Ex<1100){
+													if ((*beta).nx>=0 && (*beta).ny>=0){
 														implantBetaAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
 													}
-													
+													GammaSumTemp=0;
+													GammaSumTempBg=0;
+													//ProtonGammaSumTemp=0;
 													//ProtonGammaSumTempBg=0;
-													
+													for ( auto gamma:(*beta).vectorOfGamma){ //loop over gamma events
+														IndyGammaE = DTAS_SingleCalib(gamma.EN);
+														if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
+															if(((*beta).T-(gamma).TIME) < 20000){
+																//summed_beta_gamma_1[i].at(j)->Fill((IndyGammaE));
+
+																if ((gamma).ID == 777 && elements[i] == "Ag" && isotopeStart[i]+j == 95){
+																	if ((*beta).Ex<1000 && (*beta).Ey<1000){
+																		if (IndyGammaE > 1950 && IndyGammaE < 2200){
+																			Ag95_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																			Ag95_EdT_2104keVsummed_gammaGated_back->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ey);
+
+																			if (multix==0 && multiy==0){
+																				Ag95_EdT_2104keVsummed_gammaGated_11->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																			}
+
+																			Ag95_Implant_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (imp).EN);
+																			Ag95_EDiff_dT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex - (*beta).Ey);
+																		}
+																		if (IndyGammaE > 66 && IndyGammaE < 86){
+																			Ag95_EdT_77keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+
+																		}
+																	}
+																}
+																
+																if ((gamma).ID<16){
+
+																	if (elements[i] == "Ag" && isotopeStart[i]+j == 95){
+																		if (IndyGammaE > 132 && IndyGammaE < 178){
+																			Ag95_160 = true;
+																			//Ag95_EdT_160keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																		}
+																		if (IndyGammaE > 787 && IndyGammaE < 1196){
+																			Ag95_800_1000 = true;
+																			//Ag95_EdT_800_1000keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																		}
+																		if (IndyGammaE > 400 && IndyGammaE < 445){
+																			Ag95_440 = true;
+																			//Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																		}
+																		if (IndyGammaE > 480 && IndyGammaE < 525){
+																			Ag95_511 = true;
+																			//Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																		}
+																		if (IndyGammaE > 600 && IndyGammaE < 645){
+																			Ag95_randomCheck = true;
+																			//Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																		}
+
+																	}
+
+																	beta_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (IndyGammaE));
+																	beta_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (IndyGammaE));
+																	beta_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (IndyGammaE));
+																	GammaSumTemp+=(IndyGammaE);
+																}
+																	
+															}
+																
+														}	
+
+														if (((*beta).T-(gamma).TIME) > 20000){ //random gammas
+															if(((*beta).T-(gamma).TIME) < 30000){
+																if ((gamma).ID<16){	
+
+																	beta_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (IndyGammaE));
+																	beta_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (IndyGammaE));
+																	beta_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (IndyGammaE));
+																	GammaSumTempBg+=(IndyGammaE);
+
+																}
+																
+															}
+														}
+												
+			
+													}//end of gamma loop
 													//fill tallied histograms
+													gammaSubtract = 0;
+													if (GammaSumTemp != 0){
+														summed_beta_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, GammaSumTemp);
+														summed_beta_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, GammaSumTemp);
+														summed_beta_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, GammaSumTemp);
+
+														//summed_beta_gamma_E_beta_E[i][0].at(j)->Fill((*beta).E, GammaSumTemp);
+
+														if ((*beta).Ex<1000 && (*beta).Ey<1000 && elements[i] == "Ag"){
+															
+															for ( int d=0; d<(*beta).vectorOfGamma.size(); d++ ){ //loop over gamma events
+																if (((*beta).T-(*beta).vectorOfGamma.at(d).TIME) > 10000){ //forward gammas
+																	if(((*beta).T-(*beta).vectorOfGamma.at(d).TIME) < 20000){
+																		if ((*beta).vectorOfGamma.at(d).ID<16){
+																			if (isotopeStart[i]+j == 95){
+																				if (((*beta).T - (imp).TIME)/1e6 > 0){
+																					if (((*beta).T - (imp).TIME)/1e6 < 5){
+																						Ag95_single_vs_summed_shorter->Fill(GammaSumTemp,DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN));
+																						for ( int e=0; e<(*beta).vectorOfGamma.size(); e++ ){
+																							if ( e != d && (*beta).vectorOfGamma.at(e).ID<16){
+																								if (((*beta).T-(*beta).vectorOfGamma.at(e).TIME) > 10000){ //forward gammas
+																									if(((*beta).T-(*beta).vectorOfGamma.at(e).TIME) < 20000){
+																										Ag95_gamma_gamma_shorter->Fill(DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN), DTAS_SingleCalib((*beta).vectorOfGamma.at(e).EN));
+																									}
+																								}
+																							}
+																						}
+
+																					}
+																				}
+
+																				if (((*beta).T - (imp).TIME)/1e6 > 10){
+																					if (((*beta).T - (imp).TIME)/1e6 < 300){
+																						Ag95_single_vs_summed->Fill(GammaSumTemp,DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN));
+																						for ( int e=0; e<(*beta).vectorOfGamma.size(); e++ ){
+																							if ( e != d && (*beta).vectorOfGamma.at(e).ID<16){
+																								if (((*beta).T-(*beta).vectorOfGamma.at(e).TIME) > 10000){ //forward gammas
+																									if(((*beta).T-(*beta).vectorOfGamma.at(e).TIME) < 20000){
+																										Ag95_gamma_gamma->Fill(DTAS_SingleCalib((*beta).vectorOfGamma.at(d).EN), DTAS_SingleCalib((*beta).vectorOfGamma.at(e).EN));
+																									}
+																								}
+																							}
+																						}
+																					}
+																				}
+																			}
+																			
+																		}
+																	}
+																}
+															}
+														}
+													}
+
+													if (GammaSumTempBg != 0){
+														summed_beta_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, GammaSumTempBg);
+														summed_beta_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, GammaSumTempBg);
+														summed_beta_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, GammaSumTempBg);
+													}
 													
-													//if(ProtonGammaSumTemp != 0){
-														//summed_p_gamma_E_p_E[i][0].at(j)->Fill((*beta).Ex, ProtonGammaSumTemp);
-													//}
-		
+
+													if(Ag95_160 == true){Ag95_EdT_160keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
+													if(Ag95_440 == true){Ag95_EdT_440keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
+													if(Ag95_511 == true){Ag95_EdT_511keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
+													if(Ag95_800_1000 == true){Ag95_EdT_800_1000keVgammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
+													if(Ag95_160 == true && Ag95_800_1000 == true){
+														if (GammaSumTemp > 2000){
+															if (GammaSumTemp < 2200){
+																Ag95_EdT_allpeaks_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+															}
+														}
+													}
+													if(Ag95_randomCheck == true){Ag95_EdT_randomcheck->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
+														
 												}//beta energy and multi-cut
 
 
@@ -310,7 +374,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 		}//end of loop through beta events
 
-		if ((*implant).T){ //implant dssd cut here!!!
+		if ((*implant).T){
 			for ( auto pid:(*implant).vectorOfPid ){
 				PID_implant->Fill((*implant).aoq, (*implant).zet);
 				int iDSSD = (*implant).z;
@@ -318,17 +382,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 					for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){	
 						if (particleCuts[i][j]->IsInside((*implant).aoq, (*implant).zet)){
 							implantZ[i].at(j)->Fill((*implant).z);
-							if (iDSSD >= isotopeDSSDStart[i].at(j) && iDSSD <= isotopeDSSDEnd[i].at(j)){// use these statements for the dssd loop later on
-
-								implantVelocityimplantZ[i].at(j)->Fill((pid).VELOCITY, (*implant).z);
-								implantEAll[i].at(j)->Fill((*implant).E);
-								implantVelocityAOQ_AllDSSD[i].at(j)->Fill((*implant).aoq,(pid).VELOCITY);
-								implantEnergyAOQ_AllDSSD[i].at(j)->Fill((*implant).aoq,(*implant).E);
-								implantE[i][iDSSD].at(j)->Fill((*implant).E);
-								implantVelocityimplantE[i][iDSSD].at(j)->Fill((pid).VELOCITY, (*implant).E);
-								implantVelocityAOQ[i][iDSSD].at(j)->Fill((*implant).aoq,(pid).VELOCITY);
-								implantEnergyAOQ[i][iDSSD].at(j)->Fill((*implant).aoq,(*implant).E);
-							}
+							implantVelocityAOQ_AllDSSD[i].at(j)->Fill((*implant).aoq,(pid).VELOCITY);
 														
 						}
 					}
@@ -344,40 +398,41 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	std::cout << "Writing to file" << std::endl;
 
-	std::cout << "all protons = " << counterG << std::endl;
-
-	std::cout << "after equal energy cut = " << counterH << std::endl;
-
-	std::cout << "initial counter after implant loop = " << counterI <<std::endl;
-
-	std::cout << "initial counter after single layer requirment" << counterA <<std::endl;
-
-	std::cout << "PID cut counter = " << counterB <<std::endl;
-
-	std::cout << "Implant DSSD cut counter = " << counterC <<std::endl;
-
-	std::cout << "survives plastic veto = " << counterE <<std::endl;
-
-	std::cout << "survives f11 veto = " << counterF <<std::endl;
-
-	std::cout << "total veto cut counter = " << counterD <<std::endl;
-
 	PID_implant->Write();
 
-	PID->Write();
 
-	globalEnergy->Write();
+	Ag95_EdT_160keVgammaGated->Write();
+	Ag95_EdT_800_1000keVgammaGated->Write();
+	Ag95_EdT_440keVgammaGated->Write();
+	Ag95_EdT_511keVgammaGated->Write();
+	Ag95_EdT_randomcheck->Write();
 
-	isotopeSumEnergy->Write();
+	Ag95_EdT_160_800_1000keVgammaGated->Add(Ag95_EdT_160keVgammaGated, 1);
+	Ag95_EdT_160_800_1000keVgammaGated->Add(Ag95_EdT_800_1000keVgammaGated, 1);
 
-	protons->Write();
-
-	F11_L->Write();
-
-	F11_R->Write();
-
-	AIDA_PL->Write();
+	Ag95_EdT_160_800_1000keVgammaGated->Write();
 	
+	Ag95_EdT_allpeaks_gammaGated->Write();
+
+	Ag95_EdT_2104keVsummed_gammaGated->Write();
+
+	Ag95_EdT_2104keVsummed_gammaGated_back->Write();
+
+	Ag95_EdT_2104keVsummed_gammaGated_11->Write();
+
+	Ag95_EdT_77keVsummed_gammaGated->Write();
+
+	Ag95_EDiff_dT_2104keVsummed_gammaGated->Write();
+
+	Ag95_Implant_EdT_2104keVsummed_gammaGated->Write();
+
+	Ag95_single_vs_summed->Write();
+
+	Ag95_single_vs_summed_shorter->Write();
+
+	Ag95_gamma_gamma->Write();
+
+	Ag95_gamma_gamma_shorter->Write();
 
 	std::string isoDirName;
 
@@ -394,67 +449,53 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			IsotopeDir.push_back(IsoDir);
 			//isotope-directory
 
-			for(int z = 0; z < 6; z++){
-
-				IsoDir->Append(decayEnergy[i][z].at(k));
-				//IsoDir->Append(delayed1pEnergy[i][z].at(k));
-				IsoDir->Append(delayed1pEnergyX[i][z].at(k));
-				//IsoDir->Append(delayed1pEnergyY[i][z].at(k));
-				IsoDir->Append(delayed1pEnergyRandom[i][z].at(k));
-				IsoDir->Append(delayed1pEnergyAll[i][z].at(k));
-				IsoDir->Append(implantBeta[i][z].at(k));
-				IsoDir->Append(implantBeta1p[i][z].at(k));
-				IsoDir->Append(implantE[i][z].at(k));
-				IsoDir->Append(implantVelocityimplantE[i][z].at(k));
-				IsoDir->Append(EdT[i][z].at(k));
-				IsoDir->Append(EdT_ms[i][z].at(k));
-				IsoDir->Append(EdT_us[i][z].at(k));
-				//IsoDir->Append(ExEyDiff[i][z].at(k));
-				IsoDir->Append(implantVelocityAOQ[i][z].at(k));
-				IsoDir->Append(implantEnergyAOQ[i][z].at(k));
-			
-			}
 			
 			//combined DSSD
 			IsoDir->Append(decayEnergyAll[i].at(k));			
-			IsoDir->Append(delayed1pEnergy_AllDSSD[i].at(k));						
-			IsoDir->Append(delayed1pEnergyRandom_AllDSSD[i].at(k));
 			IsoDir->Append(delayed1pEnergyAll_AllDSSD[i].at(k));
 			IsoDir->Append(implantBetaAll[i].at(k));
 			IsoDir->Append(implantBeta1pAll[i].at(k));
-			IsoDir->Append(implantEAll[i].at(k));
-			IsoDir->Append(implantVelocityimplantEAll[i].at(k));
 			IsoDir->Append(EdTAll_ms[i].at(k));
 			IsoDir->Append(EdTAll_us[i].at(k));
 			IsoDir->Append(EdTAll_NoMultiGate[i].at(k));
-			IsoDir->Append(EdTAll11[i].at(k));
-			IsoDir->Append(EdTAll12[i].at(k));
-			IsoDir->Append(EdTAll21[i].at(k));
-			IsoDir->Append(EdTAll22[i].at(k));
-			IsoDir->Append(E_Emax[i].at(k));
-			//IsoDir->Append(ExEy11[i].at(k));
-			//IsoDir->Append(ExEy12[i].at(k));
-			//IsoDir->Append(ExEy21[i].at(k));
-			//IsoDir->Append(ExEy22[i].at(k));
-			IsoDir->Append(NxEx[i].at(k));
-			IsoDir->Append(NyEy[i].at(k));
 			IsoDir->Append(implantVelocityAOQ_AllDSSD[i].at(k));
 			IsoDir->Append(implantZ[i].at(k));
-			IsoDir->Append(implantEnergyAOQ_AllDSSD[i].at(k));
-			IsoDir->Append(betaP_T_implantV[i].at(k));
-
-			//EdTAll_NoMultiGate_corr[i][0].at(k)->Add(EdTAll_NoMultiGate_corr[i][1].at(k),-1);
-			//EdTAll_ms_corr[i][0].at(k)->Add(EdTAll_ms_corr[i][1].at(k),-1);
-			//EdTAll_us_corr[i][0].at(k)->Add(EdTAll_us_corr[i][1].at(k),-1);
-			//summed_p_gamma_E_p_E[i][0].at(k)->Add(summed_p_gamma_E_p_E[i][1].at(k),-1);
-			//summed_beta_gamma_E_beta_E[i][0].at(k)->Add(summed_beta_gamma_E_beta_E[i][1].at(k),-1);
-
-			//corrected
-			//IsoDir->Append(EdTAll_NoMultiGate_corr[i][0].at(k));
-			//IsoDir->Append(EdTAll_ms_corr[i][0].at(k));
-			//IsoDir->Append(EdTAll_us_corr[i][0].at(k));
 
 
+			
+
+			//gamma spectra correction
+			beta_gamma_EdT_s[i][0].at(k)->Add(beta_gamma_EdT_s[i][1].at(k),-1);
+			beta_gamma_EdT_ms[i][0].at(k)->Add(beta_gamma_EdT_ms[i][1].at(k),-1);
+			beta_gamma_EdT_us[i][0].at(k)->Add(beta_gamma_EdT_us[i][1].at(k),-1);
+
+			bp_gamma_EdT_s[i][0].at(k)->Add(bp_gamma_EdT_s[i][1].at(k),-1);
+			bp_gamma_EdT_ms[i][0].at(k)->Add(bp_gamma_EdT_ms[i][1].at(k),-1);
+			bp_gamma_EdT_us[i][0].at(k)->Add(bp_gamma_EdT_us[i][1].at(k),-1);
+
+			summed_beta_gamma_EdT_s[i][0].at(k)->Add(summed_beta_gamma_EdT_s[i][1].at(k),-1);
+			summed_beta_gamma_EdT_ms[i][0].at(k)->Add(summed_beta_gamma_EdT_ms[i][1].at(k),-1);
+			summed_beta_gamma_EdT_us[i][0].at(k)->Add(summed_beta_gamma_EdT_us[i][1].at(k),-1);
+
+			summed_bp_gamma_EdT_s[i][0].at(k)->Add(summed_bp_gamma_EdT_s[i][1].at(k),-1);
+			summed_bp_gamma_EdT_ms[i][0].at(k)->Add(summed_bp_gamma_EdT_ms[i][1].at(k),-1);
+			summed_bp_gamma_EdT_us[i][0].at(k)->Add(summed_bp_gamma_EdT_us[i][1].at(k),-1);
+									
+			IsoDir->Append(beta_gamma_EdT_us[i][0].at(k));
+			IsoDir->Append(beta_gamma_EdT_ms[i][0].at(k));
+			IsoDir->Append(beta_gamma_EdT_s[i][0].at(k));
+			IsoDir->Append(bp_gamma_EdT_us[i][0].at(k));
+			IsoDir->Append(bp_gamma_EdT_ms[i][0].at(k));
+			IsoDir->Append(bp_gamma_EdT_s[i][0].at(k));
+
+			IsoDir->Append(summed_beta_gamma_EdT_us[i][0].at(k));
+			IsoDir->Append(summed_beta_gamma_EdT_ms[i][0].at(k));
+			IsoDir->Append(summed_beta_gamma_EdT_s[i][0].at(k));
+			IsoDir->Append(summed_bp_gamma_EdT_us[i][0].at(k));
+			IsoDir->Append(summed_bp_gamma_EdT_ms[i][0].at(k));
+			IsoDir->Append(summed_bp_gamma_EdT_s[i][0].at(k));
+			
+			
 			
 		}//isotope_loop?
 	}
