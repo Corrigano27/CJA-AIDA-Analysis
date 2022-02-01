@@ -381,8 +381,10 @@ int analysisHistograms(std::string iName, std::string cutFile){
 				for (int i =0; i<numElements; i++){
 					for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){	
 						if (particleCuts[i][j]->IsInside((*implant).aoq, (*implant).zet)){
-							implantZ[i].at(j)->Fill((*implant).z);
-							implantVelocityAOQ_AllDSSD[i].at(j)->Fill((*implant).aoq,(pid).VELOCITY);
+							if (iDSSD >= isotopeDSSDStart[i].at(j) && iDSSD <= isotopeDSSDEnd[i].at(j)){
+								implantZ[i].at(j)->Fill((*implant).z);
+								implantVelocityAOQ_AllDSSD[i].at(j)->Fill((*implant).aoq,(pid).VELOCITY);
+							}
 														
 						}
 					}
