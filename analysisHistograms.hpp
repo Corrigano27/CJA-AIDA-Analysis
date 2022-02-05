@@ -23,6 +23,12 @@ bool Ag96_isomer;
 bool Ag96_subtraction;
 bool Ag96_Random;
 
+bool Cd96_gs;
+bool Cd96_m;
+bool Cd97_gs;
+bool Cd97_m;
+bool Cd97_n;
+
 double IndyGammaE;
 double GammaSumTemp;
 double GammaSumTempBg;
