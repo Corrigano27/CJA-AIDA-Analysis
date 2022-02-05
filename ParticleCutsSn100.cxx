@@ -112,6 +112,14 @@ TH2D *Ag95_single_vs_summed_shorter;
 TH2D *Ag95_gamma_gamma_shorter;
 //Ag94 specific
 
+//isomeric states
+TH2D *Cd96_gs_EdT;
+TH2D *Cd96_m_EdT;
+
+TH2D *Cd97_gs_EdT;
+TH2D *Cd97_m_EdT;
+TH2D *Cd97_n_EdT;
+
 //end of gammas
 
 //std::vector<TH2D *> EnergyXChannelAll[numElements];
@@ -385,6 +393,12 @@ void DefineHistograms()
 	Ag95_gamma_gamma_shorter = new TH2D("Ag95_gamma_gamma_shorter","",400,0,4000,400,0,4000);
 	//Ag96_gamma_gamma = new TH2D("Ag96_gamma_gamma","",400,0,4000,400,0,4000);
 
+	Cd96_gs_EdT = new TH2D("Cd96_groundstate_EdT","",2e2,-10,10,700,0,7000);
+	Cd96_m_EdT = new TH2D("Cd96_m_EdT","",2e2,-10,10,700,0,7000);
+	
+	Cd97_gs_EdT = new TH2D("Cd97_groundstate_EdT","",2e2,-10,10,700,0,7000);
+	Cd97_m_EdT = new TH2D("Cd97_m_EdT","",2e2,-10,10,700,0,7000);
+	Cd97_n_EdT = new TH2D("Cd97_n_EdT","",2e2,-10,10,700,0,7000);
 
 	for (int i = 0; i < numElements; i++)
 	{
