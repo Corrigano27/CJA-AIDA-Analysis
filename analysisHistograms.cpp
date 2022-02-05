@@ -88,6 +88,11 @@ int analysisHistograms(std::string iName, std::string cutFile){
 							Ag95_440 = false;
 							Ag95_511 = false;
 							Ag95_randomCheck = false;
+							Cd96_gs = false;
+							Cd96_m = false;
+							Cd97_gs = false;
+							Cd97_m = false;
+							Cd96_n = false;
 							for (int i = 0; i < numElements; i++){
 								for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 									if (particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
@@ -229,6 +234,42 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																
 																if ((gamma).ID<16){
 
+																	if (elements[i] == "Cd" && isotopeStart[i]+j == 96){
+																		//ground-state
+																		if ((IndyGammaE > 388 && IndyGammaE < 456)||(IndyGammaE > 792 && IndyGammaE < 928)){
+																			Cd96_gs = true;
+																		}
+																		//16+ (m) isomer
+																		//beta-gammas
+																		if ((IndyGammaE > 205 && IndyGammaE < 266)||(IndyGammaE > 595 && IndyGammaE < 764)||(IndyGammaE > 1268 && IndyGammaE < 1568)){
+																			Cd96_m = true;
+																		}
+																		//one of beta-p gammas
+																		if (IndyGammaE > 82 && IndyGammaE < 150){
+																			Cd96_m = true;
+																		}
+																	}
+
+																	if (elements[i] == "Cd" && isotopeStart[i]+j == 97){
+																		//ground-state
+																		if ((IndyGammaE > 590 && IndyGammaE < 783)||(IndyGammaE > 1300 && IndyGammaE < 1600)||(IndyGammaE > 1864 && IndyGammaE < 1992)){
+																			Cd97_gs = true;
+																		}
+																		//25/2+ (m) isomer
+																		//beta-gammas
+																		if ((IndyGammaE > 76 && IndyGammaE < 123)||(IndyGammaE > 251 && IndyGammaE < 379)||(IndyGammaE > 724 && IndyGammaE < 906)||(IndyGammaE > 1148 && IndyGammaE < 1310)||(IndyGammaE > 1310 && IndyGammaE < 1573)||(IndyGammaE > 1681 && IndyGammaE < 1857)){
+																			Cd97_m = true;
+																		}
+																		//one of beta-p gammas
+																		if (IndyGammaE > 2000 && IndyGammaE < 2500){
+																			Cd97_m = true;
+																		}
+																		//1/2- (n) isomer
+																		if (IndyGammaE > 1024 && IndyGammaE < 1128){
+																			Cd97_n = true;
+																		}
+																	}
+
 																	if (elements[i] == "Ag" && isotopeStart[i]+j == 95){
 																		if (IndyGammaE > 132 && IndyGammaE < 178){
 																			Ag95_160 = true;
@@ -353,7 +394,12 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														}
 													}
 													if(Ag95_randomCheck == true){Ag95_EdT_randomcheck->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);}
-														
+
+													if (Cd96_gs == true){Cd96_gs_EdT->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);}
+													if (Cd96_m == true){Cd96_m_EdT->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);}
+													if (Cd97_gs == true){Cd97_gs_EdT->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);}
+													if (Cd97_m == true){Cd97_m_EdT->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);}
+													if (Cd97_n == true){Cd96_n_EdT->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);}	
 												}//beta energy and multi-cut
 
 
@@ -435,6 +481,12 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	Ag95_gamma_gamma->Write();
 
 	Ag95_gamma_gamma_shorter->Write();
+
+	Cd96_gs_EdT->Write();
+	Cd96_m_EdT->Write();
+	Cd97_gs_EdT->Write();
+	Cd97_m_EdT->Write();
+	Cd96_n_EdT->Write();
 
 	std::string isoDirName;
 
