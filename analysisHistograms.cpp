@@ -399,7 +399,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 													if (Cd96_m == true){Cd96_m_EdT->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);}
 													if (Cd97_gs == true){Cd97_gs_EdT->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);}
 													if (Cd97_m == true){Cd97_m_EdT->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);}
-													if (Cd97_n == true){Cd96_n_EdT->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);}	
+													if (Cd97_n == true){Cd97_n_EdT->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);}	
 												}//beta energy and multi-cut
 
 
@@ -486,7 +486,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	Cd96_m_EdT->Write();
 	Cd97_gs_EdT->Write();
 	Cd97_m_EdT->Write();
-	Cd96_n_EdT->Write();
+	Cd97_n_EdT->Write();
 
 	std::string isoDirName;
 
