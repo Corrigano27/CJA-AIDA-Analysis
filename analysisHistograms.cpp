@@ -92,7 +92,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 							Cd96_m = false;
 							Cd97_gs = false;
 							Cd97_m = false;
-							Cd96_n = false;
+							Cd97_n = false;
 							for (int i = 0; i < numElements; i++){
 								for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){
 									if (particleCuts[i][j]->IsInside((imp).AOQ,(imp).ZET)){
