@@ -150,21 +150,22 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																		//Cd-bp-isomers
 																		if (elements[i] == "Cd" && isotopeStart[i]+j == 97){
 																		//ground-state
-																		if ((IndyGammaE > 590 && IndyGammaE < 783)||(IndyGammaE > 1300 && IndyGammaE < 1600)||(IndyGammaE > 1864 && IndyGammaE < 1992)){
-																			Cd97_gs = true;
-																		}
+																			if ((IndyGammaE > 590 && IndyGammaE < 783)||(IndyGammaE > 1300 && IndyGammaE < 1600)||(IndyGammaE > 1864 && IndyGammaE < 1992)){
+																				Cd97_gs = true;
+																			}
 																		//25/2+ (m) isomer
 																		//beta-gammas
-																		if ((IndyGammaE > 76 && IndyGammaE < 123)||(IndyGammaE > 251 && IndyGammaE < 379)||(IndyGammaE > 724 && IndyGammaE < 906)||(IndyGammaE > 1148 && IndyGammaE < 1310)||(IndyGammaE > 1310 && IndyGammaE < 1573)||(IndyGammaE > 1681 && IndyGammaE < 1857)){
-																			Cd97_m = true;
-																		}
+																			if ((IndyGammaE > 76 && IndyGammaE < 123)||(IndyGammaE > 251 && IndyGammaE < 379)||(IndyGammaE > 724 && IndyGammaE < 906)||(IndyGammaE > 1148 && IndyGammaE < 1310)||(IndyGammaE > 1310 && IndyGammaE < 1573)||(IndyGammaE > 1681 && IndyGammaE < 1857)){
+																				Cd97_m = true;
+																			}
 																		//one of beta-p gammas
-																		if (IndyGammaE > 2000 && IndyGammaE < 2500){
-																			Cd97_m = true;
-																		}
+																			if (IndyGammaE > 2000 && IndyGammaE < 2500){
+																				Cd97_m = true;
+																			}
 																		//1/2- (n) isomer
-																		if (IndyGammaE > 1024 && IndyGammaE < 1128){
-																			Cd97_n = true;
+																			if (IndyGammaE > 1024 && IndyGammaE < 1128){
+																				Cd97_n = true;
+																			}
 																		}
 																	}
 																		
