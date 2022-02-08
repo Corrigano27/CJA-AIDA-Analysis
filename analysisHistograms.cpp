@@ -148,6 +148,21 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																		ProtonGammaSumTemp+=(IndyGammaE);
 
 																		//Cd-bp-isomers
+																		if (elements[i] == "Cd" && isotopeStart[i]+j == 96){
+																		//ground-state
+																			if ((IndyGammaE > 388 && IndyGammaE < 456)||(IndyGammaE > 792 && IndyGammaE < 928)){
+																				Cd96_gs = true;
+																			}
+																			//16+ (m) isomer
+																			//beta-gammas
+																			if ((IndyGammaE > 205 && IndyGammaE < 266)||(IndyGammaE > 595 && IndyGammaE < 764)||(IndyGammaE > 1268 && IndyGammaE < 1568)){
+																				Cd96_m = true;
+																			}
+																			//one of beta-p gammas
+																			if (IndyGammaE > 82 && IndyGammaE < 150){
+																				Cd96_m = true;
+																			}
+																		}
 																		if (elements[i] == "Cd" && isotopeStart[i]+j == 97){
 																		//ground-state
 																			if ((IndyGammaE > 590 && IndyGammaE < 783)||(IndyGammaE > 1300 && IndyGammaE < 1600)||(IndyGammaE > 1864 && IndyGammaE < 1992)){
