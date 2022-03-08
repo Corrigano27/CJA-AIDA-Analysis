@@ -125,11 +125,17 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												//use below to have variable dssd - will need to introduce further dssd vectors
 												//if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){
 												int DSSD = ((*beta).z);
-												//if ((*beta).nx < 4 && (*beta).ny < 4 && (*beta).E<1500){
-													//if (abs((imp).X-(*beta).x) < (0.5*multix + 0.5*((imp).TFAST &0xFF) +1.0)){
-														//implantBeta[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
-													//}
-												//}//end of upper beta energy cut
+												if ((*beta).nx < 7 && (*beta).ny < 7){
+													if (abs((imp).X-(*beta).x) < (0.5*multix + 0.5*((imp).TFAST &0xFF) +1.0)){
+														if ((*beta).Ex<1100){
+															implantBeta[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+														}
+														EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
+														EdTAll_us[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+														EdTAll_ms[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
+													}
+
+												}//end of upper beta energy cut
 												//end of dssd if
 												//end of dssd for
 												decayEnergyAll[i].at(j)->Fill((*beta).E);
@@ -263,16 +269,11 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														if (Sn101CounterBg != 0){
 															Tin101_summed_bp_gamma_rest[1]->Fill(((*beta).T-(imp).TIME)/1.0e9, Sn101CounterBg);
 														}
-														
-														implantBeta1pAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
 
 														delayed1pEnergyAll_AllDSSD[i].at(j)->Fill((*beta).E);
 													}//end of lower beta-p energy cut
 												}//end of beta-p multiplicity cut
 	
-												EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-												EdTAll_us[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-												EdTAll_ms[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
 
 												//ExEyAll[i].at(j)->Fill((*beta).Ex, (*beta).Ey);
 
