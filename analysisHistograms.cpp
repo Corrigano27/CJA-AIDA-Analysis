@@ -127,9 +127,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												int DSSD = ((*beta).z);
 												if ((*beta).nx < 7 && (*beta).ny < 7){
 													if (abs((imp).X-(*beta).x) < (0.5*multix + 0.5*((imp).TFAST &0xFF) +1.0)){
-														if ((*beta).Ex<1100){
-															implantBeta[i][DSSD].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
-														}
+														//if ((*beta).Ex<1100){
+															//implantBeta[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+														//}
 														EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
 														EdTAll_us[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 														EdTAll_ms[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
