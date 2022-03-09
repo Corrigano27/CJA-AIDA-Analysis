@@ -125,8 +125,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												//use below to have variable dssd - will need to introduce further dssd vectors
 												//if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){
 												int DSSD = ((*beta).z);
-												if ((*beta).nx < 7 && (*beta).ny < 7){
-													if (abs((imp).X-(*beta).x) < (0.5*multix + 0.5*((imp).TFAST &0xFF) +1.0)){
+												if ((*beta).nx < 4 && (*beta).ny < 4){
+													if (abs((imp).X-(*beta).x) < (0.5*multix + 0.5*((imp).TFAST &0xFF) +0.5)){
 														//if ((*beta).Ex<1100){
 															//implantBeta[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
 														//}
