@@ -122,17 +122,26 @@ int analysisHistograms(std::string iName, std::string cutFile){
 											}
 											
 											if (betaVeto == false){
+												double idx = ((imp).TFAST & 0xFF)/2.0;
+
+                        						double idy = (((imp).TFAST >> 8) & 0xFF)/2.0;
+
+												double dx = multix/2.0;
+
+												double dy = multiy/2.0;
 												//use below to have variable dssd - will need to introduce further dssd vectors
 												//if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){
 												int DSSD = ((*beta).z);
 												if ((*beta).nx < 4 && (*beta).ny < 4){
-													if (abs((imp).X-(*beta).x) < (0.5*multix + 0.5*((imp).TFAST &0xFF) +0.5)){
+													if (((imp).Y + (idy) >= (((*beta).y)-((dy)+0.5))) && ((imp).Y - (idy) <= (((*beta).y)+((dy)+0.5)))){
+														if(((imp).X + (idx)>= (((*beta).x)-((dx)+0.5))) && ((imp).X - (idx)<= (((*beta).x)+((dx)+0.5)))){
+															EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
+															EdTAll_us[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+															EdTAll_ms[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
+														}
 														//if ((*beta).Ex<1100){
 															//implantBeta[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
 														//}
-														EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-														EdTAll_us[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-														EdTAll_ms[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
 													}
 
 												}//end of upper beta energy cut
