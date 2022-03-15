@@ -133,8 +133,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												//if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){
 												int DSSD = ((*beta).z);
 												if ((*beta).nx < 4 && (*beta).ny < 4){
-													if (((imp).Y + (idy) >= (((*beta).y)-((dy)+0.5))) && ((imp).Y - (idy) <= (((*beta).y)+((dy)+0.5)))){
-														if(((imp).X + (idx)>= (((*beta).x)-((dx)+0.5))) && ((imp).X - (idx)<= (((*beta).x)+((dx)+0.5)))){
+													if (((imp).Y + (idy) >= (((*beta).y)-((dy)+0.0))) && ((imp).Y - (idy) <= (((*beta).y)+((dy)+0.0)))){
+														if(((imp).X + (idx)>= (((*beta).x)-((dx)+0.0))) && ((imp).X - (idx)<= (((*beta).x)+((dx)+0.0)))){
 															EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
 															EdTAll_us[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 															EdTAll_ms[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
