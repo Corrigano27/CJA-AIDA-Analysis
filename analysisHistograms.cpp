@@ -515,10 +515,14 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			} //end of if beta events with positive energy
 
 		}//end of loop through beta events
-
+		double imp_multix = 0;
+		double imp_multiy = 0;
 		if ((*implant).T){
 			for ( auto pid:(*implant).vectorOfPid ){
 				PID_implant->Fill((*implant).aoq, (*implant).zet);
+				imp_multix = (*implant).TFast & 0xFF;
+				imp_multiy = ((*implant).TFast >> 8) & 0xFF;
+				implant_multi->Fill(imp_multix, imp_multiy);
 				int iDSSD = (*implant).z;
 				for (int i =0; i<numElements; i++){
 					for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){	
@@ -541,6 +545,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	ofile->cd();
 
 	std::cout << "Writing to file" << std::endl;
+
+	implant_multi->Write();
 
 	PID_implant->Write();
 
