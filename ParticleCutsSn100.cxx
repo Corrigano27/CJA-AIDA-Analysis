@@ -155,6 +155,8 @@ TH2D *implantBetaHis2D;
 
 TH2D *implant_multi;
 
+TH2D *implantE_Ex;
+
 TH2D *PID_implant;
 
 //TH2D *Indium97_gammaveto_EdT;
@@ -367,6 +369,8 @@ void DefineHistograms()
 	PID_implant = new TH2D("PID_implant", "", 1e3, 1.95, 2.35, 1e3, 39, 56);
 
 	implant_multi = new TH2D("implant_clustersize", "", 10, 0, 10, 10, 0, 10);
+
+	implantE_Ex = new TH2D("implantE_Ex","",1000,0,10000,1000,0,10000);
 
 	Ag95_EdT_160keVgammaGated = new TH2D("Ag95_EdT_160keV","",200,-10000,10000,80,200,1000);
 	Ag95_EdT_800_1000keVgammaGated = new TH2D("Ag95_EdT_800_1000keV","",200,-10000,10000,80,200,1000);
