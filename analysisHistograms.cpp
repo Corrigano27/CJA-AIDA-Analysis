@@ -523,6 +523,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 				imp_multix = (*implant).TFast & 0xFF;
 				imp_multiy = ((*implant).TFast >> 8) & 0xFF;
 				implant_multi->Fill(imp_multix, imp_multiy);
+				implantE_Ex->Fill((*implant).Ex, (*implant).E);
 				int iDSSD = (*implant).z;
 				for (int i =0; i<numElements; i++){
 					for (int j = 0; j <= isotopeEnd[i]-isotopeStart[i]; j++){	
@@ -547,6 +548,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	std::cout << "Writing to file" << std::endl;
 
 	implant_multi->Write();
+
+	implantE_Ex->Write();
 
 	PID_implant->Write();
 
