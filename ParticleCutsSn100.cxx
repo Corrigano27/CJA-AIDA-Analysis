@@ -487,19 +487,19 @@ void DefineHistograms()
 				summed_bp_gamma_EdT_us[i][g].push_back(implantBetaHis2D);
 
 				//beta-p
-				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "Delayed1pEnergyTotal_AllDSSD_Ex" + std::to_string(g);
+				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "delayed1pEnergyTotal_AllDSSD_Ex" + std::to_string(g);
 				implantBetaHis = new TH1D(hisName.c_str(), "", 350, 0, 7);
 				delayed1pEnergyAll_AllDSSD_Ex[i][g].push_back(implantBetaHis);
 
-				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "Delayed1pEnergyTotal_AllDSSD_ExSumCorr" + std::to_string(g);
+				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "delayed1pEnergyTotal_AllDSSD_ExSumCorr" + std::to_string(g);
 				implantBetaHis = new TH1D(hisName.c_str(), "", 350, 0, 7);
 				delayed1pEnergyAll_AllDSSD_ExSumCorr[i][g].push_back(implantBetaHis);
 
-				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "Delayed1pEnergyTotal_AllDSSD_ExMax" + std::to_string(g);
+				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "delayed1pEnergyTotal_AllDSSD_ExMax" + std::to_string(g);
 				implantBetaHis = new TH1D(hisName.c_str(), "", 350, 0, 7);
 				delayed1pEnergyAll_AllDSSD_ExMax[i][g].push_back(implantBetaHis);
 
-				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "Delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr" + std::to_string(g);
+				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr" + std::to_string(g);
 				implantBetaHis = new TH1D(hisName.c_str(), "", 350, 0, 7);
 				delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][g].push_back(implantBetaHis);
 				
