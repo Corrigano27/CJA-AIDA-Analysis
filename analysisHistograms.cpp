@@ -666,32 +666,32 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			summed_bp_gamma_EdT_us[i][0].at(k)->Add(summed_bp_gamma_EdT_us[i][1].at(k),-1);
 
 			//proton specta correction
-			Delayed1pEnergyTotal_AllDSSD_Ex[i][0].at(k)->Add(Delayed1pEnergyTotal_AllDSSD_Ex[i][1].at(k),-1);
-			Delayed1pEnergyTotal_AllDSSD_ExSumCorr[i][0].at(k)->Add(Delayed1pEnergyTotal_AllDSSD_ExSumCorr[i][1].at(k),-1);
+			delayed1pEnergyTotal_AllDSSD_Ex[i][0].at(k)->Add(delayed1pEnergyTotal_AllDSSD_Ex[i][1].at(k),-1);
+			delayed1pEnergyTotal_AllDSSD_ExSumCorr[i][0].at(k)->Add(delayed1pEnergyTotal_AllDSSD_ExSumCorr[i][1].at(k),-1);
 
-			Delayed1pEnergyTotal_AllDSSD_ExMax[i][0].at(k)->Add(Delayed1pEnergyTotal_AllDSSD_ExMax[i][1].at(k),-1);
-			Delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr[i][0].at(k)->Add(Delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr[i][1].at(k),-1);			
+			delayed1pEnergyTotal_AllDSSD_ExMax[i][0].at(k)->Add(delayed1pEnergyTotal_AllDSSD_ExMax[i][1].at(k),-1);
+			delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr[i][0].at(k)->Add(delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr[i][1].at(k),-1);			
 									
-			Delayed1pEnergyTotal_AllDSSD_Ex[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
-			Delayed1pEnergyTotal_AllDSSD_Ex[i][0].at(k)->GetYaxis()->SetTitle("Counts / 200 keV");
-			Delayed1pEnergyTotal_AllDSSD_Ex[i][0].at(k)->SetLineColor(kBlack);
+			delayed1pEnergyTotal_AllDSSD_Ex[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
+			delayed1pEnergyTotal_AllDSSD_Ex[i][0].at(k)->GetYaxis()->SetTitle("Counts / 200 keV");
+			delayed1pEnergyTotal_AllDSSD_Ex[i][0].at(k)->SetLineColor(kBlack);
 
-			Delayed1pEnergyTotal_AllDSSD_ExSumCorr[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
-			Delayed1pEnergyTotal_AllDSSD_ExSumCorr[i][0].at(k)->GetYaxis()->SetTitle("Counts / 200 keV");
-			Delayed1pEnergyTotal_AllDSSD_ExSumCorr[i][0].at(k)->SetLineColor(kBlack);
+			delayed1pEnergyTotal_AllDSSD_ExSumCorr[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
+			delayed1pEnergyTotal_AllDSSD_ExSumCorr[i][0].at(k)->GetYaxis()->SetTitle("Counts / 200 keV");
+			delayed1pEnergyTotal_AllDSSD_ExSumCorr[i][0].at(k)->SetLineColor(kBlack);
 
-			Delayed1pEnergyTotal_AllDSSD_ExMax[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
-			Delayed1pEnergyTotal_AllDSSD_ExMax[i][0].at(k)->GetYaxis()->SetTitle("Counts / 200 keV");
-			Delayed1pEnergyTotal_AllDSSD_ExMax[i][0].at(k)->SetLineColor(kBlack);
+			delayed1pEnergyTotal_AllDSSD_ExMax[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
+			delayed1pEnergyTotal_AllDSSD_ExMax[i][0].at(k)->GetYaxis()->SetTitle("Counts / 200 keV");
+			delayed1pEnergyTotal_AllDSSD_ExMax[i][0].at(k)->SetLineColor(kBlack);
 
-			Delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
-			Delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetYaxis()->SetTitle("Counts / 200 keV");
-			Delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr[i][0].at(k)->SetLineColor(kBlack);
+			delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
+			delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetYaxis()->SetTitle("Counts / 200 keV");
+			delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr[i][0].at(k)->SetLineColor(kBlack);
 
-			IsoDir->Append(Delayed1pEnergyTotal_AllDSSD_Ex[i][0].at(k));
-			IsoDir->Append(Delayed1pEnergyTotal_AllDSSD_ExSumCorr[i][0].at(k));
-			IsoDir->Append(Delayed1pEnergyTotal_AllDSSD_ExMax[i][0].at(k));
-			IsoDir->Append(Delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr[i][0].at(k));
+			IsoDir->Append(delayed1pEnergyTotal_AllDSSD_Ex[i][0].at(k));
+			IsoDir->Append(delayed1pEnergyTotal_AllDSSD_ExSumCorr[i][0].at(k));
+			IsoDir->Append(delayed1pEnergyTotal_AllDSSD_ExMax[i][0].at(k));
+			IsoDir->Append(delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr[i][0].at(k));
 
 			IsoDir->Append(beta_gamma_EdT_us[i][0].at(k));
 			IsoDir->Append(beta_gamma_EdT_ms[i][0].at(k));
