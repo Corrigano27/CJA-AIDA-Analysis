@@ -666,11 +666,11 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			summed_bp_gamma_EdT_us[i][0].at(k)->Add(summed_bp_gamma_EdT_us[i][1].at(k),-1);
 
 			//proton specta correction
-			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->Add(delayed1pEnergyTotal_AllDSSD_Ex[i][1].at(k),-1);
-			delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(k)->Add(delayed1pEnergyTotal_AllDSSD_ExSumCorr[i][1].at(k),-1);
+			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->Add(delayed1pEnergyAll_AllDSSD_Ex[i][1].at(k),-1);
+			delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(k)->Add(delayed1pEnergyAll_AllDSSD_ExSumCorr[i][1].at(k),-1);
 
-			delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(k)->Add(delayed1pEnergyTotal_AllDSSD_ExMax[i][1].at(k),-1);
-			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->Add(delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr[i][1].at(k),-1);			
+			delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(k)->Add(delayed1pEnergyAll_AllDSSD_ExMax[i][1].at(k),-1);
+			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->Add(delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][1].at(k),-1);			
 									
 			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
 			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->GetYaxis()->SetTitle("Counts / 200 keV");
