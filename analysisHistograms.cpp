@@ -132,23 +132,23 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												//use below to have variable dssd - will need to introduce further dssd vectors
 												//if ((*beta).z >= isotopeDSSDStart[i].at(j) && (*beta).z <= isotopeDSSDEnd[i].at(j)){
 												int DSSD = ((*beta).z);
-												if ((*beta).nx < 4 && (*beta).ny < 4){
-													if (((imp).Y + (idy) >= (((*beta).y)-((dy)+0.0))) && ((imp).Y - (idy) <= (((*beta).y)+((dy)+0.0)))){
-														if(((imp).X + (idx)>= (((*beta).x)-((dx)+0.0))) && ((imp).X - (idx)<= (((*beta).x)+((dx)+0.0)))){
-															EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
-															EdTAll_us[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-															EdTAll_ms[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
-														}
-														//if ((*beta).Ex<1100){
-															//implantBeta[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
-														//}
+											
+												if (((imp).Y + (idy) >= (((*beta).y)-((dy)+1.0))) && ((imp).Y - (idy) <= (((*beta).y)+((dy)+1.0)))){
+													if(((imp).X + (idx)>= (((*beta).x)-((dx)+1.0))) && ((imp).X - (idx)<= (((*beta).x)+((dx)+1.0)))){
+														EdTAll_NoMultiGate[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, (*beta).Ex);
+														EdTAll_us[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+														EdTAll_ms[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, (*beta).Ex);
 													}
+													//if ((*beta).Ex<1100){
+														//implantBeta[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+													//}
+												}
 
-												}//end of upper beta energy cut
+												//end of upper beta energy cut
 												//end of dssd if
 												//end of dssd for
 												decayEnergyAll[i].at(j)->Fill((*beta).E);
-												if (multix >=0 && multiy >= 0){ //beta-delayed protons
+												if (multix ==0 && multiy == 0){ //beta-delayed protons
 													if ((*beta).Ex>1100){ //beta-delayed protons
 														//beta-p gamma loop
 														ProtonGammaSumTemp = 0;
@@ -158,6 +158,22 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														Sn101Counter_Pk = 0;
 														Sn101CounterBg_Pk = 0;
 										
+														if (((*beta).T-(imp).TIME)>0){
+															delayed1pEnergyAll_AllDSSD_Ex[i][0].at(j)->Fill(beta.E/1e3);
+															delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(j)->Fill((beta.E-220)/1e3);
+
+															delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(j)->Fill(beta.Ex/1e3);
+															delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(j)->Fill((beta.Ex-220)/1e3);
+														}
+
+														if (((*beta).T-(imp).TIME)<0){
+															delayed1pEnergyAll_AllDSSD_Ex[i][1].at(j)->Fill(beta.E/1e3);
+															delayed1pEnergyAll_AllDSSD_ExSumCorr[i][1].at(j)->Fill((beta.E-220)/1e3);
+
+															delayed1pEnergyAll_AllDSSD_ExMax[i][1].at(j)->Fill(beta.Ex/1e3);
+															delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][1].at(j)->Fill((beta.Ex-220)/1e3);
+														}
+
 														for ( auto gamma:(*beta).vectorOfGamma ){ //loop over gamma events
 															IndyGammaE = DTAS_SingleCalib(gamma.EN);													
 															if (((*beta).T-(gamma).TIME) > 10000){ //forward gammas
@@ -279,7 +295,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 															Tin101_summed_bp_gamma_rest[1]->Fill(((*beta).T-(imp).TIME)/1.0e9, Sn101CounterBg);
 														}
 
-														delayed1pEnergyAll_AllDSSD[i].at(j)->Fill((*beta).E);
 													}//end of lower beta-p energy cut
 												}//end of beta-p multiplicity cut
 	
@@ -621,7 +636,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			
 			//combined DSSD
 			IsoDir->Append(decayEnergyAll[i].at(k));			
-			IsoDir->Append(delayed1pEnergyAll_AllDSSD[i].at(k));
+			//IsoDir->Append(delayed1pEnergyAll_AllDSSD[i].at(k));
 			IsoDir->Append(implantBetaAll[i].at(k));
 			IsoDir->Append(implantBeta1pAll[i].at(k));
 			IsoDir->Append(EdTAll_ms[i].at(k));
@@ -649,7 +664,35 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			summed_bp_gamma_EdT_s[i][0].at(k)->Add(summed_bp_gamma_EdT_s[i][1].at(k),-1);
 			summed_bp_gamma_EdT_ms[i][0].at(k)->Add(summed_bp_gamma_EdT_ms[i][1].at(k),-1);
 			summed_bp_gamma_EdT_us[i][0].at(k)->Add(summed_bp_gamma_EdT_us[i][1].at(k),-1);
+
+			//proton specta correction
+			Delayed1pEnergyTotal_AllDSSD_Ex[i][0].at(k)->Add(Delayed1pEnergyTotal_AllDSSD_Ex[i][1].at(k),-1);
+			Delayed1pEnergyTotal_AllDSSD_ExSumCorr[i][0].at(k)->Add(Delayed1pEnergyTotal_AllDSSD_ExSumCorr[i][1].at(k),-1);
+
+			Delayed1pEnergyTotal_AllDSSD_ExMax[i][0].at(k)->Add(Delayed1pEnergyTotal_AllDSSD_ExMax[i][1].at(k),-1);
+			Delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr[i][0].at(k)->Add(Delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr[i][1].at(k),-1);			
 									
+			Delayed1pEnergyTotal_AllDSSD_Ex[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
+			Delayed1pEnergyTotal_AllDSSD_Ex[i][0].at(k)->GetYaxis()->SetTitle("Counts / 200 keV");
+			Delayed1pEnergyTotal_AllDSSD_Ex[i][0].at(k)->SetLineColor(kBlack);
+
+			Delayed1pEnergyTotal_AllDSSD_ExSumCorr[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
+			Delayed1pEnergyTotal_AllDSSD_ExSumCorr[i][0].at(k)->GetYaxis()->SetTitle("Counts / 200 keV");
+			Delayed1pEnergyTotal_AllDSSD_ExSumCorr[i][0].at(k)->SetLineColor(kBlack);
+
+			Delayed1pEnergyTotal_AllDSSD_ExMax[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
+			Delayed1pEnergyTotal_AllDSSD_ExMax[i][0].at(k)->GetYaxis()->SetTitle("Counts / 200 keV");
+			Delayed1pEnergyTotal_AllDSSD_ExMax[i][0].at(k)->SetLineColor(kBlack);
+
+			Delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
+			Delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetYaxis()->SetTitle("Counts / 200 keV");
+			Delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr[i][0].at(k)->SetLineColor(kBlack);
+
+			IsoDir->Append(Delayed1pEnergyTotal_AllDSSD_Ex[i][0].at(k));
+			IsoDir->Append(Delayed1pEnergyTotal_AllDSSD_ExSumCorr[i][0].at(k));
+			IsoDir->Append(Delayed1pEnergyTotal_AllDSSD_ExMax[i][0].at(k));
+			IsoDir->Append(Delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr[i][0].at(k));
+
 			IsoDir->Append(beta_gamma_EdT_us[i][0].at(k));
 			IsoDir->Append(beta_gamma_EdT_ms[i][0].at(k));
 			IsoDir->Append(beta_gamma_EdT_s[i][0].at(k));
