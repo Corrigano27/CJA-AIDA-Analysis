@@ -159,7 +159,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														Sn101CounterBg_Pk = 0;
 										
 														if (((*beta).T-(imp).TIME)>0){
-															if (multix ==0 && multiy == 0){
+															if (multix==0 && multiy==0){
 																delayed1pEnergyAll_AllDSSD_Ex[i][0].at(j)->Fill((*beta).E/1e3);
 																delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(j)->Fill(((*beta).E-220)/1e3);
 															}
@@ -168,7 +168,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														}
 
 														if (((*beta).T-(imp).TIME)<0){
-															if (multix ==0 && multiy == 0){
+															if (multix==0 && multiy==0){
 																delayed1pEnergyAll_AllDSSD_Ex[i][1].at(j)->Fill((*beta).E/1e3);
 																delayed1pEnergyAll_AllDSSD_ExSumCorr[i][1].at(j)->Fill(((*beta).E-220)/1e3);
 															}
@@ -675,19 +675,27 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->Add(delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][1].at(k),-1);			
 									
 			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
-			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->GetYaxis()->SetTitle("Counts / 20 keV");
+			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->GetXaxis()->SetTitleSize(0.046);
+			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->GetYaxis()->SetTitle("Counts / 0.02 MeV");
+			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->GetYaxis()->SetTitleSize(0.046);
 			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->SetLineColor(kBlack);
 
 			delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
-			delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(k)->GetYaxis()->SetTitle("Counts / 20 keV");
+			delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(k)->GetXaxis()->SetTitleSize(0.046);
+			delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(k)->GetYaxis()->SetTitle("Counts / 0.02 MeV");
+			delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(k)->GetYaxis()->SetTitleSize(0.046);
 			delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(k)->SetLineColor(kBlack);
 
 			delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
-			delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(k)->GetYaxis()->SetTitle("Counts / 20 keV");
+			delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(k)->GetXaxis()->SetTitleSize(0.046);
+			delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(k)->GetYaxis()->SetTitle("Counts / 0.02 MeV");
+			delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(k)->GetYaxis()->SetTitleSize(0.046);
 			delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(k)->SetLineColor(kBlack);
 
 			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
-			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetYaxis()->SetTitle("Counts / 20 keV");
+			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetXaxis()->SetTitleSize(0.046);
+			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetYaxis()->SetTitle("Counts / 0.02 MeV");
+			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetYaxis()->SetTitleSize(0.046);
 			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->SetLineColor(kBlack);
 
 			IsoDir->Append(delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k));
