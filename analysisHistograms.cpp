@@ -328,14 +328,21 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																	if ((*beta).Ex<1000 && (*beta).Ey<1000){
 																		if (IndyGammaE > 1950 && IndyGammaE < 2200){
 																			Ag95_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
-																			Ag95_EdT_2104keVsummed_gammaGated_back->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ey);
+
+																			if (((*beta).Ex-((*beta).Ey)<100)){
+																				Ag95_EdT_2104keVsummed_gammaGated_back->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																			}
 
 																			if (multix==0 && multiy==0){
 																				Ag95_EdT_2104keVsummed_gammaGated_11->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
 																			}
 
 																			Ag95_Implant_EdT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (imp).EN);
-																			Ag95_EDiff_dT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex - (*beta).Ey);
+
+																			if (((*beta).Ex-((*beta).Ey)<200)){
+																				Ag95_EDiff_dT_2104keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
+																			}
+
 																		}
 																		if (IndyGammaE > 66 && IndyGammaE < 86){
 																			Ag95_EdT_77keVsummed_gammaGated->Fill(((*beta).T-(imp).TIME)/1.0e3, (*beta).Ex);
@@ -675,27 +682,43 @@ int analysisHistograms(std::string iName, std::string cutFile){
 			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->Add(delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][1].at(k),-1);			
 									
 			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
-			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->GetXaxis()->SetTitleSize(0.046);
+			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->GetXaxis()->SetTitleSize(0.06);
+			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->GetXaxis()->SetTitleOffset(0.72);
+			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->GetXaxis()->CenterTitle(true);
 			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->GetYaxis()->SetTitle("Counts / 0.02 MeV");
-			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->GetYaxis()->SetTitleSize(0.046);
+			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->GetYaxis()->SetTitleSize(0.06);
+			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->GetYaxis()->SetTitleOffset(0.8);
+			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->GetYaxis()->CenterTitle(true);
 			delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k)->SetLineColor(kBlack);
 
 			delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
-			delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(k)->GetXaxis()->SetTitleSize(0.046);
+			delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(k)->GetXaxis()->SetTitleSize(0.06);
+			delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(k)->GetXaxis()->SetTitleOffset(0.72);
+			delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(k)->GetXaxis()->CenterTitle(true);
 			delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(k)->GetYaxis()->SetTitle("Counts / 0.02 MeV");
-			delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(k)->GetYaxis()->SetTitleSize(0.046);
+			delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(k)->GetYaxis()->SetTitleSize(0.06);
+			delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(k)->GetYaxis()->SetTitleOffset(0.8);
+			delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(k)->GetYaxis()->CenterTitle(true);
 			delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(k)->SetLineColor(kBlack);
 
 			delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
-			delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(k)->GetXaxis()->SetTitleSize(0.046);
+			delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(k)->GetXaxis()->SetTitleSize(0.06);
+			delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(k)->GetXaxis()->SetTitleOffset(0.72);
+			delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(k)->GetXaxis()->CenterTitle(true);
 			delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(k)->GetYaxis()->SetTitle("Counts / 0.02 MeV");
-			delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(k)->GetYaxis()->SetTitleSize(0.046);
+			delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(k)->GetYaxis()->SetTitleSize(0.06);
+			delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(k)->GetYaxis()->SetTitleOffset(0.8);
+			delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(k)->GetYaxis()->CenterTitle(true);
 			delayed1pEnergyAll_AllDSSD_ExMax[i][0].at(k)->SetLineColor(kBlack);
 
 			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetXaxis()->SetTitle("E_{#betap} (MeV)");
-			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetXaxis()->SetTitleSize(0.046);
+			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetXaxis()->SetTitleSize(0.06);
+			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetXaxis()->SetTitleOffset(0.72);
+			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetXaxis()->CenterTitle(true);
 			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetYaxis()->SetTitle("Counts / 0.02 MeV");
-			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetYaxis()->SetTitleSize(0.046);
+			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetYaxis()->SetTitleSize(0.06);
+			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetYaxis()->SetTitleOffset(0.8);
+			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->GetYaxis()->CenterTitle(true);
 			delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][0].at(k)->SetLineColor(kBlack);
 
 			IsoDir->Append(delayed1pEnergyAll_AllDSSD_Ex[i][0].at(k));
