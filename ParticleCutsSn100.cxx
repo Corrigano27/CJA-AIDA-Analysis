@@ -86,7 +86,6 @@ std::vector<TH2D *> summed_bp_gamma_EdT_ms[numElements][2];
 std::vector<TH2D *> summed_bp_gamma_EdT_us[numElements][2];
 
 
-
 //Sn101 specific
 TH2D *Tin101_bp_gamma_peak[2];
 TH2D *Tin101_bp_gamma_rest[2];
@@ -161,6 +160,9 @@ TH2D *implant_multi;
 TH2D *implantE_Ex;
 
 TH2D *PID_implant;
+
+//In98 specific
+TH2D *In98_bpE_gammaE;
 
 //TH2D *Indium97_gammaveto_EdT;
 
@@ -374,6 +376,8 @@ void DefineHistograms()
 	implant_multi = new TH2D("implant_clustersize", "", 10, 0, 10, 10, 0, 10);
 
 	implantE_Ex = new TH2D("implantE_Ex","",1000,0,10000,1000,0,10000);
+
+	In98_bpE_gammaE = new TH2D("In98_bpE_gammaE","",1000,0,10000,700,0,7000);
 
 	Ag95_EdT_160keVgammaGated = new TH2D("Ag95_EdT_160keV","",200,-10000,10000,80,200,1000);
 	Ag95_EdT_800_1000keVgammaGated = new TH2D("Ag95_EdT_800_1000keV","",200,-10000,10000,80,200,1000);
