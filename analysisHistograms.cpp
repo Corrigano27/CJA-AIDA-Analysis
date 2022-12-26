@@ -201,6 +201,12 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																			}
 																			
 																		}
+																		if (elements[i] == "In" && isotopeStart[i]+j == 98){
+																			if (((*beta).T-(imp).TIME)>0){
+																				In98_bpE_gammaE->Fill((*beta).E, IndyGammaE);
+																			}
+																		}
+
 
 																		//Cd-bp-isomers
 																		if (elements[i] == "Cd" && isotopeStart[i]+j == 96){
@@ -576,6 +582,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	implantE_Ex->Write();
 
 	PID_implant->Write();
+
+	In98_bpE_gammaE->Write();
 
 	Tin101_summed_bp_gamma_peak[0]->Add(Tin101_summed_bp_gamma_peak[1],-1);
 	Tin101_summed_bp_gamma_rest[0]->Add(Tin101_summed_bp_gamma_rest[1],-1);
