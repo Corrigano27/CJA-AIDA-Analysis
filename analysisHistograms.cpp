@@ -159,7 +159,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														Sn101CounterBg_Pk = 0;
 										
 														if (((*beta).T-(imp).TIME)>0){
-															if (multix==0 && multiy==0){
+															if (multix>=0 && multiy>=0){
 																delayed1pEnergyAll_AllDSSD_Ex[i][0].at(j)->Fill((*beta).E/1e3);
 																delayed1pEnergyAll_AllDSSD_ExSumCorr[i][0].at(j)->Fill(((*beta).E-220)/1e3);
 															}
@@ -168,7 +168,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 														}
 
 														if (((*beta).T-(imp).TIME)<0){
-															if (multix==0 && multiy==0){
+															if (multix>=0 && multiy>=0){
 																delayed1pEnergyAll_AllDSSD_Ex[i][1].at(j)->Fill((*beta).E/1e3);
 																delayed1pEnergyAll_AllDSSD_ExSumCorr[i][1].at(j)->Fill(((*beta).E-220)/1e3);
 															}
