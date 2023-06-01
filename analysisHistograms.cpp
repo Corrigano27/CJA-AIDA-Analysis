@@ -258,14 +258,14 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																		ProtonGammaSumTempBg+=(IndyGammaE);
 
 																		if (elements[i] == "Sn" && isotopeStart[i]+j == 101){
-																			if ((*beta).Ex>2200){
-																				if ((*beta).Ex<2500){
+																			if ((*beta).E>2100){
+																				if ((*beta).E<2400){
 																					Tin101_bp_gamma_peak[1]->Fill(((*beta).T-(imp).TIME)/1.0e9, IndyGammaE);
 																					Sn101CounterBg_Pk += IndyGammaE;
 																							
 																				}
 																			}
-																			if ((*beta).Ex>2500){
+																			if ((*beta).E>2400){
 																				Tin101_bp_gamma_rest[1]->Fill(((*beta).T-(imp).TIME)/1.0e9, IndyGammaE);
 																				Sn101CounterBg += IndyGammaE;
 																			}
