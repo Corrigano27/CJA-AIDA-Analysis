@@ -148,7 +148,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												//end of dssd if
 												//end of dssd for
 												decayEnergyAll[i].at(j)->Fill((*beta).E);
-												if (multix >=0 && multiy >= 0){ //beta-delayed protons
+												if (multix ==0 && multiy == 0){ //beta-delayed protons
 													if ((*beta).Ex>1100){ //beta-delayed protons
 														//beta-p gamma loop
 														ProtonGammaSumTemp = 0;
@@ -188,14 +188,14 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																		ProtonGammaSumTemp+=(IndyGammaE);
 
 																		if (elements[i] == "Sn" && isotopeStart[i]+j == 101){
-																			if ((*beta).Ex>2200){
-																				if ((*beta).Ex<2500){
+																			if ((*beta).E>2100){
+																				if ((*beta).Ex<2400){
 																					Tin101_bp_gamma_peak[0]->Fill(((*beta).T-(imp).TIME)/1.0e9, IndyGammaE);
 																					Sn101Counter_Pk += IndyGammaE;
 																							
 																				}
 																			}
-																			if ((*beta).Ex>2500){
+																			if ((*beta).E>2400){
 																				Tin101_bp_gamma_rest[0]->Fill(((*beta).T-(imp).TIME)/1.0e9, IndyGammaE);
 																				Sn101Counter += IndyGammaE;
 																			}
