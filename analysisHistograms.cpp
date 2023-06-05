@@ -148,15 +148,11 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												//end of dssd if
 												//end of dssd for
 												decayEnergyAll[i].at(j)->Fill((*beta).E);
-												if (multix ==0 && multiy == 0){ //beta-delayed protons
+												if (multix >=0 && multiy >= 0){ //beta-delayed protons
 													if ((*beta).Ex>1100){ //beta-delayed protons
 														//beta-p gamma loop
 														ProtonGammaSumTemp = 0;
 														ProtonGammaSumTempBg = 0;
-														Sn101Counter = 0;
-														Sn101CounterBg = 0;
-														Sn101Counter_Pk = 0;
-														Sn101CounterBg_Pk = 0;
 										
 														if (((*beta).T-(imp).TIME)>0){
 															if (multix>=0 && multiy>=0){
@@ -188,16 +184,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																		ProtonGammaSumTemp+=(IndyGammaE);
 
 																		if (elements[i] == "Sn" && isotopeStart[i]+j == 101){
-																			if ((*beta).E>2100){
-																				if ((*beta).Ex<2400){
-																					Tin101_bp_gamma_peak[0]->Fill(((*beta).T-(imp).TIME)/1.0e9, IndyGammaE);
-																					Sn101Counter_Pk += IndyGammaE;
-																							
-																				}
-																			}
-																			if ((*beta).E>2400){
-																				Tin101_bp_gamma_rest[0]->Fill(((*beta).T-(imp).TIME)/1.0e9, IndyGammaE);
-																				Sn101Counter += IndyGammaE;
+																			if (((*beta).T-(imp).TIME) > 0){
+																				Tin101_singles_bpE_gammaE[0]->Fill(((*beta).E), IndyGammaE);
 																			}
 																			
 																		}
@@ -258,16 +246,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 																		ProtonGammaSumTempBg+=(IndyGammaE);
 
 																		if (elements[i] == "Sn" && isotopeStart[i]+j == 101){
-																			if ((*beta).E>2100){
-																				if ((*beta).E<2400){
-																					Tin101_bp_gamma_peak[1]->Fill(((*beta).T-(imp).TIME)/1.0e9, IndyGammaE);
-																					Sn101CounterBg_Pk += IndyGammaE;
-																							
-																				}
-																			}
-																			if ((*beta).E>2400){
-																				Tin101_bp_gamma_rest[1]->Fill(((*beta).T-(imp).TIME)/1.0e9, IndyGammaE);
-																				Sn101CounterBg += IndyGammaE;
+																			if (((*beta).T-(imp).TIME) > 0){
+																				Tin101_singles_bpE_gammaE[0]->Fill(((*beta).E), IndyGammaE);
 																			}
 																			
 																		}
@@ -282,25 +262,19 @@ int analysisHistograms(std::string iName, std::string cutFile){
 															summed_bp_gamma_EdT_s[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, ProtonGammaSumTemp);
 															summed_bp_gamma_EdT_ms[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, ProtonGammaSumTemp);
 															summed_bp_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, ProtonGammaSumTemp);
+															if (elements[i] == "Sn" && isotopeStart[i]+j == 101){
+																Tin101_summed_bpE_gammaE[0]->Fill((*beta).E, ProtonGammaSumTemp);
+															{
+
 														}
 
 														if (ProtonGammaSumTempBg != 0){
-															summed_bp_gamma_EdT_s[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e9, ProtonGammaSumTempBg);
-															summed_bp_gamma_EdT_ms[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e6, ProtonGammaSumTempBg);
-															summed_bp_gamma_EdT_us[i][1].at(j)->Fill(-((*beta).T-(imp).TIME)/1.0e3, ProtonGammaSumTempBg);
-
-														}
-														if (Sn101Counter_Pk != 0){
-															Tin101_summed_bp_gamma_peak[0]->Fill(((*beta).T-(imp).TIME)/1.0e9, Sn101Counter_Pk);
-														}
-														if (Sn101CounterBg_Pk != 0){
-															Tin101_summed_bp_gamma_peak[1]->Fill(((*beta).T-(imp).TIME)/1.0e9, Sn101CounterBg_Pk);
-														}
-														if (Sn101Counter != 0){
-															Tin101_summed_bp_gamma_rest[0]->Fill(((*beta).T-(imp).TIME)/1.0e9, Sn101Counter);
-														}
-														if (Sn101CounterBg != 0){
-															Tin101_summed_bp_gamma_rest[1]->Fill(((*beta).T-(imp).TIME)/1.0e9, Sn101CounterBg);
+															summed_bp_gamma_EdT_s[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9, ProtonGammaSumTempBg);
+															summed_bp_gamma_EdT_ms[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e6, ProtonGammaSumTempBg);
+															summed_bp_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, ProtonGammaSumTempBg);
+															if (elements[i] == "Sn" && isotopeStart[i]+j == 101){
+																Tin101_summed_bpE_gammaE[1]->Fill((*beta).E, ProtonGammaSumTempBg);
+															{
 														}
 
 													}//end of lower beta-p energy cut
@@ -585,16 +559,22 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	In98_bpE_gammaE->Write();
 
-	Tin101_summed_bp_gamma_peak[0]->Add(Tin101_summed_bp_gamma_peak[1],-1);
-	Tin101_summed_bp_gamma_rest[0]->Add(Tin101_summed_bp_gamma_rest[1],-1);
+	//Tin101_summed_bp_gamma_peak[0]->Add(Tin101_summed_bp_gamma_peak[1],-1);
+	//Tin101_summed_bp_gamma_rest[0]->Add(Tin101_summed_bp_gamma_rest[1],-1);
 
-	Tin101_bp_gamma_peak[0]->Add(Tin101_bp_gamma_peak[1],-1);
-	Tin101_bp_gamma_rest[0]->Add(Tin101_bp_gamma_rest[1],-1);
+	//Tin101_bp_gamma_peak[0]->Add(Tin101_bp_gamma_peak[1],-1);
+	//Tin101_bp_gamma_rest[0]->Add(Tin101_bp_gamma_rest[1],-1);
 
-	Tin101_bp_gamma_peak[0]->Write();
-	Tin101_summed_bp_gamma_peak[0]->Write();
-	Tin101_bp_gamma_rest[0]->Write();
-	Tin101_summed_bp_gamma_rest[0]->Write();
+	//Tin101_bp_gamma_peak[0]->Write();
+	//Tin101_summed_bp_gamma_peak[0]->Write();
+	//Tin101_bp_gamma_rest[0]->Write();
+	//Tin101_summed_bp_gamma_rest[0]->Write();
+
+	Tin101_singles_bpE_gammaE[0]->Add(Tin101_singles_bpE_gammaE[1],-1);
+	Tin101_summed_bpE_gammaE[0]->Add(Tin101_summed_bpE_gammaE[1],-1);
+
+	Tin101_singles_bpE_gammaE->Write();
+	Tin101_summed_bpE_gammaE->Write();
 
 	Ag95_EdT_160keVgammaGated->Write();
 	Ag95_EdT_800_1000keVgammaGated->Write();
