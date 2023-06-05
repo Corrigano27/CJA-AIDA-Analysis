@@ -573,8 +573,8 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	Tin101_singles_bpE_gammaE[0]->Add(Tin101_singles_bpE_gammaE[1],-1);
 	Tin101_summed_bpE_gammaE[0]->Add(Tin101_summed_bpE_gammaE[1],-1);
 
-	Tin101_singles_bpE_gammaE->Write();
-	Tin101_summed_bpE_gammaE->Write();
+	Tin101_singles_bpE_gammaE[0]->Write();
+	Tin101_summed_bpE_gammaE[0]->Write();
 
 	Ag95_EdT_160keVgammaGated->Write();
 	Ag95_EdT_800_1000keVgammaGated->Write();
