@@ -264,7 +264,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 															summed_bp_gamma_EdT_us[i][0].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, ProtonGammaSumTemp);
 															if (elements[i] == "Sn" && isotopeStart[i]+j == 101){
 																Tin101_summed_bpE_gammaE[0]->Fill((*beta).E, ProtonGammaSumTemp);
-															{
+															}
 
 														}
 
@@ -274,7 +274,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 															summed_bp_gamma_EdT_us[i][1].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e3, ProtonGammaSumTempBg);
 															if (elements[i] == "Sn" && isotopeStart[i]+j == 101){
 																Tin101_summed_bpE_gammaE[1]->Fill((*beta).E, ProtonGammaSumTempBg);
-															{
+															}
 														}
 
 													}//end of lower beta-p energy cut
