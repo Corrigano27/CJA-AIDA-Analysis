@@ -87,11 +87,14 @@ std::vector<TH2D *> summed_bp_gamma_EdT_us[numElements][2];
 
 
 //Sn101 specific
-TH2D *Tin101_bp_gamma_peak[2];
-TH2D *Tin101_bp_gamma_rest[2];
+//TH2D *Tin101_bp_gamma_peak[2];
+//TH2D *Tin101_bp_gamma_rest[2];
 
-TH2D *Tin101_summed_bp_gamma_peak[2];
-TH2D *Tin101_summed_bp_gamma_rest[2];
+//TH2D *Tin101_summed_bp_gamma_peak[2];
+//TH2D *Tin101_summed_bp_gamma_rest[2];
+
+TH2D *Tin101_singles_bpE_gammaE[2];
+TH2D *Tin101_summed_bpE_gammaE[2];
 
 //95Ag specific
 
@@ -420,7 +423,7 @@ void DefineHistograms()
 	Cd97_n_EdT = new TH2D("Cd97_n_EdT","",2e2,-10,10,700,0,7000);
 
 	for (int p = 0; p<2; p++){
-		hisName = "Tin101_bp_gamma_peak_" + std::to_string(p);
+		/*hisName = "Tin101_bp_gamma_peak_" + std::to_string(p);
 		Tin101_bp_gamma_peak[p] = new TH2D(hisName.c_str(), "",2e2,-10,10, 700, 0, 7000);
 
 		hisName = "Tin101_bp_gamma_rest_" + std::to_string(p);
@@ -431,6 +434,14 @@ void DefineHistograms()
 
 		hisName = "Tin101_summed_bp_gamma_rest_" + std::to_string(p);
 		Tin101_summed_bp_gamma_rest[p] = new TH2D(hisName.c_str(), "", 2e2,-10,10, 700, 0, 7000);
+		*/
+
+		hisName = "Tin101_summed_bpE_gammaE" + std::to_string(p);
+		Tin101_summed_bpE_gammaE[p] = new TH2D(hisName.c_str(), "", 700,0,7000, 700, 0, 7000);
+
+		hisName = "Tin101_singles_bpE_gammaE" + std::to_string(p);
+		Tin101_singles_bpE_gammaE[p] = new TH2D(hisName.c_str(), "", 700,0,7000, 700, 0, 7000);
+		
 	}
 
 	for (int i = 0; i < numElements; i++)
