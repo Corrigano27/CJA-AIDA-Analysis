@@ -148,7 +148,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												//end of dssd if
 												//end of dssd for
 												decayEnergyAll[i].at(j)->Fill((*beta).E);
-												if (multix >=0 && multiy >= 0){ //beta-delayed protons
+												if (multix ==0 && multiy == 0){ //beta-delayed protons
 													if ((*beta).Ex>1100){ //beta-delayed protons
 														//beta-p gamma loop
 														ProtonGammaSumTemp = 0;
