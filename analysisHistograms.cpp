@@ -75,7 +75,7 @@ int analysisHistograms(std::string iName, std::string cutFile){
 	while (aReader.Next()){
 
 		if ((*beta).T){
-			if ((*beta).Ey >= 0.0 && (*beta).Ex>=0.0){
+			if ((*beta).Ex>=300.0){
 				if (abs((*beta).Ex-(*beta).Ey)>=0){
 					multix = (*beta).TFast & 0xFF;
 					multiy = ((*beta).TFast >> 8) & 0xFF;
@@ -291,9 +291,9 @@ int analysisHistograms(std::string iName, std::string cutFile){
 												///////BETAS//////////
 
 												if ((*beta).Ex<1100){
-													if ((*beta).nx>=0 && (*beta).ny>=0){
-														implantBetaAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
-													}
+													
+													implantBetaAll[i].at(j)->Fill(((*beta).T-(imp).TIME)/1.0e9);
+													
 													GammaSumTemp=0;
 													GammaSumTempBg=0;
 													//ProtonGammaSumTemp=0;
