@@ -29,8 +29,6 @@ int analysisHistograms(std::string iName, std::string cutFile){
 
 	//input text file with list of merged root files to be chained together.
 
-	ROOT::EnableImplicitMT(4);
-
 	rootFiles.open( iName );
 	if (!rootFiles.is_open()){
 		std::cerr << " Problem opening input file, ending program." << std::endl;
