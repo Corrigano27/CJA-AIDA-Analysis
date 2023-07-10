@@ -10,25 +10,6 @@ bool betaVeto;
 bool gammaVeto;
 bool In97gammaVeto;
 
-bool Ag95_160;
-bool Ag95_800_1000;
-bool Ag95_440;
-bool Ag95_511;
-bool Ag95_randomCheck;
-
-bool Ag96_470;
-bool Ag96_743;
-bool Ag96_1249;
-bool Ag96_isomer;
-bool Ag96_subtraction;
-bool Ag96_Random;
-
-bool Cd96_gs;
-bool Cd96_m;
-bool Cd97_gs;
-bool Cd97_m;
-bool Cd97_n;
-
 double IndyGammaE;
 double GammaSumTemp;
 double GammaSumTempBg;
