@@ -53,10 +53,6 @@ std::vector<TH1D *> implantBeta1pAll[numElements];
 std::vector<TH1D *> implant1pAll[numElements];
 std::vector<TH1D *> decayEnergyAll[numElements];
 
-std::vector<TH1D *> delayed1pEnergyAll_AllDSSD_Ex[numElements][2];
-std::vector<TH1D *> delayed1pEnergyAll_AllDSSD_ExSumCorr[numElements][2];
-std::vector<TH1D *> delayed1pEnergyAll_AllDSSD_ExMax[numElements][2];
-std::vector<TH1D *> delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[numElements][2];
 std::vector<TH2D *> EdTAll_NoMultiGate[numElements];
 std::vector<TH2D *> EdTAll_NoMultiGate_[numElements];
 std::vector<TH2D *> EdTAll_ms[numElements];
@@ -98,37 +94,7 @@ TH2D *Tin101_summed_bpE_gammaE[2];
 
 //95Ag specific
 
-TH2D *Ag95_EdT_160keVgammaGated;
-TH2D *Ag95_EdT_800_1000keVgammaGated;
-TH2D *Ag95_EdT_160_800_1000keVgammaGated;
-TH2D *Ag95_EdT_440keVgammaGated;
-TH2D *Ag95_EdT_511keVgammaGated;
-TH2D *Ag95_EdT_allpeaks_gammaGated;
-
-TH2D *Ag95_EdT_randomcheck;
-
-TH2D *Ag95_EdT_2104keVsummed_gammaGated;
-TH2D *Ag95_EdT_2104keVsummed_gammaGated_back;
-TH2D *Ag95_EdT_2104keVsummed_gammaGated_11;
-TH2D *Ag95_Implant_EdT_2104keVsummed_gammaGated;
-
-TH2D *Ag95_EdT_77keVsummed_gammaGated;
-
-TH2D *Ag95_EDiff_dT_2104keVsummed_gammaGated;
-
-TH2D *Ag95_single_vs_summed;
-TH2D *Ag95_gamma_gamma;
-TH2D *Ag95_single_vs_summed_shorter;
-TH2D *Ag95_gamma_gamma_shorter;
 //Ag94 specific
-
-//isomeric states
-TH2D *Cd96_gs_EdT;
-TH2D *Cd96_m_EdT;
-
-TH2D *Cd97_gs_EdT;
-TH2D *Cd97_m_EdT;
-TH2D *Cd97_n_EdT;
 
 //end of gammas
 
@@ -382,45 +348,7 @@ void DefineHistograms()
 
 	In98_bpE_gammaE = new TH2D("In98_bpE_gammaE","",1000,0,10000,700,0,7000);
 
-	Ag95_EdT_160keVgammaGated = new TH2D("Ag95_EdT_160keV","",200,-10000,10000,80,200,1000);
-	Ag95_EdT_800_1000keVgammaGated = new TH2D("Ag95_EdT_800_1000keV","",200,-10000,10000,80,200,1000);
-	Ag95_EdT_160_800_1000keVgammaGated = new TH2D("Ag95_EdT_160_800_1000keV","",200,-10000,10000,80,200,1000);
-	Ag95_EdT_440keVgammaGated = new TH2D("Ag95_EdT_440keV","",200,-10000,10000,80,200,1000);
-	Ag95_EdT_511keVgammaGated = new TH2D("Ag95_EdT_511keV","",200,-10000,10000,80,200,1000);
-	Ag95_EdT_allpeaks_gammaGated = new TH2D("Ag95_EdT_allpeaks","",200,-10000,10000,80,200,1000);
-
-	Ag95_EdT_randomcheck = new TH2D("Ag95_EdT_randomcheck","",200,-10000,10000,80,200,1000);
-
-	Ag95_EdT_2104keVsummed_gammaGated = new TH2D("Ag95_2104keVsummed_300eec","",200,-10000,10000,80,200,1000);
-	Ag95_EdT_2104keVsummed_gammaGated_back = new TH2D("Ag95_2104keVsummed_100eec","",200,-10000,10000,80,200,1000);
-	Ag95_EdT_2104keVsummed_gammaGated_11 = new TH2D("Ag95_2104keVsummed_front_11","",200,-10000,10000,80,200,1000);
-	Ag95_Implant_EdT_2104keVsummed_gammaGated = new TH2D("Ag95_2104keVsummed_implants","",200,-10000,10000,80,200,7000);
-
-	Ag95_EdT_77keVsummed_gammaGated = new TH2D("Ag95_77keVsummed","",600,-30000,30000,80,200,1000);
-
-	Ag95_EDiff_dT_2104keVsummed_gammaGated = new TH2D("Ag95_2104keVsummed_200eec","",200,-10000,10000,80,200,1000);
-
-	//Ag96_GammaT_betaT_all3Peaks = new TH2D("Ag96_GammaT_betaT_all3Peaks","",4e2,-5000,5000,2e2,-10,30);
-
-	//Ag96_E_correlatedGamma = new TH1D("Ag96_E_correlatedGamma","",200,0,1000);
-
-	//Ag96_E_randomGamma = new TH1D("Ag96_E_randomGamma","",200,0,1000);
-
-	Ag95_single_vs_summed = new TH2D("Ag95_DTAS_single_vs_summed","",400,0,4000,400,0,4000);
-	Ag95_single_vs_summed_shorter = new TH2D("Ag95_DTAS_single_vs_summed_shorter","",400,0,4000,400,0,4000);
-	//Ag96_single_vs_summed = new TH2D("Ag96_DTAS_single_vs_summed","",400,0,4000,400,0,4000);
-
-
-	Ag95_gamma_gamma = new TH2D("Ag95_gamma_gamma","",400,0,4000,400,0,4000);
-	Ag95_gamma_gamma_shorter = new TH2D("Ag95_gamma_gamma_shorter","",400,0,4000,400,0,4000);
 	//Ag96_gamma_gamma = new TH2D("Ag96_gamma_gamma","",400,0,4000,400,0,4000);
-
-	Cd96_gs_EdT = new TH2D("Cd96_groundstate_EdT","",2e2,-10,10,700,0,7000);
-	Cd96_m_EdT = new TH2D("Cd96_m_EdT","",2e2,-10,10,700,0,7000);
-	
-	Cd97_gs_EdT = new TH2D("Cd97_groundstate_EdT","",2e2,-10,10,700,0,7000);
-	Cd97_m_EdT = new TH2D("Cd97_m_EdT","",2e2,-10,10,700,0,7000);
-	Cd97_n_EdT = new TH2D("Cd97_n_EdT","",2e2,-10,10,700,0,7000);
 
 	for (int p = 0; p<2; p++){
 		/*hisName = "Tin101_bp_gamma_peak_" + std::to_string(p);
@@ -500,24 +428,6 @@ void DefineHistograms()
 				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "summed_bp_gamma_EdT_us_" + std::to_string(g);
 				implantBetaHis2D = new TH2D(hisName.c_str(), "", 4000, -20000, 20000, 500, 0, 10000);
 				summed_bp_gamma_EdT_us[i][g].push_back(implantBetaHis2D);
-
-				//beta-p
-				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "delayed1pEnergyTotal_AllDSSD_Ex" + std::to_string(g);
-				implantBetaHis = new TH1D(hisName.c_str(), "", 250, 1, 6);
-				delayed1pEnergyAll_AllDSSD_Ex[i][g].push_back(implantBetaHis);
-
-				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "delayed1pEnergyTotal_AllDSSD_ExSumCorr" + std::to_string(g);
-				implantBetaHis = new TH1D(hisName.c_str(), "", 250, 1, 6);
-				delayed1pEnergyAll_AllDSSD_ExSumCorr[i][g].push_back(implantBetaHis);
-
-				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "delayed1pEnergyTotal_AllDSSD_ExMax" + std::to_string(g);
-				implantBetaHis = new TH1D(hisName.c_str(), "", 250, 1, 6);
-				delayed1pEnergyAll_AllDSSD_ExMax[i][g].push_back(implantBetaHis);
-
-				hisName = elements[i] + std::to_string(isotopeStart[i] + j) + "delayed1pEnergyTotal_AllDSSD_ExMaxSumCorr" + std::to_string(g);
-				implantBetaHis = new TH1D(hisName.c_str(), "", 250, 1, 6);
-				delayed1pEnergyAll_AllDSSD_ExMaxSumCorr[i][g].push_back(implantBetaHis);
-				
 
 			}
 
